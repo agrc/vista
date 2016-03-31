@@ -1,0 +1,3 @@
+*.mxd filter=git-crypt diff=git-crypt
+*.sde filter=git-crypt diff=git-crypt
+*.odc filter=git-crypt diff=git-crypt
