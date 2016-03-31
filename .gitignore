@@ -1,3 +1,13 @@
-*.pyc
 *.odc
+*.pyc
 *.sde
+src/dgrid/
+src/dijit/
+src/dojo/
+src/dojox/
+src/dstore/
+src/esri/
+src/moment/
+src/put-selector/
+src/util/
+src/xstyle/
