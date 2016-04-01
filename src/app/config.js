@@ -1,9 +1,36 @@
 define([
-
+    'dojo/has',
+    'dojo/request/xhr'
 ], function (
-
+    has,
+    xhr
 ) {
+    var apiKey;
+    var quadWord;
+    if (has('agrc-build') === 'prod') {
+        // mapserv.utah.gov
+        apiKey = 'AGRC-1B07B497348512';
+        // mapserv.utah.gov
+        quadWord = 'alfred-plaster-crystal-dexter';
+    } else if (has('agrc-build') === 'stage') {
+        // test.mapserv.utah.gov
+        apiKey = 'AGRC-AC122FA9671436';
+        quadWord = 'opera-event-little-pinball';
+    } else {
+        // localhost
+        xhr(require.baseUrl + 'secrets.json', {
+            handleAs: 'json',
+            sync: true
+        }).then(function (secrets) {
+            quadWord = secrets.quadWord;
+            apiKey = secrets.apiKey;
+        }, function () {
+            throw 'Error getting secrets!';
+        });
+    }
     return {
+        apiKey: apiKey,
+        quadWord: quadWord,
         map: null, // map reference
         iParams: null, // identify parameters
         iTask: null, // identify task

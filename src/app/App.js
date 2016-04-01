@@ -13,6 +13,7 @@ define([
     'dojo/_base/Color',
     'dojo/_base/declare',
 
+    'esri/geometry/Extent',
     'esri/geometry/Point',
     'esri/graphic',
     'esri/InfoTemplate',
@@ -23,7 +24,9 @@ define([
     'esri/tasks/IdentifyParameters',
     'esri/tasks/IdentifyTask',
     'esri/tasks/query',
-    'esri/tasks/QueryTask'
+    'esri/tasks/QueryTask',
+
+    'layer-selector/LayerSelector'
 ], function (
     agrcString,
     BaseMap,
@@ -39,6 +42,7 @@ define([
     Color,
     declare,
 
+    Extent,
     Point,
     Graphic,
     InfoTemplate,
@@ -49,7 +53,9 @@ define([
     IdentifyParameters,
     IdentifyTask,
     Query,
-    QueryTask
+    QueryTask,
+
+    LayerSelector
 ) {
     function getURLParameter(name) {
         console.log('getURLParameter', arguments);
@@ -317,7 +323,16 @@ define([
         var mapOptions = {
             useDefaultBaseMap: false,
             useDefaultExtent: false,
-            displayGraphicsOnPan: false
+            displayGraphicsOnPan: false,
+            extent: new Extent({
+                xmax: -11762120.612131765,
+                xmin: -13074391.513731329,
+                ymax: 5225035.106177688,
+                ymin: 4373832.359194187,
+                spatialReference: {
+                    wkid: 3857
+                }
+            })
         };
 
         if (extentGraphic) {
@@ -327,32 +342,12 @@ define([
 
         // create new agrc BaseMap
         config.map = new BaseMap('map', mapOptions);
-        // var data = [
-        //     {
-        //         label: 'Hybrid',
-        //         layers: [
-        //             {
-        //                 'url': 'http://mapserv.utah.gov/ArcGIS/rest/services/UtahBaseMap-Hybrid/MapServer',
-        //                 'opacity': 1
-        //             }
-        //         ]
-        //     },{
-        //         'label': 'Streets',
-        //         'layers': [
-        //             {
-        //                 'url': 'http://mapserv.utah.gov/ArcGIS/rest/services/UtahBaseMap-Vector/MapServer',
-        //                 'opacity': 1
-        //             }
-        //         ]
-        //     }
-        // ];
-        // var selector = new agrc.widgets.map.BaseMapSelector({
-        //     map: config.map,
-        //     id: 'claro',
-        //     position: 'TR',
-        //     data: data,
-        //     defaultThemeLabel: 'Hybrid'
-        // });
+        var layerSelector = new LayerSelector({
+            map: config.map,
+            quadWord: config.quadWord,
+            baseLayers: ['Hybrid', 'Lite']
+        });
+        layerSelector.startup();
 
         // disable mouse wheel zooming
         config.map.on('load', function () {

@@ -34,6 +34,20 @@ var profile = {
         },
         location: './spinjs',
         main: 'spin'
+    }, {
+        name: 'moment',
+        main: 'moment',
+        resourceTags: {
+            amd: function (filename) {
+                return /\.js$/.test(filename);
+            },
+            test: function (filename, mid) {
+                return /\/tests/.test(mid);
+            },
+            miniExclude: function (filename, mid) {
+                return /\/src/.test(mid) || /\/templates/.test(mid);
+            }
+        }
     }],
     staticHasFeatures: {
         'dojo-trace-api': 0,
@@ -44,6 +58,6 @@ var profile = {
         'dojo-test-sniff': 0
     },
     userConfig: {
-        packages: ['app', 'dojo', 'dijit', 'dojox', 'agrc', 'ijit', 'esri']
+        packages: ['app', 'dojo', 'dijit', 'dojox', 'agrc', 'ijit', 'esri', 'layer-selector']
     }
 };

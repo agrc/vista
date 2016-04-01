@@ -1,5 +1,6 @@
 @import url('../../esri/css/esri.css');
 @import url('../../agrc/resources/map/BaseMap.css');
+@import url('../../layer-selector/resources/LayerSelector.css');
 
 html, body, .app {
 	height: 100%;
