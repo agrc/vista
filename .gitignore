@@ -1,6 +1,8 @@
 *.odc
 *.pyc
 *.sde
+node_modules/
+secrets.json
 src/agrc/
 src/components-jasmine/
 src/dgrid/
