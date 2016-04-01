@@ -12,6 +12,7 @@ define([
     'dojo/text!app/templates/App.html',
     'dojo/_base/Color',
     'dojo/_base/declare',
+    'dojo/_base/lang',
 
     'esri/geometry/Extent',
     'esri/geometry/Point',
@@ -19,6 +20,7 @@ define([
     'esri/InfoTemplate',
     'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/GraphicsLayer',
+    'esri/SpatialReference',
     'esri/symbols/SimpleLineSymbol',
     'esri/symbols/SimpleMarkerSymbol',
     'esri/tasks/IdentifyParameters',
@@ -26,7 +28,9 @@ define([
     'esri/tasks/query',
     'esri/tasks/QueryTask',
 
-    'layer-selector/LayerSelector'
+    'layer-selector/LayerSelector',
+
+    'proj4'
 ], function (
     agrcString,
     BaseMap,
@@ -41,6 +45,7 @@ define([
     template,
     Color,
     declare,
+    lang,
 
     Extent,
     Point,
@@ -48,6 +53,7 @@ define([
     InfoTemplate,
     ArcGISDynamicMapServiceLayer,
     GraphicsLayer,
+    SpatialReference,
     SimpleLineSymbol,
     SimpleMarkerSymbol,
     IdentifyParameters,
@@ -55,7 +61,9 @@ define([
     Query,
     QueryTask,
 
-    LayerSelector
+    LayerSelector,
+
+    proj4
 ) {
     function getURLParameter(name) {
         console.log('getURLParameter', arguments);
@@ -74,7 +82,7 @@ define([
         console.log('displayCurrentPoint', arguments);
 
         // create new point geometry
-        var point = new Point(x, y, config.map.SpatialReference);
+        var point = new Point(x, y, config.map.spatialReference);
 
         // create new graphic
         var graphic = new Graphic(point, config.currentSymbol);
@@ -182,7 +190,7 @@ define([
         var getParams = {
             callbackParamName: 'jsonp',
             checkString: 'Total',
-            url: config.vistaWebServiceUrl + queryNumber + '/?jsonp&db=' + getURLParameter('db'),
+            url: config.vistaWebServiceUrl + queryNumber + '/?jsonp&db=' + getURLParameter(config.urlParams.db),
             load: addToMap,
             error: function (error) {
                 alert('There was an error getting the address data from the Vista database.\n' + error.message);
@@ -212,15 +220,16 @@ define([
         config.map.showLoader();
 
         // store point as a graphic
+        var projectedPoint = proj4(config.wkt3857, config.wkt26912, lang.clone(event.mapPoint));
         config.graphic = new Graphic(event.mapPoint, config.identifySymbol, {
-            XCoord: Math.round(event.mapPoint.x * 100) / 100,
-            YCoord: Math.round(event.mapPoint.y * 100) / 100,
+            XCoord: projectedPoint.x,
+            YCoord: projectedPoint.y,
             screenPoint: event.screenPoint
         }, config.iTemplate);
 
         // update coord values
-        dom.byId('XCoord').value = Math.round(event.mapPoint.x * 100) / 100;
-        dom.byId('YCoord').value = Math.round(event.mapPoint.y * 100) / 100;
+        dom.byId('XCoord').value = projectedPoint.x;
+        dom.byId('YCoord').value = projectedPoint.y;
 
         if (config.precinct || config.districts) {
             config.iParams.geometry = event.mapPoint;
@@ -340,7 +349,6 @@ define([
             mapOptions.fitExtent = false;
         }
 
-        // create new agrc BaseMap
         config.map = new BaseMap('map', mapOptions);
         var layerSelector = new LayerSelector({
             map: config.map,
@@ -349,28 +357,27 @@ define([
         });
         layerSelector.startup();
 
-        // disable mouse wheel zooming
-        config.map.on('load', function () {
-            config.map.disableScrollWheelZoom();
+        config.map.disableScrollWheelZoom();
 
-            // add current point
-            var currentX = getURLParameter('currentX');
-            var currentY = getURLParameter('currentY');
-            if (currentX && currentY) {
-                displayCurrentPoint(currentX, currentY);
-            }
+        // add current point
+        var currentX = getURLParameter(config.urlParams.currentX);
+        var currentY = getURLParameter(config.urlParams.currentY);
+        if (currentX && currentY) {
+            var projectedPoints = proj4(
+                config.wkt26912,
+                config.wkt3857,
+                [currentX, currentY]
+            );
+            displayCurrentPoint(projectedPoints[0], projectedPoints[1]);
+        }
 
-            // load vista query
-            var queryNumber = getURLParameter('query');
-            if (queryNumber) {
-                displayVistaQuery(queryNumber);
-            }
-        });
-        // Add imagery layer
-        // var imagery = new ArcGISTiledMapServiceLayer('http://mapserv.utah.gov/arcgis/rest/services/UtahBaseMap-Hybrid/MapServer');
-        // config.map.addLayer(imagery);
+        // load vista query
+        var queryNumber = getURLParameter(config.urlParams.query);
+        if (queryNumber) {
+            displayVistaQuery(queryNumber);
+        }
 
-        if (getURLParameter('map') === 'p') {
+        if (getURLParameter(config.urlParams.map) === 'p') {
             console.log('switching to proposed layers');
             config.precinctLyrIndex = 7;
         }
@@ -381,7 +388,7 @@ define([
             });
             config.map.addLayer(hava);
             hava.on('load', function () {
-                if (getURLParameter('map') === 'p') {
+                if (getURLParameter(config.urlParams.map) === 'p') {
                     hava.setVisibleLayers(config.proposedPrecinctLyrs);
                 }
             });
@@ -394,7 +401,7 @@ define([
         console.log('getExtent', arguments);
 
         function getCountyId(str) {
-            var id = parseInt(getURLParameter('county'), 10);
+            var id = parseInt(getURLParameter(config.urlParams.county), 10);
             if (str) {
                 if (id < 10) {
                     id = '0' + id;
@@ -406,17 +413,17 @@ define([
 
         var where;
         var lyrIndex;
-        if (getURLParameter('zip')) {
-            where = config.fields.ZIP5 + ' = \'' + getURLParameter('zip') + '\'';
+        if (getURLParameter(config.urlParams.zip)) {
+            where = config.fields.ZIP5 + ' = \'' + getURLParameter(config.urlParams.zip) + '\'';
             lyrIndex = config.zipLyrIndex;
-        } else if (agrcString.replaceAll(getURLParameter('precinctID'), '_', ' ')) {
-            where = config.fields.PrecinctID + ' = \'' + getURLParameter('precinctID') + '\' AND ' + config.fields.CountyID + ' = ' + getCountyId();
+        } else if (agrcString.replaceAll(getURLParameter(config.urlParams.precinctID), '_', ' ')) {
+            where = config.fields.PrecinctID + ' = \'' + getURLParameter(config.urlParams.precinctID) + '\' AND ' + config.fields.CountyID + ' = ' + getCountyId();
             lyrIndex = config.precinctLyrIndex;
-        } else if (getURLParameter('county')) {
+        } else if (getURLParameter(config.urlParams.county)) {
             where = config.fields.COUNTYNBR + ' = ' + getCountyId(true);
             lyrIndex = config.countyLyrIndex;
         } else {
-            console.error('No zip or precinctID found!');
+            console.error('No zip, precinctID, or count found!');
             return;
         }
 
@@ -424,6 +431,7 @@ define([
         var params = new Query();
         params.returnGeometry = true;
         params.where = where;
+        params.outSpatialReference = new SpatialReference(3857);
 
         var qTask = new QueryTask(config.havaMapServiceUrl + '/' + lyrIndex);
         qTask.execute(params, function (featureSet) {
@@ -459,10 +467,10 @@ define([
             getExtent();
 
             // get other url parameters
-            var districtsParam = getURLParameter('districts');
+            var districtsParam = getURLParameter(config.urlParams.districts);
             config.districts = (districtsParam === 'no') ? false : true;
 
-            var precinctParam = getURLParameter('precinct');
+            var precinctParam = getURLParameter(config.urlParams.precinct);
             config.precinct = (precinctParam === 'no') ? false : true;
 
             // create symbols

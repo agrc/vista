@@ -25,7 +25,7 @@ var profile = {
             boot: true
         }
     },
-    packages: ['bootstrap', {
+    packages: [{
         name: 'spin',
         resourceTags: {
             copyOnly: function (filename, mid) {
@@ -46,6 +46,16 @@ var profile = {
             },
             miniExclude: function (filename, mid) {
                 return /\/src/.test(mid) || /\/templates/.test(mid);
+            }
+        }
+    }, {
+        name: 'proj4',
+        resourceTags: {
+            amd: function () {
+                return true;
+            },
+            copyOnly: function () {
+                return false;
             }
         }
     }],

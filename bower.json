@@ -15,6 +15,7 @@
   "dependencies": {
     "esri": "arcgis-js-api#~3.16.0",
     "agrc": "agrc-widgets#~4.1.0",
-    "layer-selector": "agrc-layer-selector#~0.4.0"
+    "layer-selector": "agrc-layer-selector#~0.4.0",
+    "proj4": "~2.3.14"
   }
 }
