@@ -16,7 +16,7 @@ module.exports = function (grunt) {
         '!stubmodule/**',
         '!util/**'
     ];
-    var deployDir = 'wwwroot/HavaAddressFix';
+    var deployDir = 'wwwroot/vista';
     var jsAppFiles = 'src/app/**/*.js';
     var gruntFile = 'GruntFile.js';
     var jsFiles = [
@@ -75,12 +75,8 @@ module.exports = function (grunt) {
         },
         copy: {
             main: {
-                files: [{
-                    expand: true,
-                    cwd: 'src/',
-                    src: ['*.html', 'images/*.*'],
-                    dest: 'dist/'
-                }]
+                src: 'src/ChangeLog.html',
+                dest: 'dist/ChangeLog.html'
             }
         },
         dojo: {
@@ -98,7 +94,7 @@ module.exports = function (grunt) {
                 dojo: 'src/dojo/dojo.js',
                 load: 'build',
                 releaseDir: '../dist',
-                require: 'src/app/run.js',
+                requires: ['src/app/run.js', 'src/app/packages.js'],
                 basePath: './src'
             }
         },
@@ -110,24 +106,12 @@ module.exports = function (grunt) {
                 src: jsFiles
             }
         },
-        replace: {
-            stage: {
-                options: {
-                    patterns: [{
-                        match: 'build',
-                        replacement: 'stage'
-                    }]
-                },
-                files: [{cwd: 'src', expand: true, src: 'src/index.html', dest: 'dist/'}]
-            },
-            prod: {
-                options: {
-                    patterns: [{
-                        match: 'build',
-                        replacement: 'prod'
-                    }]
-                },
-                files: [{cwd: 'src', expand: true, src: 'src/index.html', dest: 'dist/'}]
+        processhtml: {
+            options: {},
+            main: {
+                files: {
+                    'dist/index.html': ['src/index.html']
+                }
             }
         },
         secrets: secrets,
@@ -189,9 +173,9 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('build-prod', [
         'clean:build',
-        'replace:prod',
         'dojo:prod',
-        'copy:main'
+        'copy:main',
+        'processhtml'
     ]);
     grunt.registerTask('deploy-prod', [
         'clean:deploy',
@@ -201,9 +185,9 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('build-stage', [
         'clean:build',
-        'replace:stage',
         'dojo:stage',
-        'copy:main'
+        'copy:main',
+        'processhtml'
     ]);
     grunt.registerTask('deploy-stage', [
         'clean:deploy',

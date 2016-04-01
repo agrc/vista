@@ -24,7 +24,7 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-dojo": "^1.1.1",
     "grunt-eslint": "^18.0.0",
-    "grunt-replace": "^0.11.0",
+    "grunt-processhtml": "^0.3.13",
     "grunt-ssh": "^0.12.9",
     "load-grunt-tasks": "^3.4.1",
     "uglify-js": "^2.6.2"
