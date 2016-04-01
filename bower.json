@@ -12,6 +12,7 @@
     "dojo": "v1.10.4/esri-3.14.0"
   },
   "dependencies": {
-    "esri": "arcgis-js-api#~3.16.0"
+    "esri": "arcgis-js-api#~3.16.0",
+    "agrc": "agrc-widgets#~4.1.0"
   }
 }
