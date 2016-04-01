@@ -11,7 +11,6 @@ define([
     'dojo/request/script',
     'dojo/text!app/templates/App.html',
     'dojo/_base/Color',
-    'dojo/_base/connect',
     'dojo/_base/declare',
 
     'esri/geometry/Point',
@@ -38,7 +37,6 @@ define([
     script,
     template,
     Color,
-    connect,
     declare,
 
     Point,
@@ -171,9 +169,9 @@ define([
         //      The id number of the query in the Vista database.
         console.log('displayVistaQuery', arguments);
 
-        connect(config.map.graphics, 'onClick', onVistaGraphicsLayerClick);
-        connect(config.map.graphics, 'onMouseOver', onVistaGraphicsMouseOver);
-        connect(config.map.graphics, 'onMouseOut', onVistaGraphicsMouseOut);
+        config.map.graphics.on('click', onVistaGraphicsLayerClick);
+        config.map.graphics.on('mouse-over', onVistaGraphicsMouseOver);
+        config.map.graphics.on('mouse-out', onVistaGraphicsMouseOut);
 
         var getParams = {
             callbackParamName: 'jsonp',
@@ -231,8 +229,9 @@ define([
             config.lastGraphic.setSymbol(config.vistaSymbol);
         }
     }
-    function onIdentifyComplete(iResults) {
+    function onIdentifyComplete(response) {
         console.log('onIdentifyComplete', arguments);
+        var iResults = response.results;
 
         iResults.forEach(function (result) {
             var atts = result.feature.attributes;
@@ -279,7 +278,7 @@ define([
         config.iParams.width = config.map.width;
         config.iParams.height = config.map.height;
 
-        config.iTask = new IdentifyTask('/ArcGIS/rest/services/Hava/MapServer');
+        config.iTask = new IdentifyTask(config.havaMapServiceUrl);
 
         config.windowHeight = 95;
 
@@ -306,9 +305,9 @@ define([
 
         config.iTemplate = new InfoTemplate('Voter Location Information', templateString);
 
-        connect(config.map, 'onClick', onMapClick);
-        connect(config.iTask, 'onComplete', onIdentifyComplete);
-        connect(config.iTask, 'onError', function (e) {
+        config.map.on('click', onMapClick);
+        config.iTask.on('complete', onIdentifyComplete);
+        config.iTask.on('error', function (e) {
             console.error(e);
         });
     }
@@ -356,7 +355,7 @@ define([
         // });
 
         // disable mouse wheel zooming
-        connect(config.map, 'onLoad', function () {
+        config.map.on('load', function () {
             config.map.disableScrollWheelZoom();
 
             // add current point
@@ -386,16 +385,13 @@ define([
                 opacity: 0.8
             });
             config.map.addLayer(hava);
-            connect(hava, 'onLoad', function () {
+            hava.on('load', function () {
                 if (getURLParameter('map') === 'p') {
                     hava.setVisibleLayers(config.proposedPrecinctLyrs);
                 }
             });
         }
         initIdentifyTask();
-    }
-    function wrapWithQuotes(fld) {
-        return '\'' + fld + '\'';
     }
     function getExtent() {
         // summary:
@@ -416,13 +412,13 @@ define([
         var where;
         var lyrIndex;
         if (getURLParameter('zip')) {
-            where = wrapWithQuotes(config.fields.ZIP5) + ' = \'' + getURLParameter('zip') + '\'';
+            where = config.fields.ZIP5 + ' = \'' + getURLParameter('zip') + '\'';
             lyrIndex = config.zipLyrIndex;
         } else if (agrcString.replaceAll(getURLParameter('precinctID'), '_', ' ')) {
-            where = wrapWithQuotes(config.fields.PrecinctID) + ' = \'' + getURLParameter('precinctID') + '\' AND ' + wrapWithQuotes(config.fields.CountyID) + ' = ' + getCountyId();
+            where = config.fields.PrecinctID + ' = \'' + getURLParameter('precinctID') + '\' AND ' + config.fields.CountyID + ' = ' + getCountyId();
             lyrIndex = config.precinctLyrIndex;
         } else if (getURLParameter('county')) {
-            where = wrapWithQuotes(config.fields.COUNTYNBR) + ' = ' + getCountyId(true);
+            where = config.fields.COUNTYNBR + ' = ' + getCountyId(true);
             lyrIndex = config.countyLyrIndex;
         } else {
             console.error('No zip or precinctID found!');
@@ -434,14 +430,14 @@ define([
         params.returnGeometry = true;
         params.where = where;
 
-        var qTask = new QueryTask('/ArcGIS/rest/services/Hava/MapServer/' + lyrIndex);
+        var qTask = new QueryTask(config.havaMapServiceUrl + '/' + lyrIndex);
         qTask.execute(params, function (featureSet) {
             if (featureSet.features.length === 0) {
                 // try just the county
-                where = wrapWithQuotes(config.fields.COUNTYNBR) + ' = ' + getCountyId(true);
+                where = config.fields.COUNTYNBR + ' = ' + getCountyId(true);
                 lyrIndex = config.countyLyrIndex;
                 params.where = where;
-                var qTask2 = new QueryTask('/ArcGIS/rest/services/Hava/MapServer/' + lyrIndex);
+                var qTask2 = new QueryTask(config.havaMapServiceUrl + '/' + lyrIndex);
                 qTask2.execute(params, function (fSet) {
                     if (fSet.features.length === 0) {
                         initMap();
@@ -458,6 +454,7 @@ define([
     }
 
     return declare([_WidgetBase, _TemplatedMixin], {
+        baseClass: 'app',
         templateString: template,
         postCreate: function () {
             // summary:

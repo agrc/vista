@@ -1,4 +1,7 @@
-html, body {
+@import url('../../esri/css/esri.css');
+@import url('../../agrc/resources/map/BaseMap.css');
+
+html, body, .app {
 	height: 100%;
     margin: 0;
     padding: 0;

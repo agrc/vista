@@ -24,7 +24,7 @@ define([
         vistaSymbol: null, // point symbol used for vista graphics
         highlightedVistaSymbol: null, // point symbol used to highlight the vista graphics on mouse over
         identifyGraphicsLayer: null, // the graphics layer holding returned point from the identify query
-        havaMapServiceUrl: '/ArcGIS/rest/services/Hava/MapServer',
+        havaMapServiceUrl: '/ArcGIS/rest/services/Vista/MapServer',
         vistaWebServiceUrl: 'http://vistaservice.utah.gov/Residence/GetResidencesInfoFromQueries/',
         lastGraphic: null, // the last graphic that was clicked on
         windowHeight: null, // the height of the infoWindow for the identify results
