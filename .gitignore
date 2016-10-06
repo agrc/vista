@@ -5,6 +5,7 @@ deploy/
 dist/
 node_modules/
 secrets.json
+secrets.py
 src/agrc-jasmine-matchers/
 src/agrc/
 src/bootstrap/
