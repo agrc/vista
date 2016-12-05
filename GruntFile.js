@@ -73,6 +73,10 @@ module.exports = function (grunt) {
                 }]
             }
         },
+        connect: {
+            uses_defaults: { // eslint-disable-line camelcase
+            }
+        },
         copy: {
             main: {
                 src: 'src/ChangeLog.html',
@@ -104,6 +108,24 @@ module.exports = function (grunt) {
             },
             main: {
                 src: jsFiles
+            }
+        },
+        jasmine: {
+            main: {
+                options: {
+                    specs: ['src/app/**/Spec*.js'],
+                    vendor: [
+                        'src/jasmine-favicon-reporter/vendor/favico.js',
+                        'src/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
+                        'src/jasmine-jsreporter/jasmine-jsreporter.js',
+                        'src/app/tests/jasmineTestBootstrap.js',
+                        'src/dojo/dojo.js',
+                        'src/app/packages.js',
+                        'src/app/tests/jsReporterSanitizer.js',
+                        'src/app/tests/jasmineAMDErrorChecking.js'
+                    ],
+                    host: 'http://localhost:8000'
+                }
             }
         },
         processhtml: {
@@ -162,13 +184,15 @@ module.exports = function (grunt) {
             src: {
                 files: jsFiles.concat(otherFiles),
                 options: { livereload: true },
-                tasks: ['eslint']
+                tasks: ['eslint', 'jasmine:main:build']
             }
         }
     });
 
     grunt.registerTask('default', [
+        'jasmine:main:build',
         'eslint',
+        'connect',
         'watch'
     ]);
     grunt.registerTask('build-prod', [
