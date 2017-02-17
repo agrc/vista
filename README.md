@@ -14,16 +14,6 @@ Show "Precinct ID:" data in popup window and associated map layer.
 `districts`(yes | no)  
 Show political districts in popup window.
 
-`db`(L | T | S | D)  
-Determines which vista database is used.  
-Production/Live = L  
-Test = T  
-Staging (AT) = S  
-Development = D  
-
-`streetid` (number)  
-Parameter passed to the `SP_AGRC_PLOT_STREET`
-
 `map`(c | p)  
 Switch between current (c) or proposed (p) precinct boundaries.
 
@@ -34,25 +24,26 @@ The zip code that you want to zoom to.
 The precinct that you want to zoom to.
 
 `county`(number)  
-The county number that you want to zoom to (e.g. `6`) or the `county_id` parameter for the stored procedures.
+The county number that you want to zoom to (e.g. `6`).
 
-`diff`(yes | no)  
-If this parameter is present then the `SP_AGRC_PLOT_DIFF_PRECINCT` is run rather than the non-diff version.
+Zoom precedence: `zip` -> `precinctID` -> `county`
 
-Zoom type precedence: `zip` -> `precinctID` -> `county`
+#### Parameters that are passed through to the vista web service request
+`db`(l | t | s | d)  
+Determines which vista database is used.  
+Production/Live = l  
+Test = t  
+Staging (AT) = s  
+Development = d  
 
-### Stored Procedures
-This application executes stored procedures in the vista database under the following conditions.
+`displayMode`(string)  
+Passed through as the `displaymode` parameter to the vista web service.
 
-`SP_AGRC_PLOT_STREET` - This requires `street_name_id` (e.g. 155275890) and `county_id` (e.g. 18)  
-`SP_AGRC_PLOT_PRECINCT` - This requires `precinct` (e.g. 'KRN005:00') and `county_id` (e.g. 18)  
-`SP_AGRC_PLOT_DIFF_PRECINCT` - This requires `precinct` (e.g. 'KRN005:00') and `county_id` (e.g. 18). This only fires when `diff=yes` in the URL params.
+`residenceID` (number)  
+The id of the current residence.
 
-Example that will execute the `SP_AGRC_PLOT_STREET` procedure:  
-http://mapserv.utah.gov/havaaddressfix?precinct=yes&districts=no&currentX=416455.44&currentY=4501579.28&streetid=155275890&db=T&map=c&county=18
+In addition, `precinctID` and `county` are also passed.
 
-Example that will execute the `SP_AGRC_PLOT_PRECINCT` procedure:  
-http://mapserv.utah.gov/havaaddressfix?precinctID=KRN005:00&precinct=yes&districts=no&currentX=416455.44&currentY=4501579.28&db=T&map=c&county=18
+Web service call template: `https://services-vista.at.utah.gov/data/api/agrc/address/{db}/{county}?displaymode={displayMode}&precinctid={precinctID}&residenceid={residenceID}`
 
-Example that will execute the `SP_AGRC_PLOT_DIFF_PRECINCT` procedure:  
-http://mapserv.utah.gov/havaaddressfix?precinctID=KRN005:00&precinct=yes&districts=no&currentX=416455.44&currentY=4501579.28&diff=yes&db=T&map=c&county=18
+[Vista Web Service Docs](https://docs.google.com/a/utah.gov/spreadsheets/d/1tkfhs0sc_km3AK8cEdGar7_8oUWX1DAvxytNfmfRTLY/edit?usp=sharing)
