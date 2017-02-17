@@ -29,18 +29,14 @@ The county number that you want to zoom to (e.g. `6`).
 Zoom precedence: `zip` -> `precinctID` -> `county`
 
 #### Parameters that are passed through to the vista web service request
-`db`(l | t | s | d)  
-Determines which vista database is used.  
-Production/Live = l  
-Test = t  
-Staging (AT) = s  
-Development = d  
+`db`(string)
+Passed through as the `db` route to the vista web service.
 
 `displayMode`(string)  
-Passed through as the `displaymode` parameter to the vista web service.
+Passed through as the `displaymode` parameter to the vista web service. This is also the trigger for making a request to the web service. If there is no value passed to this parameter then the app makes no request.
 
 `residenceID` (number)  
-The id of the current residence.
+Passed through as the `residenceid` parameter to the vista web service.
 
 In addition, `precinctID` and `county` are also passed.
 
