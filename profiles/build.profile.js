@@ -54,8 +54,8 @@ var profile = {
             amd: function () {
                 return true;
             },
-            copyOnly: function () {
-                return false;
+            copyOnly: function (filename) {
+                return (/.html/).test(filename);
             }
         }
     }],

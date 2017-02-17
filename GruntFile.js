@@ -17,7 +17,7 @@ module.exports = function (grunt) {
         '!util/**'
     ];
     var deployDir = 'wwwroot/vista';
-    var jsAppFiles = 'src/app/**/*.js';
+    var jsAppFiles = 'lib/app/**/*.js';
     var gruntFile = 'GruntFile.js';
     var jsFiles = [
         jsAppFiles,
@@ -25,16 +25,14 @@ module.exports = function (grunt) {
         'profiles/**/*.js'
     ];
     var otherFiles = [
-        'src/app/**/*.html',
-        'src/app/**/*.css',
-        'src/index.html',
-        'src/ChangeLog.html'
+        'lib/app/**/*.html',
+        'lib/app/**/*.css',
+        'lib/index.html',
+        'lib/ChangeLog.html'
     ];
     var secrets;
     try {
         secrets = grunt.file.readJSON('secrets.json');
-        // sauceConfig.username = secrets.sauce_name;
-        // sauceConfig.key = secrets.sauce_key;
     } catch (e) {
         // swallow for build server
 
@@ -56,9 +54,24 @@ module.exports = function (grunt) {
     }
 
     grunt.initConfig({
+        babel: {
+            options: {
+                sourceMap: true,
+                presets: ['latest']
+            },
+            src: {
+                files: [{
+                    expand: true,
+                    cwd: 'lib/app/',
+                    src: ['**/*.js'],
+                    dest: 'src/app/'
+                }]
+            }
+        },
         clean: {
             build: ['dist'],
-            deploy: ['deploy']
+            deploy: ['deploy'],
+            src: ['src/app']
         },
         compress: {
             main: {
@@ -78,9 +91,15 @@ module.exports = function (grunt) {
             }
         },
         copy: {
-            main: {
+            dist: {
                 src: 'src/ChangeLog.html',
                 dest: 'dist/ChangeLog.html'
+            },
+            src: {
+                expand: true,
+                cwd: 'lib',
+                src: ['**/*.html', '**/*.css', 'secrets.json', 'app/package.json'],
+                dest: 'src'
             }
         },
         dojo: {
@@ -183,21 +202,27 @@ module.exports = function (grunt) {
             src: {
                 files: jsFiles.concat(otherFiles),
                 options: { livereload: true },
-                tasks: ['eslint', 'jasmine:main:build']
+                tasks: ['eslint', 'jasmine:main:build', 'newer:babel', 'newer:copy:src']
             }
         }
     });
 
     grunt.registerTask('default', [
-        'jasmine:main:build',
         'eslint',
+        'clean:src',
+        'babel',
+        'copy:src',
         'connect',
+        'jasmine:main:build',
         'watch'
     ]);
     grunt.registerTask('build-prod', [
+        'clean:src',
+        'babel',
+        'copy:src',
         'clean:build',
         'dojo:prod',
-        'copy:main',
+        'copy:dist',
         'processhtml'
     ]);
     grunt.registerTask('deploy-prod', [
@@ -207,9 +232,12 @@ module.exports = function (grunt) {
         'sshexec:prod'
     ]);
     grunt.registerTask('build-stage', [
+        'clean:src',
+        'babel',
+        'copy:src',
         'clean:build',
         'dojo:stage',
-        'copy:main',
+        'copy:dist',
         'processhtml'
     ]);
     grunt.registerTask('deploy-stage', [

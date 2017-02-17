@@ -1,0 +1,8 @@
+{
+    "name": "Vista.app",
+    "version": "1.0.0",
+    "main": "main",
+    "description": "Vista",
+    "homepage": "https://github.com/agrc/vista",
+    "dojoBuild": "app.profile.js"
+}

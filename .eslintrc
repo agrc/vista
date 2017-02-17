@@ -5,6 +5,9 @@
         "amd": true,
         "node": true
     },
+    "parserOptions": {
+        "ecmaVersion": 8
+    },
     "globals": {},
     "rules": {
         "no-bitwise": 2,
