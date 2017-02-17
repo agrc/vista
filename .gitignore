@@ -27,5 +27,6 @@ src/moment/
 src/proj4/
 src/put-selector/
 src/spinjs/
+src/StubModule/
 src/util/
 src/xstyle/

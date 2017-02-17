@@ -8,7 +8,7 @@ Web app that is embedded in the Vista application
 `currentX`/`currentY`  
 Display a point on the map as a blue graphic.
 
-`precinct`(yes | no)  
+`precincts`(yes | no)  
 Show "Precinct ID:" data in popup window and associated map layer.
 
 `districts`(yes | no)  

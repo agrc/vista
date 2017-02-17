@@ -121,7 +121,6 @@ module.exports = function (grunt) {
                         'src/app/tests/jasmineTestBootstrap.js',
                         'src/dojo/dojo.js',
                         'src/app/packages.js',
-                        'src/app/tests/jsReporterSanitizer.js',
                         'src/app/tests/jasmineAMDErrorChecking.js'
                     ],
                     host: 'http://localhost:8000'
