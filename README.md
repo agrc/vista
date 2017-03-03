@@ -45,4 +45,4 @@ Web service call template: `https://services-vista.at.utah.gov/data/api/agrc/add
 [Vista Web Service Docs](https://docs.google.com/a/utah.gov/spreadsheets/d/1tkfhs0sc_km3AK8cEdGar7_8oUWX1DAvxytNfmfRTLY/edit?usp=sharing)
 
 ### Test URLs
-http://localhost/projects/vista/src/?precincts=yes&districts=no&currentX=416455.44&currentY=4501579.28&map=c&county=18
+https://dev.mapserv.utah.gov/projects/vista/src/?precincts=yes&districts=no&currentX=416455.44&currentY=4501579.28&map=c&precinctID=TAY034:00&county=18&db=t&countyid=6&residenceID=178879626&displayMode=onstreet
