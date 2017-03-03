@@ -16,6 +16,12 @@ module.exports = function (grunt) {
         '!stubmodule/**',
         '!util/**'
     ];
+    var bumpFiles = [
+        'package.json',
+        'bower.json',
+        'lib/app/package.json',
+        'lib/app/config.js'
+    ];
     var deployDir = 'wwwroot/vista';
     var jsAppFiles = 'lib/app/**/*.js';
     var gruntFile = 'GruntFile.js';
@@ -66,6 +72,13 @@ module.exports = function (grunt) {
                     src: ['**/*.js'],
                     dest: 'src/app/'
                 }]
+            }
+        },
+        bump: {
+            options: {
+                files: bumpFiles,
+                commitFiles: bumpFiles.concat('lib/ChangeLog.html'),
+                push: false
             }
         },
         clean: {
