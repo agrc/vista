@@ -15,14 +15,13 @@ class VistaPallet(Pallet):
         super(VistaPallet, self).__init__()
 
         self.arcgis_services = [('Vista', 'MapServer')]
-
-        self.staging = r'C:\Scheduled\staging'
+        
         self.sgid = join(self.garage, 'SGID10.sde')
 
-        self.political = join(self.staging, 'political.gdb')
-        self.boundaries = join(self.staging, 'boundaries.gdb')
-        self.cadastre = join(self.staging, 'cadastre.gdb')
-        self.location = join(self.staging, 'location.gdb')
+        self.political = join(self.staging_rack, 'political.gdb')
+        self.boundaries = join(self.staging_rack, 'boundaries.gdb')
+        self.cadastre = join(self.staging_rack, 'cadastre.gdb')
+        self.location = join(self.staging_rack, 'location.gdb')
 
         self.copy_data = [self.political,
                           self.boundaries,
