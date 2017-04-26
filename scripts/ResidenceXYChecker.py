@@ -1,5 +1,7 @@
 import arcpy
 import sys
+import requests
+import math
 
 
 VISTABALLOTAREAS = r'Database Connections\SGID10.sde\SGID10.POLITICAL.VistaBallotAreas'
@@ -7,31 +9,36 @@ RESIDENCES = r'C:\Temp\Temp.gdb\Residences'
 PRECINCTS = r'X:\Projects\vista\scripts\vista_prod.odc\GV_VISTA.PRECINCTS'
 RESIDENCES_SOURCE = r'X:\Projects\vista\scripts\vista_prod.odc\GV_VISTA.RESIDENCES'
 COUNTIES = r'Database Connections\SGID10.sde\SGID10.BOUNDARIES.Counties'
+API_KEY = 'AGRC-ABA1A9E9631070'
 errors = []
 counties = {}
 
 
 def process_county(id):
     print('Processing County: {}'.format(counties[id]))
+    if len(precinct) > 0:
+        print('Precinct: {}'.format(precinct))
 
-    precincts_layer = arcpy.MakeFeatureLayer_management(VISTABALLOTAREAS, 'precincts_layer', 'CountyID = {}'.format(id))
     residences_layer = arcpy.MakeFeatureLayer_management(RESIDENCES, 'residences_layer', 'COUNTY_ID = {}'.format(id))
 
     arcpy.AddJoin_management(residences_layer, 'PRECINCT_ID', PRECINCTS, 'PRECINCT_ID')
-    precinct_ids = [row[0] for row in arcpy.da.SearchCursor(precincts_layer, ['VistaID'])]
-    i = 0
-    for precinct_id in precinct_ids:
-        i += 1
-        print('{} | {} out of {} | {} County'.format(precinct_id, i, len(precinct_ids), counties[id]))
-        arcpy.SelectLayerByAttribute_management(precincts_layer, 'NEW_SELECTION', 'VistaID = \'{}\''.format(precinct_id))
-        arcpy.SelectLayerByLocation_management(residences_layer, 'INTERSECT', precincts_layer, selection_type='NEW_SELECTION')
-        with arcpy.da.SearchCursor(residences_layer, ['Residences.RESIDENCE_ID', 'PRECINCT'], 'PRECINCT <> \'{}\''.format(precinct_id)) as cursor:
-            for row in cursor:
-                msg = '{}: error with res id: {}, should be {} but it\'s {}.'.format(counties[id], row[0], precinct_id, row[1])
-                errors.append(msg)
-                print(msg)
 
-    arcpy.Delete_management(precincts_layer)
+    fields = ['RESIDENCE_ID', 'X', 'Y', 'SL_SNUMBER', 'SL_DIRECTION_PREFIX', 'SL_STREET', 'SL_DIRECTION_SUFFIX', 'SL_TYPE', 'SL_ZIP']
+    for res_id, vista_x, vista_y, snum, prefix, street, suffix, stype, szip in arcpy.da.SearchCursor(residences_layer, fields, 'PRECINCTS.PRECINCT = {}'.format(precinct)):
+        address = ' '.join([snum, prefix, street, suffix, stype]).replace('  ', ' ')
+        r = requests.get('http://api.mapserv.utah.gov/api/v1/geocode/{}/{}'.format(address, szip), params={'apiKey': API_KEY})
+        response = r.json()
+        if r.status_code is not 200 or response['status'] is not 200:
+            print('no match found for res id: {} ({})'.format(res_id, address))
+            continue
+
+        geocoded_point = response['result']['location']
+
+        distance = math.hypot(geocoded_point['x'] - vista_x, geocoded_point['y'] - vista_y)
+
+        if distance > 50:
+            print('possibly incorrectly geocoded res id: {}, distance: {}'.format(res_id, distance))
+
     arcpy.Delete_management(residences_layer)
 
 
@@ -44,6 +51,11 @@ try:
     refresh_residences = sys.argv[2] == 'Y'
 except IndexError:
     refresh_residences = raw_input('refresh residence data from vista (Y/N)? ') == 'Y'
+
+try:
+    precinct = sys.argv[3]
+except IndexError:
+    precinct = raw_input('precinct id (MID017:01, leave blank to run all): ')
 
 if refresh_residences:
     print('pulling new residence data from vista database...')
