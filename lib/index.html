@@ -17,6 +17,21 @@
 <body>
     <div data-dojo-type='app/App'></div>
 
+    <!-- HIDDEN FORM
+        This needs to be here since they query for the nodes on page load and can't wait for the widget to load it.
+    -->
+    <form style='display: none;'>
+        <input id='XCoord' type='text' />
+        <input id='YCoord' type='text' />
+        <input id='Precinct' type='text' />
+        <input id='House' type='text' />
+        <input id='Senate' type='text' />
+        <input id='FedHouse' type='text' />
+        <input id='CountyID' type='text' />
+        <input id="selectedID" type="text" />
+        <input id="Address" type="text" />
+    </form>
+
     <!-- build:template
     <script data-dojo-config="deps:['app/packages', 'app/run']" src='dojo/dojo.js'></script>
     /build -->
