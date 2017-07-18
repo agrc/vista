@@ -1,6 +1,6 @@
 {
   "name": "vista",
-  "version": "1.1.0-3",
+  "version": "1.1.0-4",
   "description": "Web app that is embedded in the Vista application",
   "main": "index.js",
   "scripts": {
