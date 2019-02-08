@@ -1,6 +1,7 @@
 import arcpy
 import sys
 import pyodbc
+import secrets
 
 # data
 vista_ballot_areas = r'SGID10.sde\SGID10.POLITICAL.VistaBallotAreas'
@@ -21,11 +22,12 @@ except IndexError:
     county_num = raw_input('County Number: ')
 
 print('making table view')
-query = '{} = {}'.format(COUNTY_ID_fld, county_num)
-xy_table = arcpy.MakeQueryTable_management([residences_table], 'xy_table', 'USE_KEY_FIELDS', 'GV_VISTA.RESIDENCES.RESIDENCE_ID', where_clause=query)
+county_query = '{} = {}'.format(COUNTY_ID_fld, county_num)
+res_query = '{} AND {} > 1 AND {} > 1'.format(county_query, X_fld, Y_fld)
+xy_table = arcpy.MakeQueryTable_management([residences_table], 'xy_table', 'USE_KEY_FIELDS', 'GV_VISTA.RESIDENCES.RESIDENCE_ID', where_clause=res_query)
 
 print('making precincts look up dictionary')
-precinct_table = arcpy.MakeQueryTable_management([precincts_table], 'precinct_table', 'USE_KEY_FIELDS', 'GV_VISTA.PRECINCTS.PRECINCT_ID', where_clause=query)
+precinct_table = arcpy.MakeQueryTable_management([precincts_table], 'precinct_table', 'USE_KEY_FIELDS', 'GV_VISTA.PRECINCTS.PRECINCT_ID', where_clause=county_query)
 precinct_name_to_id = {}
 with arcpy.da.SearchCursor(precinct_table, [PRECINCT_ID_fld, 'PRECINCT']) as scur:
     for row in scur:
@@ -45,10 +47,16 @@ with arcpy.da.SearchCursor(identity, [RESIDENCE_ID_fld, VistaID_fld]) as scur:
 
 print('updating precinct ids')
 with arcpy.da.SearchCursor(xy_table, [RESIDENCE_ID_fld]) as cur:
-    connection = pyodbc.connect('Driver={Microsoft ODBC for Oracle};UID=<username>;PWD=<password>;SERVER=itdb227sp.dts.utah.gov:1521/tgvdv')
+    connection = pyodbc.connect('Driver={Microsoft ODBC for Oracle};UID={};PWD={};SERVER={}'.format(secrets.USERNAME, secrets.PASSWORD, secrets.SERVER))
     cursor = connection.cursor()
+    i = 0
     for row in cur:
-        new_precinct_id = precinct_name_to_id[res_to_precinct_dict[row[0]]]
+        i = i + 1
+        try:
+            new_precinct_id = precinct_name_to_id[res_to_precinct_dict[row[0]]]
+        except KeyError as error:
+            print('problem with res id: {}. {}'.format(row[0], error))
+            continue
         statement = """
             update GV_VISTA.RESIDENCES
             set PRECINCT_ID = {}
@@ -58,4 +66,4 @@ with arcpy.da.SearchCursor(xy_table, [RESIDENCE_ID_fld]) as cur:
         cursor.execute(statement)
         connection.commit()
 
-print('done')
+print('done: {}'.format(i))
