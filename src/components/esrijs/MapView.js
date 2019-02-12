@@ -2,7 +2,47 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { loadModules, loadCss } from 'esri-loader';
 import { LayerSelectorContainer, LayerSelector } from '../../components/LayerSelector/LayerSelector';
+import queryString from 'query-string';
+import config from '../../config';
 
+
+export const getInitialExtent = async (urlParams) => {
+  let featureClassName;
+  let predicate;
+  const paramExists = param => param && param.length > 0;
+  if (paramExists(urlParams.zip)) {
+    featureClassName = config.featureClassNames.ZIP;
+    predicate = `${config.fieldNames.ZIP5} = '${urlParams.zip}'`;
+  } else if (paramExists(urlParams.precinctID)) {
+    featureClassName = config.featureClassNames.VISTA_BALLOT_AREAS;
+    predicate = `${config.fieldNames.PrecinctID} = '${urlParams.precinctID}'`;
+  } else if (paramExists(urlParams.county)) {
+    featureClassName = config.featureClassNames.COUNTIES;
+    predicate = `${config.fieldNames.COUNTYNBR} = '${formatCountyId(urlParams.county)}'`;
+  } else {
+    console.warn('No initial extent identified, zooming to the state of utah');
+
+    return;
+  }
+
+  const webApiResponse = await fetch(`${config.urls.WEBAPI}/${featureClassName}/shape@envelope?${queryString.stringify({
+    predicate,
+    spatialReference: 3857,
+    apiKey: process.env.REACT_APP_WEB_API
+  })}`);
+
+  const jsonResponse = await webApiResponse.json();
+
+  return jsonResponse.result[0].geometry;
+};
+
+export const formatCountyId = id => {
+  if (parseInt(id) < 10) {
+    return `0${id}`;
+  }
+
+  return id;
+};
 
 export default class ReactMapView extends Component {
   zoomLevel = 5;
@@ -20,10 +60,11 @@ export default class ReactMapView extends Component {
   }
 
   async componentDidMount() {
-    loadCss('https://js.arcgis.com/4.9/esri/css/main.css');
+    loadCss('https://js.arcgis.com/4.10/esri/css/main.css');
     const mapRequires = [
       'esri/Map',
-      'esri/views/MapView'
+      'esri/views/MapView',
+      'esri/geometry/Polygon'
     ];
     const selectorRequires = [
       'esri/layers/support/LOD',
@@ -32,7 +73,7 @@ export default class ReactMapView extends Component {
       'esri/Basemap'
     ];
 
-    const [Map, MapView, LOD, TileInfo, WebTileLayer, Basemap] = await loadModules(mapRequires.concat(selectorRequires));
+    const [Map, MapView, Polygon, LOD, TileInfo, WebTileLayer, Basemap] = await loadModules(mapRequires.concat(selectorRequires));
 
     this.map = new Map();
 
@@ -72,60 +113,22 @@ export default class ReactMapView extends Component {
       selectorNode);
 
     this.view.on('click', this.props.onClick);
-  }
 
-  componentDidUpdate(prevProps) {
-    const currentGraphic = (((this.props || false).zoomToGraphic || false).graphic || false);
-    const previousGraphic = (((prevProps || false).zoomToGraphic || false).graphic || false);
+    const urlParams = queryString.parse(document.location.search);
 
-    if (currentGraphic !== previousGraphic && currentGraphic !== false) {
-      const { graphic, level, preserve } = this.props.zoomToGraphic;
+    const geometry = await getInitialExtent(urlParams);
 
-      this.zoomTo({
-        target: graphic,
-        zoom: level,
-        preserve: preserve
-      });
+    if (geometry) {
+      this.zoomTo(new Polygon(geometry));
     }
   }
 
   async zoomTo(zoomObj) {
-    console.log('app.zoomTo', arguments);
+    console.log('MapView:zoomTo', arguments);
 
-    if (!Array.isArray(zoomObj.target)) {
-      zoomObj.target = [zoomObj.target];
-    }
-
-    if (!zoomObj.zoom) {
-      if (zoomObj.target.every(graphic => graphic.geometry.type === 'point')) {
-        zoomObj = {
-          target: zoomObj.target,
-          zoom: this.view.map.basemap.baseLayers.items[0].tileInfo.lods.length - this.zoomLevel
-        };
-      } else {
-        zoomObj = {
-          target: zoomObj.target
-        };
-      }
-    }
-
-    await this.view.goTo(zoomObj);
-
-    if (this.displayedZoomGraphic) {
-      this.view.graphics.removeMany(this.displayedZoomGraphic);
-    }
-
-    this.displayedZoomGraphic = zoomObj.target;
-
-    this.view.graphics.addMany(zoomObj.target);
-
-    const [watchUtils] = await loadModules(['esri/core/watchUtils']);
-
-    if (!zoomObj.preserve) {
-      watchUtils.once(this.view, 'extent', () => {
-        this.view.graphics.removeAll();
-      });
-    }
+    this.view.when(() => {
+      this.view.goTo(zoomObj);
+    });
   }
 
   getView() {

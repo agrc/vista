@@ -5,7 +5,15 @@ import './App.css';
 
 export default class App extends Component {
   state = {
-
+    xCoord: '',
+    yCoord: '',
+    precinct: '',
+    house: '',
+    senate: '',
+    fedHouse: '',
+    countyID: '',
+    selectedID: '',
+    address: ''
   };
 
   onMapClick = this.onMapClick.bind(this);
@@ -31,6 +39,17 @@ export default class App extends Component {
         <MapLens {...sidebarOptions}>
           <MapView {...mapOptions} />
         </MapLens>
+        <form style={{ display: 'none' }}>
+          <input id="XCoord" value={this.state.xCoord} type="text" />
+          <input id="YCoord" value={this.state.yCoord} type="text" />
+          <input id="Precinct" value={this.state.precinct} type="text" />
+          <input id="House" value={this.state.house} type="text" />
+          <input id="Senate" value={this.state.senate} type="text" />
+          <input id="FedHouse" value={this.state.fedHouse} type="text" />
+          <input id="CountyID" value={this.state.countyID} type="text" />
+          <input id="selectedID" value={this.state.selectedID} type="text" />
+          <input id="Address" value={this.state.address} type="text" />
+        </form>
       </div>
     );
   }

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "esri-loader": "^2.6.0",
+    "query-string": "5.1.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-fast-compare": "^2.0.4",
@@ -26,6 +27,7 @@
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-compress": "^1.4.3",
     "grunt-ssh": "^0.12.9",
+    "jest-fetch-mock": "2.1.0",
     "load-grunt-tasks": "^4.0.0"
   }
 }
