@@ -15,5 +15,16 @@ export default {
     ZIP5: 'ZIP5',
     PrecinctID: 'PrecinctID',
     COUNTYNBR: 'COUNTYNBR'
+  },
+  symbols: {
+    IDENTIFY: {
+      type: 'simple-marker',
+      size: 11,
+      color: [255, 255, 0, 0.75],
+      outline: {
+        color: 'black',
+        width: 1
+      }
+    }
   }
 }

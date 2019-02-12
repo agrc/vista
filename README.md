@@ -19,13 +19,16 @@ The precinct ID (e.g. `LA23`) as defined by the `PrecinctID` field within `SGID1
 The county number (e.g. `9` or `15`) as defined by the `COUNTYNBR` field within `SGID10.Boundaries.Counties`.
 
 
-### Test URLs
-http://localhost:3000?precinctID=LA23&precinct=yes&districts=no&currentX=423283.80&currentY=4549881.24&db=T&map=c&county=6
 
+## Hidden Form Fields
+There are several form input elements that are hidden. These provide a way for vista to read data from this app. Their element ids are: `XCoord`, `YCoord`, `Precinct`, `House`, `Senate`, `FedHouse`, `CountyID`, `selectedID`, and `Address`.
 
 ## Development
 
 Execute `npm start` to start a web server and view the website
+
+Test Urls:  
+http://localhost:3000?precinctID=LA23&precinct=yes&districts=no&currentX=423283.80&currentY=4549881.24&db=T&map=c&county=6
 
 Execute `npm test` to run tests
 

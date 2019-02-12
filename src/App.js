@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MapLens from './components/MapLens';
 import MapView from './components/esrijs/MapView';
+import Identify from './Identify';
 import './App.css';
 
 
@@ -19,8 +20,11 @@ export default class App extends Component {
     address: ''
   };
 
-  onMapClick = this.onMapClick.bind(this);
-  setView = this.setView.bind(this);
+  handleIdentifyPropsChange(props) {
+    console.log('App:handleIdentifyPropsChange', arguments);
+
+    this.setState(props);
+  }
 
   render() {
     const quadWord = process.env.REACT_APP_DISCOVER;
@@ -28,8 +32,8 @@ export default class App extends Component {
     const mapOptions = {
       discoverKey: quadWord,
       zoomToGraphic: this.state.zoomToGraphic,
-      onClick: this.onMapClick,
-      setView: this.setView
+      onClick: event => this.identify.onMapClick(event),
+      setView: view => this.identify.setView(view)
     }
 
     return (
@@ -48,17 +52,9 @@ export default class App extends Component {
           <input id="selectedID" value={this.state.selectedID} type="text" readOnly />
           <input id="Address" value={this.state.address} type="text" readOnly />
         </form>
+        <Identify {...this.state} onIdentifyPropsChange={this.handleIdentifyPropsChange.bind(this)}
+          ref={identify => this.identify = identify}/>
       </div>
     );
-  }
-
-  onMapClick(event) {
-    console.log('onMapClick', event);
-  }
-
-  setView(value) {
-    this.setState({
-      mapView: value
-    });
   }
 }

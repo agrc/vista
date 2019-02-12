@@ -1,12 +1,4 @@
-/*global dojo, console, window, agrc, esri, alert, document*/
-dojo.provide("js.core");
-
-dojo.require('agrc.widgets.map.BaseMap');
-dojo.require("dojo.io.script");
-dojo.require("agrc.modules.String");
-dojo.require("agrc.widgets.map.BaseMapSelector");
-
-// global object
+/* eslint-disable */
 var g = {
     map: null, // map reference
     iParams: null, // identify parameters
@@ -130,7 +122,7 @@ function addToMap(data) {
     // summary:
     //      Adds the data returned from the Vista query to the map as graphics
     console.log("addToMap", arguments);
-    
+
     g.map.graphics.clear();
 
     var title = "${" + g.fields.Address + "}";
@@ -162,7 +154,7 @@ function displayVistaQuery(queryNumber) {
     dojo.connect(g.map.graphics, "onClick", onVistaGraphicsLayerClick);
     dojo.connect(g.map.graphics, "onMouseOver", onVistaGraphicsMouseOver);
     dojo.connect(g.map.graphics, "onMouseOut", onVistaGraphicsMouseOut);
-    
+
     var getParams = {
         callbackParamName: "jsonp",
         checkString: "Total",
@@ -190,21 +182,6 @@ function onMapClick(event) {
     console.log("onMapClick", arguments);
 
     g.map.graphics.disableMouseEvents();
-
-    g.identifyGraphicsLayer.clear();
-    g.map.infoWindow.hide();
-    g.map.showLoader();
-
-    // store point as a graphic
-    g.graphic = new esri.Graphic(event.mapPoint, g.identifySymbol, {
-        XCoord: Math.round(event.mapPoint.x * 100)/100,
-        YCoord: Math.round(event.mapPoint.y * 100)/100,
-        screenPoint: event.screenPoint
-    }, g.iTemplate);
-
-    // update coord values
-    dojo.byId('XCoord').value = Math.round(event.mapPoint.x * 100)/100;
-    dojo.byId('YCoord').value = Math.round(event.mapPoint.y * 100)/100;
 
     if (g.precinct || g.districts) {
         g.iParams.geometry = event.mapPoint;
@@ -335,9 +312,9 @@ function initMap(extentGraphic) {
         }
     ];
     var selector = new agrc.widgets.map.BaseMapSelector({
-        map: g.map, 
-        id: "claro", 
-        position: "TR", 
+        map: g.map,
+        id: "claro",
+        position: "TR",
         data: data,
         defaultThemeLabel: "Hybrid"
     });
@@ -362,7 +339,7 @@ function initMap(extentGraphic) {
     // Add imagery layer
     // var imagery = new esri.layers.ArcGISTiledMapServiceLayer('http://mapserv.utah.gov/arcgis/rest/services/UtahBaseMap-Hybrid/MapServer');
     // g.map.addLayer(imagery);
-    
+
     if (getURLParameter('map') === "p"){
         console.log('switching to proposed layers');
         g.precinctLyrIndex = 7;
@@ -381,73 +358,10 @@ function initMap(extentGraphic) {
     }
     initIdentifyTask();
 }
-function getExtent() {
-    // summary:
-    //      gets the graphic that will set the initial extent of the map
-    console.log("getExtent", arguments);
-    
-    function getCountyId(str){
-        var id = parseInt(getURLParameter("county"), 10);
-        if (str) {
-            if (id < 10){
-             id = "0" + id;
-            }
-            id = "'" + id + "'";
-        }
-        return id;
-    }
-    
-    var where, lyrIndex;
-    if (getURLParameter('zip')){
-        where = wrapWithQuotes(g.fields.ZIP5) + " = '" + getURLParameter('zip') + "'";
-        lyrIndex = g.zipLyrIndex;
-    } else if (agrc.modules.String.ReplaceAll(getURLParameter('precinctID'), "_", " ")){
-        where = wrapWithQuotes(g.fields.PrecinctID) + " = '" + getURLParameter('precinctID') + "' AND " + wrapWithQuotes(g.fields.CountyID) + " = " + getCountyId();
-        lyrIndex = g.precinctLyrIndex;
-    } else if (getURLParameter('county')){
-        where = wrapWithQuotes(g.fields.COUNTYNBR) + " = " + getCountyId(true);
-        lyrIndex = g.countyLyrIndex;
-    } else {
-        console.error("No zip or precinctID found!");
-        return;
-    }
-
-    // create query task
-    var params = new esri.tasks.Query();
-    params.returnGeometry = true;
-    params.where = where;
-
-    var qTask = new esri.tasks.QueryTask('/ArcGIS/rest/services/Hava/MapServer/' + lyrIndex);
-    qTask.execute(params, function(featureSet) {
-        if (featureSet.features.length === 0) {
-            // try just the county
-            where = wrapWithQuotes(g.fields.COUNTYNBR) + " = " + getCountyId(true);
-            lyrIndex = g.countyLyrIndex;
-            params.where = where;
-            var qTask2 = new esri.tasks.QueryTask('/ArcGIS/rest/services/Hava/MapServer/' + lyrIndex);
-            qTask2.execute(params, function(fSet){
-                if (fSet.features.length === 0){
-                    initMap();
-                }
-                else {
-                    initMap(fSet.features[0]);
-                }
-            });
-        } else {
-            initMap(featureSet.features[0]);
-        }
-    }, function(e){
-        console.error("There was an error with the extent query.\n" + e.message);
-    });
-}
 function wrapWithQuotes(fld) {
     return '"' + fld + '"';
 }
 function init() {
-    console.log("init", arguments);
-
-    getExtent();
-
     // get other url parameters
     var districtsParam = getURLParameter('districts');
     g.districts = (districtsParam === 'no') ? false : true;
@@ -459,11 +373,6 @@ function init() {
     g.currentSymbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, 11,
         new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID,
         new dojo.Color('white'), 1), new dojo.Color([0, 0, 255, 0.75]));
-    g.identifySymbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, 11,
-        new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID,
-        new dojo.Color('black'), 1), new dojo.Color([255, 255, 0, 0.75]));
     g.vistaSymbol = new esri.symbol.SimpleMarkerSymbol().setSize(10).setColor(new dojo.Color("white"));
     g.highlightedVistaSymbol = new esri.symbol.SimpleMarkerSymbol().setSize(10).setColor(new dojo.Color("red"));
 }
-
-dojo.ready(init);
