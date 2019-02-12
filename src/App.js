@@ -3,6 +3,9 @@ import MapLens from './components/MapLens';
 import MapView from './components/esrijs/MapView';
 import './App.css';
 
+
+console.info('app version: ', process.env.REACT_APP_VERSION);
+
 export default class App extends Component {
   state = {
     xCoord: '',
