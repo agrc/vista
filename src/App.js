@@ -29,26 +29,21 @@ export default class App extends Component {
       setView: this.setView
     }
 
-    const sidebarOptions = {
-      sideBarOpen: this.state.sideBarOpen,
-      toggleSidebar: this.toggleSidebar
-    }
-
     return (
       <div className="app">
-        <MapLens {...sidebarOptions}>
+        <MapLens>
           <MapView {...mapOptions} />
         </MapLens>
         <form style={{ display: 'none' }}>
-          <input id="XCoord" value={this.state.xCoord} type="text" />
-          <input id="YCoord" value={this.state.yCoord} type="text" />
-          <input id="Precinct" value={this.state.precinct} type="text" />
-          <input id="House" value={this.state.house} type="text" />
-          <input id="Senate" value={this.state.senate} type="text" />
-          <input id="FedHouse" value={this.state.fedHouse} type="text" />
-          <input id="CountyID" value={this.state.countyID} type="text" />
-          <input id="selectedID" value={this.state.selectedID} type="text" />
-          <input id="Address" value={this.state.address} type="text" />
+          <input id="XCoord" value={this.state.xCoord} type="text" readOnly />
+          <input id="YCoord" value={this.state.yCoord} type="text" readOnly />
+          <input id="Precinct" value={this.state.precinct} type="text" readOnly />
+          <input id="House" value={this.state.house} type="text" readOnly />
+          <input id="Senate" value={this.state.senate} type="text" readOnly />
+          <input id="FedHouse" value={this.state.fedHouse} type="text" readOnly />
+          <input id="CountyID" value={this.state.countyID} type="text" readOnly />
+          <input id="selectedID" value={this.state.selectedID} type="text" readOnly />
+          <input id="Address" value={this.state.address} type="text" readOnly />
         </form>
       </div>
     );
