@@ -7,23 +7,29 @@ import './App.css';
 
 console.info('app version: ', process.env.REACT_APP_VERSION);
 
+const emptyState = {
+  xCoord: '',
+  yCoord: '',
+  precinct: '',
+  house: '',
+  senate: '',
+  fedHouse: '',
+  countyID: '',
+  selectedID: '',
+  address: ''
+};
+
 export default class App extends Component {
-  state = {
-    xCoord: '',
-    yCoord: '',
-    precinct: '',
-    house: '',
-    senate: '',
-    fedHouse: '',
-    countyID: '',
-    selectedID: '',
-    address: ''
-  };
+  state = { ...emptyState };
 
   handleIdentifyPropsChange(props) {
     console.log('App:handleIdentifyPropsChange', arguments);
 
-    this.setState(props);
+    if (props) {
+      this.setState(props);
+    } else {
+      this.setState(emptyState);
+    }
   }
 
   render() {

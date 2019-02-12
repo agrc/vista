@@ -9,12 +9,18 @@ export default {
   featureClassNames: {
     ZIP: 'SGID10.Boundaries.ZipCodes',
     VISTA_BALLOT_AREAS: 'SGID10.Political.VistaBallotAreas',
-    COUNTIES: 'SGID10.Boundaries.Counties'
+    COUNTIES: 'SGID10.Boundaries.Counties',
+    UTAH_HOUSE: 'SGID10.Political.UtahHouseDistricts2012',
+    UTAH_SENATE: 'SGID10.Political.UtahSenateDistricts2012',
+    US_CONGRESS: 'SGID10.Political.USCongressDistricts2012'
   },
   fieldNames: {
     ZIP5: 'ZIP5',
     PrecinctID: 'PrecinctID',
-    COUNTYNBR: 'COUNTYNBR'
+    CountyID: 'CountyID',
+    COUNTYNBR: 'COUNTYNBR',
+    DIST: 'DIST',
+    DISTRICT: 'DISTRICT'
   },
   symbols: {
     IDENTIFY: {
