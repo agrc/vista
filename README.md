@@ -13,7 +13,7 @@ The initial extent of the map is defined by one of three parameters. They are, i
 A five digit zip code (e.g. `84124`) as defined by the `ZIP5` field within `SGID10.Boundaries.ZipCodes`.
 
 #### `precinctID`
-The precinct ID (e.g. `LA23`) as defined by the `PrecinctID` field within `SGID10.Political.VistaBallotAreas`.
+The precinct ID (e.g. `LA23:I-N-`) as defined by the `VistaID` field within `SGID10.Political.VistaBallotAreas`.
 
 #### `county`
 The county number (e.g. `9` or `15`) as defined by the `COUNTYNBR` field within `SGID10.Boundaries.Counties`.
@@ -35,7 +35,7 @@ There are several form input elements that are hidden. These provide a way for v
 Execute `npm start` to start a web server and view the website
 
 Test Urls:  
-http://localhost:3000?precinctID=LA23&precinct=yes&districts=no&currentX=423283.80&currentY=4549881.24&db=T&map=c&county=6
+http://localhost:3000?precinctID=LA23:I-N-&precinct=yes&districts=no&currentX=423283.80&currentY=4549881.24&db=T&map=c&county=6
 
 Execute `npm test` to run tests
 
