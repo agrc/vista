@@ -30,7 +30,7 @@ export const getInitialExtent = async (urlParams) => {
 
   const webApiResponse = await fetch(`${config.urls.WEBAPI}/${featureClassName}/shape@envelope?${queryString.stringify({
     predicate,
-    spatialReference: 3857,
+    spatialReference: config.WEB_MERCATOR_WKID,
     apiKey: process.env.REACT_APP_WEB_API
   })}`);
 
@@ -107,7 +107,7 @@ export default class ReactMapView extends Component {
         ymax: 5225035,
         ymin: 4373832,
         spatialReference: {
-          wkid: 3857
+          wkid: config.WEB_MERCATOR_WKID
         }
       },
       ui: {
@@ -150,11 +150,26 @@ export default class ReactMapView extends Component {
     }
   }
 
-  onMapLoaded(urlParams) {
+  async onMapLoaded(urlParams) {
     console.log('MapView:onMapLoaded', arguments);
 
     if (urlParams.query && urlParams.query.length > 0) {
       this.displayVistaQuery(urlParams.query, urlParams.db);
+    }
+
+    if (urlParams.currentX && urlParams.currentX.length > 0 && urlParams.currentY && urlParams.currentY.length > 0) {
+      const projected = await projectCoords({
+        x: parseFloat(urlParams.currentX, 10),
+        y: parseFloat(urlParams.currentY, 10),
+        spatialReference: { wkid: config.UTM_WKID }
+      }, config.WEB_MERCATOR_WKID);
+
+      const [Graphic] = await loadModules(['esri/Graphic']);
+
+      this.view.graphics.add(new Graphic({
+        geometry: projected,
+        symbol: config.symbols.CURRENT
+      }));
     }
   }
 
@@ -249,8 +264,8 @@ export default class ReactMapView extends Component {
         type: 'point',
         x: res.X,
         y: res.Y,
-        spatialReference: { wkid: 26912 }
-      }).then(point => {
+        spatialReference: { wkid: config.UTM_WKID }
+      }, config.WEB_MERCATOR_WKID).then(point => {
         return new Graphic({
           geometry: point,
           attributes: res,

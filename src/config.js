@@ -1,6 +1,7 @@
 export default {
   MIN_DESKTOP_WIDTH: 768,
   WEB_MERCATOR_WKID: 3857,
+  UTM_WKID: 26912,
   MARKER_FILL_COLOR: [130, 65, 47, 0.5],
   MARKER_OUTLINE_COLOR: [230, 126, 21, 0.7],
   MAP_SERVICE_OPACITY: 0.8,
@@ -49,7 +50,10 @@ export default {
     CURRENT: {
       type: 'simple-marker',
       size: 12,
-      color: [0, 0, 255, 0.75]
+      color: [0, 0, 255, 0.75],
+      outline: {
+        color: 'white'
+      }
     }
   }
 }

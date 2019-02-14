@@ -33,6 +33,9 @@ A parameter that is passed on to the vista web service.
 #### `query`
 If this parameter is present, the app sends a request to the [vista web service](`src/config.js`) and displays the returned data as white points on the map.
 
+#### `currentX` & `currentY`
+If both of these coordinates (UTM) are present, then the application displays a blue dot at their location on the map.
+
 ## Hidden Form Fields
 There are several form input elements that are hidden. These provide a way for vista to read data from this app. Their element ids are: `XCoord`, `YCoord`, `Precinct`, `House`, `Senate`, `FedHouse`, `CountyID`, `selectedID`, and `Address`.
 

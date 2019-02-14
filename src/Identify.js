@@ -40,7 +40,7 @@ export default class PopupContent extends React.PureComponent {
       location: event.mapPoint
     });
 
-    projectCoords(event.mapPoint).then(utmPoint => {
+    projectCoords(event.mapPoint, config.UTM_WKID).then(utmPoint => {
       this.props.onIdentifyPropsChange({
         xCoord: Math.round(utmPoint.x * 100) / 100,
         yCoord: Math.round(utmPoint.y * 100) / 100
