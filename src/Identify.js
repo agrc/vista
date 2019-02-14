@@ -49,11 +49,12 @@ export default class PopupContent extends React.PureComponent {
     });
 
     if (urlParams.precinct && urlParams.precinct === 'yes') {
-      this.getSGIDValue(config.featureClassNames.VISTA_BALLOT_AREAS,
+      const vistaFCName = (urlParams.map === 'p') ? config.featureClassNames.VISTA_BALLOT_AREAS : config.featureClassNames.VISTA_BALLOT_AREAS_PROPOSED;
+      this.getSGIDValue(vistaFCName,
                         config.fieldNames.PrecinctID,
                         event.mapPoint,
                         'precinct');
-      this.getSGIDValue(config.featureClassNames.VISTA_BALLOT_AREAS,
+      this.getSGIDValue(vistaFCName,
                         config.fieldNames.CountyID,
                         event.mapPoint,
                         'countyID');

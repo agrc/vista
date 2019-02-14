@@ -19,10 +19,13 @@ The precinct ID (e.g. `LA23`) as defined by the `PrecinctID` field within `SGID1
 The county number (e.g. `9` or `15`) as defined by the `COUNTYNBR` field within `SGID10.Boundaries.Counties`.
 
 #### `districts`
-A switch (e.g. `yes` or `no`) that controls the visibility of political district data being displayed on map click popups and in the hidden form fields.
+A switch (`yes` or `no`) that controls the visibility of political district data being displayed on map click popups and in the hidden form fields.
 
 #### `precinct`
-A switch (e.g. `yes` or `no`) that controls the visibility of the precinct data being displayed on map click popups and in the hidden form fields.
+A switch (`yes` or `no`) that controls the visibility of the precinct data being displayed on map click popups and in the hidden form fields.
+
+#### `map`
+A switch (`c` (current), `p` (proposed)) for controlling the version of the precinct dataset. Current is `SGID10.Political.VistaBallotAreas` and proposed is `SGID10.Political.VistaBallotAreas_Proposed`. This effects the precinct layer that is drawn on the map in addition to the data shown in the popup and hidden form field.
 
 ## Hidden Form Fields
 There are several form input elements that are hidden. These provide a way for vista to read data from this app. Their element ids are: `XCoord`, `YCoord`, `Precinct`, `House`, `Senate`, `FedHouse`, `CountyID`, `selectedID`, and `Address`.

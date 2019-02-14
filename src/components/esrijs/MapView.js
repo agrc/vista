@@ -14,7 +14,8 @@ export const getInitialExtent = async (urlParams) => {
     featureClassName = config.featureClassNames.ZIP;
     predicate = `${config.fieldNames.ZIP5} = '${urlParams.zip}'`;
   } else if (paramExists(urlParams.precinctID)) {
-    featureClassName = config.featureClassNames.VISTA_BALLOT_AREAS;
+    featureClassName = (paramExists(urlParams.map) && urlParams.map === 'p') ?
+      config.featureClassNames.VISTA_BALLOT_AREAS : config.featureClassNames.VISTA_BALLOT_AREAS_PROPOSED;
     predicate = `${config.fieldNames.PrecinctID} = '${urlParams.precinctID}'`;
   } else if (paramExists(urlParams.county)) {
     featureClassName = config.featureClassNames.COUNTIES;
@@ -64,7 +65,8 @@ export default class ReactMapView extends Component {
     const mapRequires = [
       'esri/Map',
       'esri/views/MapView',
-      'esri/geometry/Polygon'
+      'esri/geometry/Polygon',
+      'esri/layers/MapImageLayer'
     ];
     const selectorRequires = [
       'esri/layers/support/LOD',
@@ -73,9 +75,26 @@ export default class ReactMapView extends Component {
       'esri/Basemap'
     ];
 
-    const [Map, MapView, Polygon, LOD, TileInfo, WebTileLayer, Basemap] = await loadModules(mapRequires.concat(selectorRequires));
+    const [Map, MapView, Polygon, MapImageLayer, LOD, TileInfo, WebTileLayer, Basemap] = await loadModules(mapRequires.concat(selectorRequires));
 
     this.map = new Map();
+
+    const urlParams = queryString.parse(document.location.search);
+
+    if (urlParams.precinct === 'yes') {
+      const layerProps = {
+        url: config.urls.MAP_SERVICE,
+        opacity: config.MAP_SERVICE_OPACITY
+      };
+
+      // show data form the VistaBalletAreas_Proposed layer
+      if (urlParams.map && urlParams.map === 'p') {
+        layerProps.sublayers = config.PROPOSED_LAYER_IDS.map(id => { return { id }; });
+      }
+
+      this.mapServiceLayer = new MapImageLayer(layerProps);
+      this.map.add(this.mapServiceLayer);
+    }
 
     this.view = new MapView({
       container: this.mapViewDiv,
@@ -113,8 +132,6 @@ export default class ReactMapView extends Component {
       selectorNode);
 
     this.view.on('click', this.props.onClick);
-
-    const urlParams = queryString.parse(document.location.search);
 
     const geometry = await getInitialExtent(urlParams);
 
