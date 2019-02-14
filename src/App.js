@@ -20,7 +20,10 @@ const emptyState = {
 };
 
 export default class App extends Component {
-  state = { ...emptyState };
+  state = {
+    ...emptyState,
+    selectedGraphic: null
+  };
 
   handleIdentifyPropsChange(props) {
     console.log('App:handleIdentifyPropsChange', arguments);

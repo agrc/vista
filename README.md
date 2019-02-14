@@ -41,6 +41,9 @@ There are several form input elements that are hidden. These provide a way for v
 
 All element values are updated when a user clicks on the map (not on an existing point) except for `selectedID` and `Address`. `selectedID` and `Address` are updated when the user clicks on an existing white vista point. The document title is also update to reflect the same data as `selectedID` when an existing point is clicked.
 
+## Moving Existing Points
+When a user has selected an existing white vista point, if they click somewhere else on the map (not on another existing point), the point location is updated along with associated the hidden form fields.
+
 ## Development
 
 Execute `npm start` to start a web server and view the website

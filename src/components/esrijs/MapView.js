@@ -215,7 +215,8 @@ export default class ReactMapView extends Component {
         const residenceID = graphic.attributes[config.fieldNames.ResidenceID];
         this.props.onVistaPointSelected({
           selectedID: residenceID,
-          address: graphic.attributes[config.fieldNames.Address]
+          address: graphic.attributes[config.fieldNames.Address],
+          selectedGraphic: graphic
         });
 
         document.title = residenceID;

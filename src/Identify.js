@@ -28,10 +28,17 @@ export default class PopupContent extends React.PureComponent {
     this.mapView.graphics.removeAll();
     this.props.onIdentifyPropsChange(false);
 
-    this.mapView.graphics.add(new Graphic({
-      geometry: event.mapPoint,
-      symbol: config.symbols.IDENTIFY
-    }));
+    if (this.props.selectedGraphic) {
+      this.props.selectedGraphic.set({
+        geometry: event.mapPoint,
+        symbol: config.symbols.RESIDENCE
+      });
+    } else {
+      this.mapView.graphics.add(new Graphic({
+        geometry: event.mapPoint,
+        symbol: config.symbols.IDENTIFY
+      }));
+    }
 
     this.mapView.popup.open({
       actions: [],
