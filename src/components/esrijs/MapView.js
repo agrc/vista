@@ -4,6 +4,8 @@ import { loadModules, loadCss } from 'esri-loader';
 import { LayerSelectorContainer, LayerSelector } from '../../components/LayerSelector/LayerSelector';
 import queryString from 'query-string';
 import config from '../../config';
+import fetchJsonp from 'fetch-jsonp';
+import { loadProjection, projectCoords } from '../../helpers';
 
 
 export const getInitialExtent = async (urlParams) => {
@@ -115,6 +117,9 @@ export default class ReactMapView extends Component {
 
     this.props.setView(this.view);
 
+    this.view.when(this.onMapLoaded.bind(this, urlParams));
+    this.view.popup.set('actions', []);
+
     const selectorNode = document.createElement('div');
     this.view.ui.add(selectorNode, 'top-right');
 
@@ -131,13 +136,134 @@ export default class ReactMapView extends Component {
       </LayerSelectorContainer>,
       selectorNode);
 
-    this.view.on('click', this.props.onClick);
+    this.view.on('click', async event => {
+      // don't fire if we hit a graphic
+      if ((await this.view.hitTest(event)).results.length === 0) {
+        this.props.onClick(event);
+      }
+    });
 
     const geometry = await getInitialExtent(urlParams);
 
     if (geometry) {
       this.zoomTo(new Polygon(geometry));
     }
+  }
+
+  onMapLoaded(urlParams) {
+    console.log('MapView:onMapLoaded', arguments);
+
+    if (urlParams.query && urlParams.query.length > 0) {
+      this.displayVistaQuery(urlParams.query, urlParams.db);
+    }
+  }
+
+  async displayVistaQuery(queryNumber, db) {
+    console.log('MapView:displayVistaQuery', arguments);
+
+    const [GraphicsLayer, Graphic] = await loadModules(['esri/layers/GraphicsLayer', 'esri/Graphic']);
+
+    const graphicsLayer = new GraphicsLayer();
+
+    const hitTestForGraphic = async event => {
+      const hitTest = await this.view.hitTest(event);
+      let graphic;
+      if (hitTest.results.length > 0) {
+        hitTest.results.some(function(result) {
+          if (result.graphic.layer === graphicsLayer) {
+            graphic = result.graphic;
+
+            return true;
+          }
+
+          return false;
+        });
+      }
+
+      return graphic;
+    };
+
+    // user clicked on an existing graphic
+    let lastSelectedGraphic;
+    this.view.on('click', async event => {
+      const graphic = await hitTestForGraphic(event);
+
+      if (lastSelectedGraphic) {
+        lastSelectedGraphic.set('symbol', config.symbols.RESIDENCE);
+      }
+
+      if (graphic && graphic.layer === graphicsLayer) {
+        graphic.set('symbol', config.symbols.CURRENT);
+
+        lastSelectedGraphic = graphic;
+
+        const residenceID = graphic.attributes[config.fieldNames.ResidenceID];
+        this.props.onVistaPointSelected({
+          selectedID: residenceID,
+          address: graphic.attributes[config.fieldNames.Address]
+        });
+
+        document.title = residenceID;
+      }
+    });
+
+    // user moved over an existing graphic
+    let highlightedGraphic;
+    let highlightedPopupOpen;
+    this.view.on('pointer-move', async event => {
+      const graphic = await hitTestForGraphic(event);
+      if (highlightedGraphic && highlightedGraphic !== lastSelectedGraphic) {
+        highlightedGraphic.set('symbol', config.symbols.RESIDENCE);
+        highlightedGraphic = null;
+      }
+      if (graphic) {
+        this.view.popup.open({
+          features: [graphic],
+          location: graphic.geometry
+        });
+
+        if (graphic !== lastSelectedGraphic) {
+          graphic.set('symbol', config.symbols.HIGHLIGHT);
+          highlightedGraphic = graphic;
+        }
+        highlightedPopupOpen = true;
+      } else if (highlightedPopupOpen) {
+        this.view.popup.close();
+        this.view.popup.clear();
+        highlightedPopupOpen = false;
+      }
+    });
+
+    const response = await fetchJsonp(`${config.urls.VISTA_SERVICE}${queryNumber}/?db=${db}`, {
+      jsonpCallback: 'jsonp'
+    });
+    const responseJson = await response.json();
+
+    if (responseJson.ResponseStatus !== 200) {
+      throw new Error(`There was an error getting residence data from the Vista database! ${responseJson.ResponseMessage}`);
+    }
+
+    await loadProjection();
+    const graphics = await Promise.all(responseJson.VResidences.map(res => {
+      return projectCoords({
+        type: 'point',
+        x: res.X,
+        y: res.Y,
+        spatialReference: { wkid: 26912 }
+      }).then(point => {
+        return new Graphic({
+          geometry: point,
+          attributes: res,
+          symbol: config.symbols.RESIDENCE,
+          popupTemplate: {
+            title: `{${config.fieldNames.Address}}`
+          }
+        });
+      });
+    }));
+
+    graphicsLayer.addMany(graphics);
+    this.map.add(graphicsLayer);
   }
 
   async zoomTo(zoomObj) {

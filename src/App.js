@@ -39,7 +39,8 @@ export default class App extends Component {
       discoverKey: quadWord,
       zoomToGraphic: this.state.zoomToGraphic,
       onClick: event => this.identify.onMapClick(event),
-      setView: view => this.identify.setView(view)
+      setView: view => this.identify.setView(view),
+      onVistaPointSelected: event => this.setState(event)
     }
 
     return (

@@ -27,8 +27,16 @@ A switch (`yes` or `no`) that controls the visibility of the precinct data being
 #### `map`
 A switch (`c` (current), `p` (proposed)) for controlling the version of the precinct dataset. Current is `SGID10.Political.VistaBallotAreas` and proposed is `SGID10.Political.VistaBallotAreas_Proposed`. This effects the precinct layer that is drawn on the map in addition to the data shown in the popup and hidden form field.
 
+#### `db`
+A parameter that is passed on to the vista web service.
+
+#### `query`
+If this parameter is present, the app sends a request to the [vista web service](`src/config.js`) and displays the returned data as white points on the map.
+
 ## Hidden Form Fields
 There are several form input elements that are hidden. These provide a way for vista to read data from this app. Their element ids are: `XCoord`, `YCoord`, `Precinct`, `House`, `Senate`, `FedHouse`, `CountyID`, `selectedID`, and `Address`.
+
+All element values are updated when a user clicks on the map (not on an existing point) except for `selectedID` and `Address`. `selectedID` and `Address` are updated when the user clicks on an existing white vista point. The document title is also update to reflect the same data as `selectedID` when an existing point is clicked.
 
 ## Development
 
@@ -36,6 +44,7 @@ Execute `npm start` to start a web server and view the website
 
 Test Urls:  
 http://localhost:3000?precinctID=LA23:I-N-&precinct=yes&districts=no&currentX=423283.80&currentY=4549881.24&db=T&map=c&county=6
+http://localhost:3000?precinctID=WJD015:00&precinct=yes&districts=no&currentX=420861.16&currentY=4497950.82&query=331035967&db=L&map=c&county=18
 
 Execute `npm test` to run tests
 

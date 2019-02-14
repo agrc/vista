@@ -3,6 +3,7 @@ import { loadModules } from 'esri-loader';
 import './Identify.css';
 import config from './config';
 import queryString from 'query-string';
+import { projectCoords } from './helpers';
 
 
 let Graphic;
@@ -19,11 +20,6 @@ export default class PopupContent extends React.PureComponent {
     console.log('Identify:setView', value);
 
     this.mapView = value;
-    this.mapView.popup.set({
-      actions: [],
-      title: 'Voter Location Information',
-      content: this.tableNode
-    });
   }
 
   onMapClick(event) {
@@ -38,10 +34,13 @@ export default class PopupContent extends React.PureComponent {
     }));
 
     this.mapView.popup.open({
+      actions: [],
+      title: 'Voter Location Information',
+      content: this.tableNode,
       location: event.mapPoint
     });
 
-    this.projectCoords(event.mapPoint).then(utmPoint => {
+    projectCoords(event.mapPoint).then(utmPoint => {
       this.props.onIdentifyPropsChange({
         xCoord: Math.round(utmPoint.x * 100) / 100,
         yCoord: Math.round(utmPoint.y * 100) / 100
@@ -80,15 +79,6 @@ export default class PopupContent extends React.PureComponent {
     const jsonResponse = await response.json();
 
     this.props.onIdentifyPropsChange({ [key]: jsonResponse.result[0].attributes[field].toString() });
-  }
-
-  async projectCoords(mapPoint) {
-    if (!this.projection) {
-      [this.projection] = await loadModules(['esri/geometry/projection']);
-      await this.projection.load();
-    }
-
-    return this.projection.project(mapPoint, { wkid: 3857 });
   }
 
   render() {
