@@ -3,7 +3,7 @@ import { loadModules } from 'esri-loader';
 import './Identify.css';
 import config from './config';
 import queryString from 'query-string';
-import { projectCoords } from './helpers';
+import proj4 from 'proj4';
 
 
 let Graphic;
@@ -47,11 +47,14 @@ export default class PopupContent extends React.PureComponent {
       location: event.mapPoint
     });
 
-    projectCoords(event.mapPoint, config.UTM_WKID).then(utmPoint => {
-      this.props.onIdentifyPropsChange({
-        xCoord: Math.round(utmPoint.x * 100) / 100,
-        yCoord: Math.round(utmPoint.y * 100) / 100
-      });
+    const utmPoint = proj4(config.WEB_MERCATOR_WKT, config.UTM_WKT, {
+      x: event.mapPoint.x,
+      y: event.mapPoint.y
+    });
+
+    this.props.onIdentifyPropsChange({
+      xCoord: Math.round(utmPoint.x * 100) / 100,
+      yCoord: Math.round(utmPoint.y * 100) / 100
     });
 
     if (urlParams.precinct && urlParams.precinct === 'yes') {
