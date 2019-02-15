@@ -5,7 +5,7 @@ import { LayerSelectorContainer, LayerSelector } from '../../components/LayerSel
 import queryString from 'query-string';
 import config from '../../config';
 import fetchJsonp from 'fetch-jsonp';
-import { loadProjection, projectCoords } from '../../helpers';
+import proj4 from 'proj4';
 
 
 export const getInitialExtent = async (urlParams) => {
@@ -158,16 +158,19 @@ export default class ReactMapView extends Component {
     }
 
     if (urlParams.currentX && urlParams.currentX.length > 0 && urlParams.currentY && urlParams.currentY.length > 0) {
-      const projected = await projectCoords({
+      const projected = proj4(config.UTM_WKT, config.WEB_MERCATOR_WKT, {
         x: parseFloat(urlParams.currentX, 10),
-        y: parseFloat(urlParams.currentY, 10),
-        spatialReference: { wkid: config.UTM_WKID }
-      }, config.WEB_MERCATOR_WKID);
+        y: parseFloat(urlParams.currentY, 10)
+      });
 
       const [Graphic] = await loadModules(['esri/Graphic']);
 
       this.view.graphics.add(new Graphic({
-        geometry: projected,
+        geometry: {
+          type: 'point',
+          ...projected,
+          spatialReference: config.WEB_MERCATOR_WKID
+        },
         symbol: config.symbols.CURRENT
       }));
     }
@@ -259,24 +262,25 @@ export default class ReactMapView extends Component {
       throw new Error(`There was an error getting residence data from the Vista database! ${responseJson.ResponseMessage}`);
     }
 
-    await loadProjection();
-    const graphics = await Promise.all(responseJson.VResidences.map(res => {
-      return projectCoords({
-        type: 'point',
+    const graphics = responseJson.VResidences.map(res => {
+      const point = proj4(config.UTM_WKT, config.WEB_MERCATOR_WKT, {
         x: res.X,
-        y: res.Y,
-        spatialReference: { wkid: config.UTM_WKID }
-      }, config.WEB_MERCATOR_WKID).then(point => {
-        return new Graphic({
-          geometry: point,
-          attributes: res,
-          symbol: config.symbols.RESIDENCE,
-          popupTemplate: {
-            title: `{${config.fieldNames.Address}}`
-          }
-        });
+        y: res.Y
       });
-    }));
+
+      return new Graphic({
+        geometry: {
+          type: 'point',
+          ...point,
+          spatialReference: { wkid: config.WEB_MERCATOR_WKID }
+        },
+        attributes: res,
+        symbol: config.symbols.RESIDENCE,
+        popupTemplate: {
+          title: `{${config.fieldNames.Address}}`
+        }
+      });
+    });
 
     graphicsLayer.addMany(graphics);
     this.map.add(graphicsLayer);
