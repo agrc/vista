@@ -36,6 +36,9 @@ If this parameter is present, the app sends a request to the [vista web service]
 #### `currentX` & `currentY`
 If both of these coordinates (UTM) are present, then the application displays a blue dot at their location on the map.
 
+#### `firebug`
+A switch (`yes` or `no`) that controls weather [Firebug Lite](https://getfirebug.com/releases/lite/1.2/) is loaded in the page. This is helpful for debugging in a web control that doesn't have developer tools.
+
 ## Hidden Form Fields
 There are several form input elements that are hidden. These provide a way for vista to read data from this app. Their element ids are: `XCoord`, `YCoord`, `Precinct`, `House`, `Senate`, `FedHouse`, `CountyID`, `selectedID`, and `Address`.
 
