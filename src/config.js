@@ -24,7 +24,6 @@ export default {
   },
   fieldNames: {
     ZIP5: 'ZIP5',
-    PrecinctID: 'PrecinctID',
     VistaID: 'VistaID',
     CountyID: 'CountyID',
     COUNTYNBR: 'COUNTYNBR',

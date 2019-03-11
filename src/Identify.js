@@ -60,7 +60,7 @@ export default class PopupContent extends React.PureComponent {
     if (urlParams.precinct && urlParams.precinct === 'yes') {
       const vistaFCName = (urlParams.map === 'p') ? config.featureClassNames.VISTA_BALLOT_AREAS : config.featureClassNames.VISTA_BALLOT_AREAS_PROPOSED;
       this.getSGIDValue(vistaFCName,
-                        config.fieldNames.PrecinctID,
+                        config.fieldNames.VistaID,
                         event.mapPoint,
                         'precinct');
       this.getSGIDValue(vistaFCName,
