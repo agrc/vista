@@ -11,7 +11,7 @@ export default {
   urls: {
     WEBAPI: 'https://api.mapserv.utah.gov/api/v1/search',
     MAP_SERVICE: `${document.location.protocol}//${document.location.hostname}/arcgis/rest/services/Vista/MapServer`,
-    VISTA_SERVICE: 'http://vistaservice.utah.gov/Residence/GetResidencesInfoFromQueries/'
+    VISTA_SERVICE: 'https://vistaservice.utah.gov/Residence/GetResidencesInfoFromQueries/'
   },
   featureClassNames: {
     ZIP: 'SGID10.Boundaries.ZipCodes',
