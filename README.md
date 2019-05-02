@@ -1,4 +1,4 @@
-# vista
+# vista [![Build Status](https://travis-ci.com/agrc/vista.svg?branch=master)](https://travis-ci.com/agrc/vista)
 A web app that is embedded within the Vista application
 
 
@@ -56,6 +56,10 @@ http://localhost:3000?precinctID=LA23:I-N-&precinct=yes&districts=no&currentX=42
 http://localhost:3000?precinctID=WJD015:00&precinct=yes&districts=no&currentX=420861.16&currentY=4497950.82&query=331035967&db=L&map=c&county=18
 
 Execute `npm test` to run tests
+
+### Branches
+
+The `3.x` is the old v1.x version of the app built on the older Esri 3.x api and associated atlas boilerplate.
 
 ### Build
 
