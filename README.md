@@ -74,7 +74,7 @@ One-time tasks:
 
 Tasks to be completed for each release:
 
-- [ ] Semantically update `.env` property `REACT_APP_VERSION` and `package.json` version
+- [ ] Semantically update `.env` property `REACT_APP_VERSION`, `package.json`, `package-lock.json` versions
 - [ ] Update `public/changelog.html`
 - [ ] Verify all tests are passing (`npm test`)
 - [ ] Run a build and test (`npm run build-prod`)
