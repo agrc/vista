@@ -155,19 +155,28 @@ export default class ReactMapView extends Component {
   async onMapLoaded(urlParams) {
     console.log('MapView:onMapLoaded', arguments);
 
-    if (urlParams.query && urlParams.query.length > 0) {
-      this.displayVistaQuery(urlParams.query, urlParams.db);
-    }
+    const [GraphicsLayer, Graphic] = await loadModules(['esri/layers/GraphicsLayer', 'esri/Graphic']);
 
+    this.graphicsLayer = new GraphicsLayer();
+
+    // make sure that Overlay is on top of the points so that the
+    // address labels are not obscured
+    this.map.add(this.graphicsLayer, 0);
+
+    let currentPoint;
     if (urlParams.currentX && urlParams.currentX.length > 0 && urlParams.currentY && urlParams.currentY.length > 0) {
-      const projected = proj4(config.UTM_WKT, config.WEB_MERCATOR_WKT, {
+      currentPoint = {
         x: parseFloat(urlParams.currentX, 10),
         y: parseFloat(urlParams.currentY, 10)
-      });
+      }
+    }
 
-      const [Graphic] = await loadModules(['esri/Graphic']);
+    if (urlParams.query && urlParams.query.length > 0) {
+      this.displayVistaQuery(urlParams.query, urlParams.db, currentPoint);
+    } else if (currentPoint) {
+      const projected = proj4(config.UTM_WKT, config.WEB_MERCATOR_WKT, currentPoint);
 
-      this.view.graphics.add(new Graphic({
+      this.graphicsLayer.add(new Graphic({
         geometry: {
           type: 'point',
           ...projected,
@@ -175,22 +184,21 @@ export default class ReactMapView extends Component {
         },
         symbol: config.symbols.CURRENT
       }));
+      console.log('currentPoint graphic added');
     }
   }
 
-  async displayVistaQuery(queryNumber, db) {
+  async displayVistaQuery(queryNumber, db, currentPoint) {
     console.log('MapView:displayVistaQuery', arguments);
 
-    const [GraphicsLayer, Graphic] = await loadModules(['esri/layers/GraphicsLayer', 'esri/Graphic']);
-
-    const graphicsLayer = new GraphicsLayer();
+    const [Graphic] = await loadModules(['esri/Graphic']);
 
     const hitTestForGraphic = async event => {
       const hitTest = await this.view.hitTest(event);
       let graphic;
       if (hitTest.results.length > 0) {
-        hitTest.results.some(function(result) {
-          if (result.graphic.layer === graphicsLayer) {
+        hitTest.results.some(result => {
+          if (result.graphic.layer === this.graphicsLayer) {
             graphic = result.graphic;
 
             return true;
@@ -212,7 +220,7 @@ export default class ReactMapView extends Component {
         lastSelectedGraphic.set('symbol', config.symbols.RESIDENCE);
       }
 
-      if (graphic && graphic.layer === graphicsLayer) {
+      if (graphic && graphic.layer === this.graphicsLayer) {
         graphic.set('symbol', config.symbols.CURRENT);
 
         lastSelectedGraphic = graphic;
@@ -270,7 +278,7 @@ export default class ReactMapView extends Component {
         y: res.Y
       });
 
-      return new Graphic({
+      const graphic = new Graphic({
         geometry: {
           type: 'point',
           ...point,
@@ -282,10 +290,16 @@ export default class ReactMapView extends Component {
           title: `{${config.fieldNames.Address}}`
         }
       });
+
+      if (res.X === currentPoint.x && res.Y === currentPoint.y) {
+        graphic.set('symbol', config.symbols.CURRENT);
+        lastSelectedGraphic = graphic;
+      }
+
+      return graphic;
     });
 
-    graphicsLayer.addMany(graphics);
-    this.map.add(graphicsLayer);
+    this.graphicsLayer.addMany(graphics);
   }
 
   async zoomTo(zoomObj) {
