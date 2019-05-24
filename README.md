@@ -51,7 +51,7 @@ When a user has selected an existing white vista point, if they click somewhere 
 
 Execute `npm start` to start a web server and view the website
 
-Test Urls:  
+Test Urls:
 http://localhost:3000?precinctID=LA23:I-N-&precinct=yes&districts=no&currentX=423283.80&currentY=4549881.24&db=T&map=c&county=6
 http://localhost:3000?precinctID=WJD015:00&precinct=yes&districts=no&currentX=420861.16&currentY=4497950.82&query=331035967&db=L&map=c&county=18
 
@@ -82,6 +82,7 @@ Tasks to be completed for each release:
 - [ ] Update `public/changelog.html`
 - [ ] Verify all tests are passing (`npm test`)
 - [ ] Run a build and test (`npm run build-prod`)
+- [ ] Publish new version of map service (optional)
 - [ ] Deploy website (`grunt deploy-prod`)
 - [ ] Create release commit (`git commit -m 'chore: Release vx.x.x`)
 - [ ] Create tag (`git tag vx.x.x`)
