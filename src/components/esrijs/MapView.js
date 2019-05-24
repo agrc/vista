@@ -137,6 +137,8 @@ export default class ReactMapView extends Component {
       selectorNode);
 
     this.view.on('click', async event => {
+      this.view.graphics.removeAll();
+
       // don't fire if we hit a graphic
       if ((await this.view.hitTest(event)).results.length === 0) {
         this.props.onClick(event);
