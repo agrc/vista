@@ -1,3 +1,4 @@
+const OPACITY = 0.75;
 export default {
   MIN_DESKTOP_WIDTH: 768,
   WEB_MERCATOR_WKID: 3857,
@@ -35,25 +36,25 @@ export default {
   symbols: {
     IDENTIFY: {
       type: 'simple-marker',
-      size: 12,
-      color: [255, 255, 0, 0.75]
+      size: 17,
+      color: [255, 255, 0, OPACITY]
     },
     RESIDENCE: {
       type: 'simple-marker',
-      size: 10,
-      color: 'white'
+      size: 15,
+      color: [255, 255, 255, OPACITY]
     },
     HIGHLIGHT: {
       type: 'simple-marker',
-      size: 10,
+      size: 15,
       color: 'red'
     },
     CURRENT: {
       type: 'simple-marker',
-      size: 12,
-      color: [0, 0, 255, 0.75],
+      size: 17,
+      color: [0, 0, 255, OPACITY],
       outline: {
-        color: 'white'
+        color: [255, 255, 255, OPACITY]
       }
     }
   }
