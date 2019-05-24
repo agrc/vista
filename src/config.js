@@ -7,7 +7,7 @@ export default {
   MARKER_FILL_COLOR: [130, 65, 47, 0.5],
   MARKER_OUTLINE_COLOR: [230, 126, 21, 0.7],
   MAP_SERVICE_OPACITY: 0.8,
-  PROPOSED_LAYER_IDS: [1, 3, 6, 9, 12, 15, 18],
+  PROPOSED_LAYER_IDS: [2, 5, 8, 11, 14, 17],
   urls: {
     WEBAPI: 'https://api.mapserv.utah.gov/api/v1/search',
     MAP_SERVICE: `${document.location.protocol}//${document.location.hostname}/arcgis/rest/services/Vista/MapServer`,

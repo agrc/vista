@@ -19,14 +19,11 @@ class VistaPallet(Pallet):
         self.sgid = join(self.garage, 'SGID10.sde')
 
         self.political = join(self.staging_rack, 'political.gdb')
-        self.location = join(self.staging_rack, 'location.gdb')
 
-        self.copy_data = [self.political,
-                          self.location]
+        self.copy_data = [self.political]
 
     def build(self, config):
         self.add_crates(['VistaBallotAreas',
                          'VistaBallotAreas_Proposed'],
                         {'source_workspace': self.sgid,
                          'destination_workspace': self.political})
-        self.add_crate(('AddressPoints', self.sgid, self.location))
