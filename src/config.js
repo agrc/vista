@@ -36,22 +36,22 @@ export default {
   symbols: {
     IDENTIFY: {
       type: 'simple-marker',
-      size: 17,
+      size: 12,
       color: [255, 255, 0, OPACITY]
     },
     RESIDENCE: {
       type: 'simple-marker',
-      size: 15,
+      size: 10,
       color: [255, 255, 255, OPACITY]
     },
     HIGHLIGHT: {
       type: 'simple-marker',
-      size: 15,
+      size: 10,
       color: 'red'
     },
     CURRENT: {
       type: 'simple-marker',
-      size: 17,
+      size: 12,
       color: [0, 0, 255, OPACITY],
       outline: {
         color: [255, 255, 255, OPACITY]
