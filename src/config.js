@@ -12,7 +12,9 @@ export default {
   urls: {
     WEBAPI: 'https://api.mapserv.utah.gov/api/v1/search',
     MAP_SERVICE: `${document.location.protocol}//${document.location.hostname}/arcgis/rest/services/Vista/MapServer`,
-    VISTA_SERVICE: 'https://vistaservice.utah.gov/Residence/GetResidencesInfoFromQueries/'
+    VISTA_SERVICE: 'https://vistaservice.utah.gov/Residence/GetResidencesInfoFromQueries/',
+    ADDRESS_POINTS: 'https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/UtahAddressPoints/FeatureServer/0',
+    ROADS: 'https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/UtahRoads/FeatureServer/0'
   },
   featureClassNames: {
     ZIP: 'SGID10.Boundaries.ZipCodes',
@@ -31,7 +33,9 @@ export default {
     DIST: 'DIST',
     DISTRICT: 'DISTRICT',
     Address: 'Address',
-    ResidenceID: 'ResidenceID'
+    ResidenceID: 'ResidenceID',
+    AddNum: 'AddNum', // address points
+    FULLNAME: 'FULLNAME' // roads
   },
   symbols: {
     IDENTIFY: {

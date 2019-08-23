@@ -63,12 +63,14 @@ export default class ReactMapView extends Component {
   }
 
   async componentDidMount() {
-    loadCss('https://js.arcgis.com/4.10/esri/css/main.css');
+    loadCss();
+
     const mapRequires = [
       'esri/Map',
       'esri/views/MapView',
       'esri/geometry/Polygon',
-      'esri/layers/MapImageLayer'
+      'esri/layers/MapImageLayer',
+      'esri/layers/FeatureLayer'
     ];
     const selectorRequires = [
       'esri/layers/support/LOD',
@@ -77,7 +79,8 @@ export default class ReactMapView extends Component {
       'esri/Basemap'
     ];
 
-    const [Map, MapView, Polygon, MapImageLayer, LOD, TileInfo, WebTileLayer, Basemap] = await loadModules(mapRequires.concat(selectorRequires));
+    const [Map, MapView, Polygon, MapImageLayer, FeatureLayer, LOD, TileInfo, WebTileLayer, Basemap] =
+      await loadModules(mapRequires.concat(selectorRequires));
 
     this.map = new Map();
 
@@ -97,6 +100,32 @@ export default class ReactMapView extends Component {
       this.mapServiceLayer = new MapImageLayer(layerProps);
       this.map.add(this.mapServiceLayer);
     }
+
+    this.map.add(new FeatureLayer({
+      url: config.urls.ADDRESS_POINTS,
+      labelingInfo: [{
+        labelExpressionInfo: {
+          expression: `$feature.${config.fieldNames.AddNum}`
+        },
+        minScale: 10000
+      }],
+      renderer: {
+        type: 'simple'
+      }
+    }));
+    this.map.add(new FeatureLayer({
+      url: config.urls.ROADS,
+      labelingInfo: [{
+        labelExpressionInfo: {
+          expression: `$feature.${config.fieldNames.FULLNAME}`
+        },
+        minScale: 10000,
+        labelPlacement: 'center-along'
+      }],
+      renderer: {
+        type: 'simple'
+      }
+    }));
 
     this.view = new MapView({
       container: this.mapViewDiv,
@@ -126,7 +155,7 @@ export default class ReactMapView extends Component {
     const layerSelectorOptions = {
       view: this.view,
       quadWord: this.props.discoverKey,
-      baseLayers: ['Hybrid', 'Lite', 'Terrain'],
+      baseLayers: ['Imagery', 'Lite', 'Terrain'],
       modules: [LOD, TileInfo, WebTileLayer, Basemap]
     }
 
