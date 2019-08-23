@@ -85,15 +85,6 @@ export default class ReactMapView extends Component {
 
     const urlParams = queryString.parse(document.location.search);
 
-    if (urlParams.precinct === 'yes') {
-      const layerIndex = (urlParams.map && urlParams.map === 'p') ? 1 : 0;
-      const layerProps = {
-        url: `${config.urls.MAP_SERVICE}/${layerIndex}`
-      };
-
-      this.map.add(new FeatureLayer(layerProps));
-    }
-
     this.map.add(new FeatureLayer({
       url: config.urls.ADDRESS_POINTS,
       labelingInfo: [{
@@ -120,6 +111,15 @@ export default class ReactMapView extends Component {
         type: 'simple'
       }
     }));
+
+    if (urlParams.precinct === 'yes') {
+      const layerIndex = (urlParams.map && urlParams.map === 'p') ? 1 : 0;
+      const layerProps = {
+        url: `${config.urls.MAP_SERVICE}/${layerIndex}`
+      };
+
+      this.map.add(new FeatureLayer(layerProps));
+    }
 
     this.view = new MapView({
       container: this.mapViewDiv,
@@ -181,10 +181,7 @@ export default class ReactMapView extends Component {
     const [GraphicsLayer, Graphic] = await loadModules(['esri/layers/GraphicsLayer', 'esri/Graphic']);
 
     this.graphicsLayer = new GraphicsLayer();
-
-    // make sure that Overlay is on top of the points so that the
-    // address labels are not obscured
-    this.map.add(this.graphicsLayer, 0);
+    this.map.add(this.graphicsLayer);
 
     let currentPoint;
     if (urlParams.currentX && urlParams.currentX.length > 0 && urlParams.currentY && urlParams.currentY.length > 0) {
