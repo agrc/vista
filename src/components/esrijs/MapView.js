@@ -69,7 +69,6 @@ export default class ReactMapView extends Component {
       'esri/Map',
       'esri/views/MapView',
       'esri/geometry/Polygon',
-      'esri/layers/MapImageLayer',
       'esri/layers/FeatureLayer'
     ];
     const selectorRequires = [
@@ -79,7 +78,7 @@ export default class ReactMapView extends Component {
       'esri/Basemap'
     ];
 
-    const [Map, MapView, Polygon, MapImageLayer, FeatureLayer, LOD, TileInfo, WebTileLayer, Basemap] =
+    const [Map, MapView, Polygon, FeatureLayer, LOD, TileInfo, WebTileLayer, Basemap] =
       await loadModules(mapRequires.concat(selectorRequires));
 
     this.map = new Map();
@@ -87,18 +86,12 @@ export default class ReactMapView extends Component {
     const urlParams = queryString.parse(document.location.search);
 
     if (urlParams.precinct === 'yes') {
+      const layerIndex = (urlParams.map && urlParams.map === 'p') ? 1 : 0;
       const layerProps = {
-        url: config.urls.MAP_SERVICE,
-        opacity: config.MAP_SERVICE_OPACITY
+        url: `${config.urls.MAP_SERVICE}/${layerIndex}`
       };
 
-      // show data form the VistaBalletAreas_Proposed layer
-      if (urlParams.map && urlParams.map === 'p') {
-        layerProps.sublayers = config.PROPOSED_LAYER_IDS.map(id => { return { id }; });
-      }
-
-      this.mapServiceLayer = new MapImageLayer(layerProps);
-      this.map.add(this.mapServiceLayer);
+      this.map.add(new FeatureLayer(layerProps));
     }
 
     this.map.add(new FeatureLayer({
@@ -107,19 +100,20 @@ export default class ReactMapView extends Component {
         labelExpressionInfo: {
           expression: `$feature.${config.fieldNames.AddNum}`
         },
-        minScale: 10000
+        minScale: config.LABELS_MIN_SCALE
       }],
       renderer: {
         type: 'simple'
       }
     }));
+
     this.map.add(new FeatureLayer({
       url: config.urls.ROADS,
       labelingInfo: [{
         labelExpressionInfo: {
           expression: `$feature.${config.fieldNames.FULLNAME}`
         },
-        minScale: 10000,
+        minScale: config.LABELS_MIN_SCALE,
         labelPlacement: 'center-along'
       }],
       renderer: {
