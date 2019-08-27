@@ -162,8 +162,9 @@ export default class ReactMapView extends Component {
     this.view.on('click', async event => {
       this.view.graphics.removeAll();
 
-      // don't fire if we hit a graphic
-      if ((await this.view.hitTest(event)).results.length === 0) {
+      // don't fire if we hit a point
+      const hitTest = await this.view.hitTest(event);
+      if (hitTest.results.length === 0 || hitTest.results.every(result => result.graphic.layer !== this.graphicsLayer)) {
         this.props.onClick(event);
       }
     });
