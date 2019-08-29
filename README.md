@@ -57,10 +57,6 @@ http://localhost:3000?precinctID=WJD015:00&precinct=yes&districts=no&currentX=42
 
 Execute `npm test` to run tests
 
-### Branches
-
-The `3.x` is the old v1.x version of the app built on the older Esri 3.x api and associated atlas boilerplate.
-
 ### Build
 
 Execute `npm run build` to create an optimized production build
