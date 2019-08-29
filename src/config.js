@@ -8,6 +8,7 @@ export default {
   MARKER_FILL_COLOR: [130, 65, 47, 0.5],
   MARKER_OUTLINE_COLOR: [230, 126, 21, 0.7],
   LABELS_MIN_SCALE: 5000,
+  ESRI_LOADER_OPTIONS: { version: '4.10' },
   urls: {
     WEBAPI: 'https://api.mapserv.utah.gov/api/v1/search',
     MAP_SERVICE: `${document.location.protocol}//${document.location.hostname}/arcgis/rest/services/Vista/MapServer`,

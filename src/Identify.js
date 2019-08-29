@@ -7,7 +7,7 @@ import proj4 from 'proj4';
 
 
 let Graphic;
-loadModules(['esri/Graphic']).then(([GraphicModule]) => Graphic = GraphicModule);
+loadModules(['esri/Graphic'], config.ESRI_LOADER_OPTIONS).then(([GraphicModule]) => Graphic = GraphicModule);
 
 const urlParams = queryString.parse(document.location.search);
 

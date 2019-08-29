@@ -83,3 +83,7 @@ Tasks to be completed for each release:
 - [ ] Create release commit (`git commit -m 'chore: Release vx.x.x`)
 - [ ] Create tag (`git tag vx.x.x`)
 - [ ] Push commits and tag to github (`git push origin && git push origin --tags`)
+
+### Notes
+
+The current Vista servers are running Windows 7. When I tried upgrading the Esri JS API to 4.12, it caused a bug that prevented any point graphics from being displayed. So until the Vista server OSs are upgraded, the project needs to remain at 4.10.

@@ -82,7 +82,7 @@ export default class ReactMapView extends Component {
     ];
 
     const [Map, MapView, Polygon, FeatureLayer, LOD, TileInfo, WebTileLayer, Basemap] =
-      await loadModules(mapRequires.concat(selectorRequires));
+      await loadModules(mapRequires.concat(selectorRequires), config.ESRI_LOADER_OPTIONS);
 
     this.map = new Map();
 
@@ -182,7 +182,7 @@ export default class ReactMapView extends Component {
   async onMapLoaded(urlParams) {
     console.log('MapView:onMapLoaded', arguments);
 
-    const [GraphicsLayer, Graphic] = await loadModules(['esri/layers/GraphicsLayer', 'esri/Graphic']);
+    const [GraphicsLayer, Graphic] = await loadModules(['esri/layers/GraphicsLayer', 'esri/Graphic'], config.ESRI_LOADER_OPTIONS);
 
     this.graphicsLayer = new GraphicsLayer();
     this.map.add(this.graphicsLayer);
@@ -215,7 +215,7 @@ export default class ReactMapView extends Component {
   async displayVistaQuery(queryNumber, db, currentPoint) {
     console.log('MapView:displayVistaQuery', arguments);
 
-    const [Graphic] = await loadModules(['esri/Graphic']);
+    const [Graphic] = await loadModules(['esri/Graphic'], config.ESRI_LOADER_OPTIONS);
 
     const hitTestForGraphic = async event => {
       const hitTest = await this.view.hitTest(event);
