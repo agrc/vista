@@ -94,7 +94,14 @@ export default class ReactMapView extends Component {
         labelExpressionInfo: {
           expression: `$feature.${config.fieldNames.AddNum}`
         },
-        minScale: config.LABELS_MIN_SCALE
+        minScale: config.LABELS_MIN_SCALE,
+        // the property below can be removed at Esri JS 4.12+
+        symbol: {
+          type: "text",
+          color: "white",
+          haloSize: 1,
+          haloColor: "black"
+        }
       }],
       renderer: {
         type: 'simple'
@@ -108,7 +115,14 @@ export default class ReactMapView extends Component {
           expression: `$feature.${config.fieldNames.FULLNAME}`
         },
         minScale: config.LABELS_MIN_SCALE,
-        labelPlacement: 'center-along'
+        labelPlacement: 'center-along',
+        // the property below can be removed at Esri JS 4.12+
+        symbol: {
+          type: "text",
+          color: "white",
+          haloSize: 1,
+          haloColor: "black"
+        }
       }],
       renderer: {
         type: 'simple'
