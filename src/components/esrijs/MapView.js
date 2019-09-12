@@ -90,11 +90,11 @@ export default class ReactMapView extends Component {
 
     this.map.add(new FeatureLayer({
       url: config.urls.ADDRESS_POINTS,
+      minScale: config.LABELS_MIN_SCALE,
       labelingInfo: [{
         labelExpressionInfo: {
           expression: `$feature.${config.fieldNames.AddNum}`
         },
-        minScale: config.LABELS_MIN_SCALE,
         // the property below can be removed at Esri JS 4.12+
         symbol: {
           type: "text",
@@ -110,11 +110,11 @@ export default class ReactMapView extends Component {
 
     this.map.add(new FeatureLayer({
       url: config.urls.ROADS,
+      minScale: config.LABELS_MIN_SCALE,
       labelingInfo: [{
         labelExpressionInfo: {
           expression: `$feature.${config.fieldNames.FULLNAME}`
         },
-        minScale: config.LABELS_MIN_SCALE,
         labelPlacement: 'center-along',
         // the property below can be removed at Esri JS 4.12+
         symbol: {
