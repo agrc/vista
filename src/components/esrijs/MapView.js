@@ -72,7 +72,8 @@ export default class ReactMapView extends Component {
       'esri/Map',
       'esri/views/MapView',
       'esri/geometry/Polygon',
-      'esri/layers/FeatureLayer'
+      'esri/layers/FeatureLayer',
+      'esri/layers/VectorTileLayer'
     ];
     const selectorRequires = [
       'esri/layers/support/LOD',
@@ -81,12 +82,42 @@ export default class ReactMapView extends Component {
       'esri/Basemap'
     ];
 
-    const [Map, MapView, Polygon, FeatureLayer, LOD, TileInfo, WebTileLayer, Basemap] =
+    const [Map, MapView, Polygon, FeatureLayer, VectorTileLayer, LOD, TileInfo, WebTileLayer, Basemap] =
       await loadModules(mapRequires.concat(selectorRequires), config.ESRI_LOADER_OPTIONS);
 
     this.map = new Map();
 
     const urlParams = queryString.parse(document.location.search);
+
+    this.map.add(new VectorTileLayer({
+      minScale: config.LABELS_MIN_SCALE,
+      style: {
+        version: 8,
+        sources: {
+          esri: {
+            type: 'vector',
+            url: config.urls.PARCELS
+          }
+        },
+        layers: [
+          {
+            id: 'StateWideParcels',
+            type: 'line',
+            source: 'esri',
+            'source-layer': 'StateWideParcels',
+            minzoom: 10.95,
+            layout: {
+              'line-cap': 'round',
+              'line-join': 'round'
+            },
+            paint: {
+              'line-color': '#FFFFFF',
+              'line-width': 2
+            }
+          }
+        ]
+      }
+    }));
 
     this.map.add(new FeatureLayer({
       url: config.urls.ADDRESS_POINTS,
