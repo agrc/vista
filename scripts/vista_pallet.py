@@ -16,7 +16,7 @@ class VistaPallet(Pallet):
 
         self.arcgis_services = [('Vista', 'MapServer')]
 
-        self.sgid = join(self.garage, 'SGID10.sde')
+        self.sgid = join(self.garage, 'SGID.sde')
 
         self.political = join(self.staging_rack, 'political.gdb')
 
