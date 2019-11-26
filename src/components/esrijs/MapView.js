@@ -17,7 +17,7 @@ export const getInitialExtent = async (urlParams) => {
     predicate = `${config.fieldNames.ZIP5} = '${urlParams.zip}'`;
   } else if (paramExists(urlParams.precinctID)) {
     featureClassName = (paramExists(urlParams.map) && urlParams.map === 'p') ?
-      config.featureClassNames.VISTA_BALLOT_AREAS : config.featureClassNames.VISTA_BALLOT_AREAS_PROPOSED;
+      config.featureClassNames.VISTA_BALLOT_AREAS_PROPOSED : config.featureClassNames.VISTA_BALLOT_AREAS;
     predicate = `${config.fieldNames.VistaID} = '${urlParams.precinctID}'`;
     if (paramExists(urlParams.county)) {
       predicate = `${predicate} AND ${config.fieldNames.CountyID} = ${urlParams.county}`;
