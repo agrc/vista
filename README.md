@@ -89,3 +89,5 @@ Tasks to be completed for each release:
 ### Notes
 
 The current Vista servers are running Windows 7. When I tried upgrading the Esri JS API to 4.12, it caused a bug that prevented any point graphics from being displayed. So until the Vista server OSs are upgraded, the project needs to remain at 4.10.
+
+`esri-loader` is copied locally so that I could patch it because of CDN/redirect issues. I realized after the fact that I could have just used the `url` param 🤦. Either way, the issue only seemed to affect v4.10. So when this app is upgraded to another version (see note above), then the patched version of `esri-loader` can be trashed.
