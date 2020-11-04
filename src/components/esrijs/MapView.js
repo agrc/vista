@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { loadModules, loadCss } from 'esri-loader';
+import { loadModules, loadCss } from '../../esri-loader/esri-loader';
 import { LayerSelectorContainer, LayerSelector } from '../../components/LayerSelector/LayerSelector';
 import queryString from 'query-string';
 import config from '../../config';

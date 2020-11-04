@@ -1,5 +1,5 @@
 import React from 'react';
-import { loadModules } from 'esri-loader';
+import { loadModules } from './esri-loader/esri-loader';
 import './Identify.css';
 import config from './config';
 import queryString from 'query-string';
