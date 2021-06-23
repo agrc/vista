@@ -11,7 +11,7 @@ export default {
   ESRI_LOADER_OPTIONS: { version: '4.10' },
   urls: {
     WEBAPI: 'https://api.mapserv.utah.gov/api/v1/search',
-    MAP_SERVICE: `${document.location.protocol}//${document.location.hostname}/arcgis/rest/services/Vista/MapServer`,
+    MAP_SERVICE: `${process.env.REACT_APP_GIS_SERVER}/arcgis/rest/services/Vista/MapServer`,
     VISTA_SERVICE: 'https://vistaservice.utah.gov/Residence/GetResidencesInfoFromQueries/',
     ADDRESS_POINTS: 'https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/UtahAddressPoints/FeatureServer/0',
     ROADS: 'https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/UtahRoads/FeatureServer/0',
