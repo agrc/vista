@@ -72,19 +72,18 @@ Execute `serve -s build` to view the website
 One-time tasks:
 
 - [ ] Update the analytics code in `public/index.html`
-- [ ] Create and populate `secrets.json` based on `secrets.sample.json`
 
 Tasks to be completed for each release:
 
 - [ ] Semantically update `.env` property `REACT_APP_VERSION`, `package.json`, `package-lock.json` versions
 - [ ] Update `public/changelog.html`
-- [ ] Verify all tests are passing (`npm test`)
+- [ ] Verify all tests are passing (`npm test && npm run lint`)
 - [ ] Run a build and test (`npm run build-prod`)
 - [ ] Publish new version of map service (optional)
-- [ ] Deploy website (`grunt deploy-prod`)
 - [ ] Create release commit (`git commit -m 'chore: Release vx.x.x`)
 - [ ] Create tag (`git tag vx.x.x`)
 - [ ] Push commits and tag to github (`git push origin && git push origin --tags`)
+- [ ] The website is deployed to production automatically when changes are merged into the `main` branch.
 
 ### Notes
 

@@ -21,7 +21,6 @@ secrets.json
 
 # misc
 .DS_Store
-.grunt/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
