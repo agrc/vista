@@ -160,6 +160,40 @@ export default class ReactMapView extends Component {
       }
     }));
 
+    const sanpeteLayer = new FeatureLayer({
+      url: config.urls.SANPETE_ADDRESS_GRID,
+      minScale: config.GRID_MIN_SCALE,
+      renderer: {
+        type: 'simple',
+        symbol: {
+          color: config.GRID_COLOR,
+          width: 2,
+          type: 'simple-line',
+          style: 'solid',
+        },
+      },
+      labelingInfo: [
+        {
+          labelExpressionInfo: {
+            expression: '$feature["S_NAME"]',
+            value: '{S_NAME}',
+          },
+          labelPlacement: 'center-along',
+          symbol: {
+            color: 'white',
+            type: 'text',
+            haloSize: 1,
+            haloColor: config.GRID_COLOR,
+            font: {
+              size: 9.5,
+              weight: 'bold',
+            },
+          },
+        },
+      ],
+    });
+    this.map.add(sanpeteLayer);
+
     if (urlParams.precinct === 'yes') {
       const layerIndex = (urlParams.map && urlParams.map === 'p') ? 1 : 0;
       const layerProps = {
