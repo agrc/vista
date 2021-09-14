@@ -8,6 +8,8 @@ export default {
   MARKER_FILL_COLOR: [130, 65, 47, 0.5],
   MARKER_OUTLINE_COLOR: [230, 126, 21, 0.7],
   LABELS_MIN_SCALE: 5000,
+  GRID_MIN_SCALE: 100000,
+  GRID_COLOR: [165, 83, 183, 255],
   ESRI_LOADER_OPTIONS: { version: '4.10' },
   urls: {
     WEBAPI: 'https://api.mapserv.utah.gov/api/v1/search',
@@ -15,7 +17,8 @@ export default {
     VISTA_SERVICE: 'https://vistaservice.utah.gov/Residence/GetResidencesInfoFromQueries/',
     ADDRESS_POINTS: 'https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/UtahAddressPoints/FeatureServer/0',
     ROADS: 'https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/UtahRoads/FeatureServer/0',
-    PARCELS: 'http://tiles.arcgis.com/tiles/99lidPhWCzftIe9K/arcgis/rest/services/StatewideParcels/VectorTileServer'
+    PARCELS: 'http://tiles.arcgis.com/tiles/99lidPhWCzftIe9K/arcgis/rest/services/StatewideParcels/VectorTileServer',
+    SANPETE_ADDRESS_GRID: 'https://services8.arcgis.com/4HViMZMD64noZWcJ/ArcGIS/rest/services/Sanpete_Addrss_Grid/FeatureServer/1'
   },
   featureClassNames: {
     ZIP: 'SGID10.Boundaries.ZipCodes',
