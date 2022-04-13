@@ -22,11 +22,11 @@ export { getScript, isLoaded, loadModules, loadScript, loadCss, setDefaultOption
 // can do esriLoader.loadModules(), etc
 // TODO: remove this next breaking change
 export default {
-    getScript: getScript,
-    isLoaded: isLoaded,
-    loadModules: loadModules,
-    loadScript: loadScript,
-    loadCss: loadCss,
-    setDefaultOptions: setDefaultOptions,
-    utils: utils
+  getScript: getScript,
+  isLoaded: isLoaded,
+  loadModules: loadModules,
+  loadScript: loadScript,
+  loadCss: loadCss,
+  setDefaultOptions: setDefaultOptions,
+  utils: utils,
 };

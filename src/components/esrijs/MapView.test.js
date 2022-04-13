@@ -1,8 +1,7 @@
 import React from 'react';
-import {createRoot} from 'react-dom/client';
-import MapView, { getInitialExtent, formatCountyId } from './MapView';
+import { createRoot } from 'react-dom/client';
 import config from '../../config';
-
+import MapView, { formatCountyId, getInitialExtent } from './MapView';
 
 describe('components/esrijs/MapView', () => {
   it('renders without crashing', () => {
@@ -20,17 +19,19 @@ describe('components/esrijs/MapView', () => {
       const allParams = {
         zip: 84124,
         precinctID: 'OPHIR',
-        county: 29
+        county: 29,
       };
       const fakePolygon = { polygon: true };
-      fetch.mockResponse(JSON.stringify({
-        result: [{ geometry: fakePolygon }]
-      }));
+      fetch.mockResponse(
+        JSON.stringify({
+          result: [{ geometry: fakePolygon }],
+        })
+      );
 
       const extent = await getInitialExtent({
         zip: '84124',
         precinctID: 'OPHIR',
-        county: '29'
+        county: '29',
       });
 
       expect(extent).toEqual({ polygon: true });
@@ -41,7 +42,7 @@ describe('components/esrijs/MapView', () => {
       await getInitialExtent({
         zip: '',
         precinctID: 'OPHIR',
-        county: '29'
+        county: '29',
       });
 
       expect(fetch.mock.calls[1][0]).toMatch(config.featureClassNames.VISTA_BALLOT_AREAS);
@@ -49,7 +50,7 @@ describe('components/esrijs/MapView', () => {
       await getInitialExtent({
         zip: '',
         precinctID: '',
-        county: '29'
+        county: '29',
       });
 
       expect(fetch.mock.calls[2][0]).toMatch(config.featureClassNames.COUNTIES);
@@ -59,7 +60,7 @@ describe('components/esrijs/MapView', () => {
       await getInitialExtent({
         zip: '',
         precinctID: '',
-        county: ''
+        county: '',
       });
 
       expect(fetch).not.toBeCalled();
