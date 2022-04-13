@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import { loadModules, loadCss } from '../../esri-loader/esri-loader';
 import { LayerSelectorContainer, LayerSelector } from '../../components/LayerSelector/LayerSelector';
 import queryString from 'query-string';
@@ -241,11 +241,12 @@ export default class ReactMapView extends Component {
       modules: [LOD, TileInfo, WebTileLayer, Basemap]
     }
 
-    ReactDOM.render(
+    const root = createRoot(selectorNode);
+    root.render(
       <LayerSelectorContainer>
         <LayerSelector {...layerSelectorOptions}></LayerSelector>
-      </LayerSelectorContainer>,
-      selectorNode);
+      </LayerSelectorContainer>
+      );
 
     this.view.on('click', async event => {
       this.view.graphics.removeAll();
