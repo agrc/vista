@@ -39,6 +39,12 @@ export const getInitialExtent = async (urlParams) => {
 
   const jsonResponse = await webApiResponse.json();
 
+  if (jsonResponse.result.length === 0) {
+    console.error(`No feature found in ${featureClassName} with query: ${predicate}`);
+
+    return null;
+  }
+
   return jsonResponse.result[0].geometry;
 };
 
