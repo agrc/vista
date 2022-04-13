@@ -21,13 +21,13 @@ export default {
     SANPETE_ADDRESS_GRID: 'https://services8.arcgis.com/4HViMZMD64noZWcJ/ArcGIS/rest/services/Sanpete_Addrss_Grid/FeatureServer/1'
   },
   featureClassNames: {
-    ZIP: 'SGID10.Boundaries.ZipCodes',
-    VISTA_BALLOT_AREAS: 'SGID10.Political.VistaBallotAreas',
-    VISTA_BALLOT_AREAS_PROPOSED: 'SGID10.Political.VistaBallotAreas_Proposed',
-    COUNTIES: 'SGID10.Boundaries.Counties',
-    UTAH_HOUSE: 'SGID10.Political.UtahHouseDistricts2012',
-    UTAH_SENATE: 'SGID10.Political.UtahSenateDistricts2012',
-    US_CONGRESS: 'SGID10.Political.USCongressDistricts2012'
+    ZIP: 'boundaries.zip_code_areas',
+    VISTA_BALLOT_AREAS: 'political.vista_ballot_areas',
+    VISTA_BALLOT_AREAS_PROPOSED: 'political.vista_ballot_areas_proposed',
+    COUNTIES: 'boundaries.county_boundaries',
+    UTAH_HOUSE: 'political.house_districts_2022_to_2032',
+    UTAH_SENATE: 'political.senate_districts_2022_to_2032',
+    US_CONGRESS: 'political.us_congress_districts_2022_to_2032',
   },
   fieldNames: {
     ZIP5: 'ZIP5',
