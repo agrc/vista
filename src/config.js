@@ -1,5 +1,5 @@
 const OPACITY = 0.75;
-export default {
+const config = {
   MIN_DESKTOP_WIDTH: 768,
   WEB_MERCATOR_WKID: 3857,
   UTM_WKID: 26912,
@@ -67,3 +67,5 @@ export default {
     }
   }
 }
+
+export default config;
