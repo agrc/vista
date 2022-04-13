@@ -1,13 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import MapView, { getInitialExtent, formatCountyId } from './MapView';
+import config from '../../config';
 
 
 describe('components/esrijs/MapView', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<MapView />, div);
-    ReactDOM.unmountComponentAtNode(div);
+    const root = createRoot(div);
+    root.render(<MapView />);
   });
 
   describe('getInitialExtent', () => {
@@ -33,7 +34,7 @@ describe('components/esrijs/MapView', () => {
       });
 
       expect(extent).toEqual({ polygon: true });
-      expect(fetch.mock.calls[0][0]).toMatch(/ZipCodes/);
+      expect(fetch.mock.calls[0][0]).toMatch(config.featureClassNames.ZIP);
 
       allParams.zip = '';
 
@@ -43,7 +44,7 @@ describe('components/esrijs/MapView', () => {
         county: '29'
       });
 
-      expect(fetch.mock.calls[1][0]).toMatch(/VistaBallotAreas/);
+      expect(fetch.mock.calls[1][0]).toMatch(config.featureClassNames.VISTA_BALLOT_AREAS);
 
       await getInitialExtent({
         zip: '',
@@ -51,7 +52,7 @@ describe('components/esrijs/MapView', () => {
         county: '29'
       });
 
-      expect(fetch.mock.calls[2][0]).toMatch(/Counties/);
+      expect(fetch.mock.calls[2][0]).toMatch(config.featureClassNames.COUNTIES);
     });
 
     it('does not make a request if non of the parameters are present', async () => {
