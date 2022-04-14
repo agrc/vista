@@ -8,6 +8,7 @@ on:
       - ".github/workflows/nodejs.yml"
       - "firebase.json"
       - "package-lock.json"
+      - "package.json"
       - "public/**"
       - "src/**"
 
