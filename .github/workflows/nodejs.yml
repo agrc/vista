@@ -11,6 +11,11 @@ on:
       - "public/**"
       - "src/**"
 
+permissions:
+  contents: read
+  id-token: write
+  deployments: write
+
 concurrency:
   group: '${{ github.head_ref || github.ref }}'
   cancel-in-progress: true
