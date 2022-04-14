@@ -15,8 +15,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build:prod": "react-scripts build",
-    "build:stage": "./node_modules/.bin/env-cmd .env.stage react-scripts build",
+    "build:prod": "env-cmd -f .env.production react-scripts build",
+    "build:stage": "env-cmd -f .env.stage react-scripts build",
     "format": "prettier --write src --ignore-path ./.gitignore",
     "lint": "eslint ./src",
     "test": "react-scripts test"
