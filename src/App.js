@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import MapLens from './components/MapLens';
-import MapView from './components/esrijs/MapView';
-import Identify from './Identify';
 import './App.css';
-
+import MapView from './components/esrijs/MapView';
+import MapLens from './components/MapLens';
+import Identify from './Identify';
 
 console.info('app version: ', process.env.REACT_APP_VERSION);
 
@@ -16,13 +15,13 @@ const emptyState = {
   fedHouse: '',
   countyID: '',
   selectedID: '',
-  address: ''
+  address: '',
 };
 
 export default class App extends Component {
   state = {
     ...emptyState,
-    selectedGraphic: null
+    selectedGraphic: null,
   };
 
   handleIdentifyPropsChange(props) {
@@ -41,10 +40,10 @@ export default class App extends Component {
     const mapOptions = {
       discoverKey: quadWord,
       zoomToGraphic: this.state.zoomToGraphic,
-      onClick: event => this.identify.onMapClick(event),
-      setView: view => this.identify.setView(view),
-      onVistaPointSelected: event => this.setState(event)
-    }
+      onClick: (event) => this.identify.onMapClick(event),
+      setView: (view) => this.identify.setView(view),
+      onVistaPointSelected: (event) => this.setState(event),
+    };
 
     return (
       <div className="app">
@@ -62,8 +61,11 @@ export default class App extends Component {
           <input id="selectedID" value={this.state.selectedID} type="text" readOnly />
           <input id="Address" value={this.state.address} type="text" readOnly />
         </form>
-        <Identify {...this.state} onIdentifyPropsChange={this.handleIdentifyPropsChange.bind(this)}
-          ref={identify => this.identify = identify}/>
+        <Identify
+          {...this.state}
+          onIdentifyPropsChange={this.handleIdentifyPropsChange.bind(this)}
+          ref={(identify) => (this.identify = identify)}
+        />
       </div>
     );
   }

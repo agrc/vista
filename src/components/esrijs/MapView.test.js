@@ -1,13 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import MapView, { getInitialExtent, formatCountyId } from './MapView';
-
+import { createRoot } from 'react-dom/client';
+import config from '../../config';
+import MapView, { formatCountyId, getInitialExtent } from './MapView';
 
 describe('components/esrijs/MapView', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<MapView />, div);
-    ReactDOM.unmountComponentAtNode(div);
+    const root = createRoot(div);
+    root.render(<MapView />);
   });
 
   describe('getInitialExtent', () => {
@@ -19,46 +19,48 @@ describe('components/esrijs/MapView', () => {
       const allParams = {
         zip: 84124,
         precinctID: 'OPHIR',
-        county: 29
+        county: 29,
       };
       const fakePolygon = { polygon: true };
-      fetch.mockResponse(JSON.stringify({
-        result: [{ geometry: fakePolygon }]
-      }));
+      fetch.mockResponse(
+        JSON.stringify({
+          result: [{ geometry: fakePolygon }],
+        })
+      );
 
       const extent = await getInitialExtent({
         zip: '84124',
         precinctID: 'OPHIR',
-        county: '29'
+        county: '29',
       });
 
       expect(extent).toEqual({ polygon: true });
-      expect(fetch.mock.calls[0][0]).toMatch(/ZipCodes/);
+      expect(fetch.mock.calls[0][0]).toMatch(config.featureClassNames.ZIP);
 
       allParams.zip = '';
 
       await getInitialExtent({
         zip: '',
         precinctID: 'OPHIR',
-        county: '29'
+        county: '29',
       });
 
-      expect(fetch.mock.calls[1][0]).toMatch(/VistaBallotAreas/);
+      expect(fetch.mock.calls[1][0]).toMatch(config.featureClassNames.VISTA_BALLOT_AREAS);
 
       await getInitialExtent({
         zip: '',
         precinctID: '',
-        county: '29'
+        county: '29',
       });
 
-      expect(fetch.mock.calls[2][0]).toMatch(/Counties/);
+      expect(fetch.mock.calls[2][0]).toMatch(config.featureClassNames.COUNTIES);
     });
 
     it('does not make a request if non of the parameters are present', async () => {
       await getInitialExtent({
         zip: '',
         precinctID: '',
-        county: ''
+        county: '',
       });
 
       expect(fetch).not.toBeCalled();
