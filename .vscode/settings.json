@@ -1,9 +1,12 @@
 {
   "cSpell.words": [
     "COUNTYNBR",
+    "firebaserc",
     "FULLNAME",
     "minzoom",
+    "prebuild",
     "SANPETE",
+    "setversion",
     "WEBAPI"
   ],
   "editor.formatOnSave": true,
