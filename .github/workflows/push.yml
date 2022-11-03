@@ -63,6 +63,7 @@ jobs:
           project-id: ${{ secrets.PROJECT_ID }}
           prebuild-command: npx grunt bump --setversion=${{ needs.release.outputs.released_version }}
           build-command: npm run build:stage
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-prod:
     name: Deploy to production
@@ -87,3 +88,4 @@ jobs:
           service-now-system-id: ${{ secrets.SN_SYS_ID }}
           service-now-username: ${{ secrets.SN_USERNAME }}
           service-now-password: ${{ secrets.SN_PASSWORD }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
