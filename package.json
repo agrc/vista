@@ -3,7 +3,7 @@
   "version": "2.1.0",
   "private": true,
   "dependencies": {
-    "core-js": "^3.25.5",
+    "core-js": "^3.26.0",
     "fetch-jsonp": "^1.2.3",
     "proj4": "^2.8.0",
     "query-string": "^7.1.1",
