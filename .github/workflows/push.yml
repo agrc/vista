@@ -51,7 +51,7 @@ jobs:
     needs: release
     environment:
       name: dev
-      url: https://vista.dev.utah.gov
+      url: https://vista-map.dev.utah.gov
     if: github.ref_name == 'dev' && needs.release.outputs.release_created
 
     steps:
@@ -61,7 +61,6 @@ jobs:
           identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           project-id: ${{ secrets.PROJECT_ID }}
-          prebuild-command: npx grunt bump --setversion=${{ needs.release.outputs.released_version }}
           build-command: npm run build:stage
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -71,7 +70,7 @@ jobs:
     needs: release
     environment:
       name: prod
-      url: https://vista.utah.gov
+      url: https://vista-map.utah.gov
     if: github.ref_name == 'main' && needs.release.outputs.release_created
 
     steps:
@@ -81,7 +80,6 @@ jobs:
           identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           project-id: ${{ secrets.PROJECT_ID }}
-          prebuild-command: npx grunt bump --setversion=${{ needs.release.outputs.released_version }}
           build-command: npm run build:prod
           service-now-instance: ${{ secrets.SN_INSTANCE }}
           service-now-table: ${{ secrets.SN_TABLE }}
