@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1](https://github.com/agrc/vista/compare/v2.2.1-0...v2.2.1) (2022-11-17)
+
+
+### 🐛 Bug Fixes
+
+* **build:** fix deploy urls ([17f2bb5](https://github.com/agrc/vista/commit/17f2bb5c13d06a06c1c84c3444ecc76d642334e0))
+
 ## [2.2.1-0](https://github.com/agrc/vista/compare/v2.1.0...v2.2.1-0) (2022-11-17)
 
 
