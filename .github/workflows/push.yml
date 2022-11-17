@@ -51,7 +51,7 @@ jobs:
     needs: release
     environment:
       name: dev
-      url: https://vista.dev.utah.gov
+      url: https://vista-map.dev.utah.gov
     if: github.ref_name == 'dev' && needs.release.outputs.release_created
 
     steps:
@@ -70,7 +70,7 @@ jobs:
     needs: release
     environment:
       name: prod
-      url: https://vista.utah.gov
+      url: https://vista-map.utah.gov
     if: github.ref_name == 'main' && needs.release.outputs.release_created
 
     steps:
