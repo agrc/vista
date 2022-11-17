@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1-0](https://github.com/agrc/vista/compare/v2.2.0...v2.2.1-0) (2022-11-17)
+
+
+### 🐛 Bug Fixes
+
+* **ci:** remove old grunt prebuild step ([d935648](https://github.com/agrc/vista/commit/d935648a1848daab26f7ed56fbdcf7f6ce662173))
+
 ## [2.2.0](https://github.com/agrc/vista/compare/v2.1.0...v2.2.0) (2022-11-17)
 
 
