@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.2](https://github.com/agrc/vista/compare/v2.2.1...v2.2.2) (2022-12-10)
+
+
+### 🐛 Bug Fixes
+
+* **build:** prod environment URL ([bd2af87](https://github.com/agrc/vista/commit/bd2af872973f8e758fd71e585ccb59ccb94f42d6))
+* December dependency bumps 🌲 ([22bf203](https://github.com/agrc/vista/commit/22bf203fceafac53f4e045ade4434b4e044c366d))
+
 ## [2.2.1](https://github.com/agrc/vista/compare/v2.2.1-0...v2.2.1) (2022-11-17)
 
 
