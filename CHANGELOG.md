@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.3](https://github.com/agrc/vista/compare/v2.2.2...v2.2.3) (2023-01-03)
+
+
+### 🐛 Bug Fixes
+
+* January dependency bumps 🌲 ([be59746](https://github.com/agrc/vista/commit/be59746270dcd16143caa24b1d71f29d89a5adc2))
+
 ## [2.2.2](https://github.com/agrc/vista/compare/v2.2.1...v2.2.2) (2022-12-10)
 
 
