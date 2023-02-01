@@ -47,6 +47,6 @@
     "eslint-config-react-app": "^7.0.1",
     "jest-fetch-mock": "^3.0.3",
     "prettier": "^2.8.1",
-    "prettier-plugin-organize-imports": "^3.2.1"
+    "prettier-plugin-organize-imports": "^3.2.2"
   }
 }
