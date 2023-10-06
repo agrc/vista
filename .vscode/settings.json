@@ -5,6 +5,7 @@
     "FULLNAME",
     "minzoom",
     "prebuild",
+    "QMMTB",
     "SANPETE",
     "setversion",
     "WEBAPI"
