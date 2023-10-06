@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.4](https://github.com/agrc/vista/compare/v2.2.3...v2.2.4) (2023-10-06)
+
+
+### 🐛 Bug Fixes
+
+* upgrade analytics code and id ([0747ba5](https://github.com/agrc/vista/commit/0747ba5b8bdccf0d91ed227ee73a523fe19edf94))
+
 ## [2.2.3](https://github.com/agrc/vista/compare/v2.2.2...v2.2.3) (2023-01-03)
 
 
