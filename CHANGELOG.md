@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.5](https://github.com/agrc/vista/compare/v2.2.4...v2.2.5) (2023-10-20)
+
+
+### 🌲 Dependencies
+
+* bump @babel/traverse from 7.21.4 to 7.23.2 ([70f6e4b](https://github.com/agrc/vista/commit/70f6e4b58639dcf25f31d8a01cc44723e9c82c34))
+
 ## [2.2.4](https://github.com/agrc/vista/compare/v2.2.3...v2.2.4) (2023-10-06)
 
 
