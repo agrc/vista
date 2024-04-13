@@ -1,6 +1,6 @@
 {
   "name": "vista",
-  "version": "2.2.4",
+  "version": "2.2.5-0",
   "private": true,
   "dependencies": {
     "core-js": "^3.36.1",
