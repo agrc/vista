@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.6](https://github.com/agrc/vista/compare/v2.2.5...v2.2.6) (2024-07-05)
+
+
+### Dependencies
+
+* bump braces from 3.0.2 to 3.0.3 ([5c85ad2](https://github.com/agrc/vista/commit/5c85ad240076cd4b3f51b0e4edafc63d99fcceec))
+* bump the safe-dependencies group across 1 directory with 4 updates ([0ba4323](https://github.com/agrc/vista/commit/0ba432317ec29f60264e61355d46c80333b926df))
+
 ## [2.2.5](https://github.com/agrc/vista/compare/v2.2.4...v2.2.5) (2024-04-13)
 
 
