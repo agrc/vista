@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.7](https://github.com/agrc/vista/compare/v2.2.6...v2.2.7) (2024-08-08)
+
+
+### Bug Fixes
+
+* lowercase field names of data returned from ugrc search endpoint ([20dbe8d](https://github.com/agrc/vista/commit/20dbe8dc6118992892baafbc44617dbb61aa6b42))
+
 ## [2.2.6](https://github.com/agrc/vista/compare/v2.2.5...v2.2.6) (2024-07-05)
 
 
