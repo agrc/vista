@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "countyid",
     "COUNTYNBR",
     "firebaserc",
     "FULLNAME",
@@ -8,6 +9,7 @@
     "QMMTB",
     "SANPETE",
     "setversion",
+    "vistaid",
     "WEBAPI"
   ],
   "editor.formatOnSave": true,

@@ -34,11 +34,11 @@ const config = {
   },
   fieldNames: {
     ZIP5: 'ZIP5',
-    VistaID: 'VistaID',
-    CountyID: 'CountyID',
-    COUNTYNBR: 'COUNTYNBR',
-    DIST: 'DIST',
-    DISTRICT: 'DISTRICT',
+    VistaID: 'vistaid',
+    CountyID: 'countyid',
+    COUNTYNBR: 'countynbr',
+    DIST: 'dist',
+    DISTRICT: 'district',
     Address: 'Address',
     ResidenceID: 'ResidenceID',
     AddNum: 'AddNum', // address points
