@@ -37,7 +37,7 @@ export default class PopupContent extends React.PureComponent {
         new Graphic({
           geometry: event.mapPoint,
           symbol: config.symbols.IDENTIFY,
-        })
+        }),
       );
     }
 
@@ -82,9 +82,8 @@ export default class PopupContent extends React.PureComponent {
     const response = await fetch(
       `${config.urls.WEBAPI}/${featureClass}/${field}?${queryString.stringify({
         apiKey: process.env.REACT_APP_WEB_API,
-        attributeStyle: 'identical',
         geometry: `point:${JSON.stringify(point.toJSON())}`,
-      })}`
+      })}`,
     );
 
     const jsonResponse = await response.json();
