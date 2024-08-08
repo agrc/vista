@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.8](https://github.com/agrc/vista/compare/v2.2.7...v2.2.8) (2024-08-08)
+
+
+### Bug Fixes
+
+* remove superfluous request parameter ([f91f9ee](https://github.com/agrc/vista/commit/f91f9eee3b2edeb255c3f57ae2afd36fef3bd669))
+
 ## [2.2.7](https://github.com/agrc/vista/compare/v2.2.6...v2.2.7) (2024-08-08)
 
 
