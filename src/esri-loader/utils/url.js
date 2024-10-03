@@ -1,7 +1,7 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-var DEFAULT_VERSION = '4.17';
-var NEXT = 'next';
+var DEFAULT_VERSION = "4.17";
+var NEXT = "next";
 export function parseVersion(version) {
   if (version.toLowerCase() === NEXT) {
     return NEXT;
@@ -23,7 +23,7 @@ export function getCdnUrl(version) {
   if (version === void 0) {
     version = DEFAULT_VERSION;
   }
-  return 'https://js.arcgis.com/' + version; // MODIFIED
+  return "https://js.arcgis.com/" + version; // MODIFIED
 }
 /**
  * Get the CDN url for a the CSS for a given version and/or theme
@@ -38,10 +38,10 @@ export function getCdnCssUrl(version) {
   var parsedVersion = parseVersion(version);
   if (parsedVersion !== NEXT && parsedVersion.major === 3) {
     // NOTE: at 3.11 the CSS moved from the /js folder to the root
-    var path = parsedVersion.minor <= 10 ? 'js/' : '';
-    return '' + baseUrl + path + '/esri/css/esri.css'; // MODIFIED
+    var path = parsedVersion.minor <= 10 ? "js/" : "";
+    return "" + baseUrl + path + "/esri/css/esri.css"; // MODIFIED
   } else {
     // assume 4.x
-    return baseUrl + '/esri/themes/light/main.css'; // MODIFIED
+    return baseUrl + "/esri/themes/light/main.css"; // MODIFIED
   }
 }

@@ -1,16 +1,19 @@
 {
   "cSpell.words": [
+    "baselayer",
     "countyid",
     "COUNTYNBR",
     "firebaserc",
     "FULLNAME",
     "minzoom",
+    "packagejson",
     "prebuild",
     "QMMTB",
     "SANPETE",
     "setversion",
+    "tilesize",
     "vistaid",
     "WEBAPI"
   ],
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": true
 }

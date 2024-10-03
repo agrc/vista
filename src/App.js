@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import './App.css';
-import MapView from './components/esrijs/MapView';
-import MapLens from './components/MapLens';
-import Identify from './Identify';
+import { Component } from "react";
+import "./App.css";
+import MapView from "./components/esrijs/MapView";
+import MapLens from "./components/MapLens";
+import Identify from "./Identify";
 
-console.info('app version: ', process.env.REACT_APP_VERSION);
+console.info("app version: ", process.env.REACT_APP_VERSION);
 
 const emptyState = {
-  xCoord: '',
-  yCoord: '',
-  precinct: '',
-  house: '',
-  senate: '',
-  fedHouse: '',
-  countyID: '',
-  selectedID: '',
-  address: '',
+  xCoord: "",
+  yCoord: "",
+  precinct: "",
+  house: "",
+  senate: "",
+  fedHouse: "",
+  countyID: "",
+  selectedID: "",
+  address: "",
 };
 
 export default class App extends Component {
@@ -25,7 +25,7 @@ export default class App extends Component {
   };
 
   handleIdentifyPropsChange(props) {
-    console.log('App:handleIdentifyPropsChange', arguments);
+    console.log("App:handleIdentifyPropsChange", arguments);
 
     if (props) {
       this.setState(props);
@@ -50,15 +50,35 @@ export default class App extends Component {
         <MapLens>
           <MapView {...mapOptions} />
         </MapLens>
-        <form style={{ display: 'none' }}>
+        <form style={{ display: "none" }}>
           <input id="XCoord" value={this.state.xCoord} type="text" readOnly />
           <input id="YCoord" value={this.state.yCoord} type="text" readOnly />
-          <input id="Precinct" value={this.state.precinct} type="text" readOnly />
+          <input
+            id="Precinct"
+            value={this.state.precinct}
+            type="text"
+            readOnly
+          />
           <input id="House" value={this.state.house} type="text" readOnly />
           <input id="Senate" value={this.state.senate} type="text" readOnly />
-          <input id="FedHouse" value={this.state.fedHouse} type="text" readOnly />
-          <input id="CountyID" value={this.state.countyID} type="text" readOnly />
-          <input id="selectedID" value={this.state.selectedID} type="text" readOnly />
+          <input
+            id="FedHouse"
+            value={this.state.fedHouse}
+            type="text"
+            readOnly
+          />
+          <input
+            id="CountyID"
+            value={this.state.countyID}
+            type="text"
+            readOnly
+          />
+          <input
+            id="selectedID"
+            value={this.state.selectedID}
+            type="text"
+            readOnly
+          />
           <input id="Address" value={this.state.address} type="text" readOnly />
         </form>
         <Identify
