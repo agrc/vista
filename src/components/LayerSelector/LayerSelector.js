@@ -1,19 +1,19 @@
-import PropTypes from 'prop-types';
-import React, { Component, PureComponent } from 'react';
-import icon from './layers.svg';
-import './LayerSelector.css';
+import PropTypes from "prop-types";
+import { Component, PureComponent } from "react";
+import icon from "./layers.svg";
+import "./LayerSelector.css";
 
 class LayerSelectorItem extends PureComponent {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     selected: PropTypes.bool.isRequired,
-    layerType: PropTypes.oneOf(['baselayer', 'overlay']).isRequired,
+    layerType: PropTypes.oneOf(["baselayer", "overlay"]).isRequired,
     id: PropTypes.string.isRequired,
   };
 
   render() {
     const inputOptions = {
-      type: this.props.layerType === 'baselayer' ? 'radio' : 'checkbox',
+      type: this.props.layerType === "baselayer" ? "radio" : "checkbox",
       name: this.props.layerType,
       value: this.props.id,
     };
@@ -40,14 +40,15 @@ class LayerSelector extends Component {
 
     if (!this.props.baseLayers || this.props.baseLayers.length < 1) {
       console.warn(
-        'layer-selector::`baseLayers` is null or empty. Make sure you have spelled it correctly ' +
-          'and are passing it into the constructor of this widget.'
+        "layer-selector::`baseLayers` is null or empty. Make sure you have spelled it correctly " +
+          "and are passing it into the constructor of this widget.",
       );
 
       return;
     }
 
-    const imageryAttributionJsonUrl = 'https://mapserv.utah.gov/cdn/attribution/imagery.json';
+    const imageryAttributionJsonUrl =
+      "https://mapserv.utah.gov/cdn/attribution/imagery.json";
     this.applianceLayers = {
       Imagery: {
         urlPattern: `https://discover.agrc.utah.gov/login/path/${this.props.quadWord}/tiles/utah/{level}/{col}/{row}`,
@@ -56,23 +57,23 @@ class LayerSelector extends Component {
       },
       Topo: {
         urlPattern: `https://discover.agrc.utah.gov/login/path/${this.props.quadWord}/tiles/topo_basemap/{level}/{col}/{row}`,
-        copyright: 'AGRC',
+        copyright: "AGRC",
       },
       Terrain: {
         urlPattern: `https://discover.agrc.utah.gov/login/path/${this.props.quadWord}/tiles/terrain_basemap/{level}/{col}/{row}`,
-        copyright: 'AGRC',
+        copyright: "AGRC",
       },
       Lite: {
         urlPattern: `https://discover.agrc.utah.gov/login/path/${this.props.quadWord}/tiles/lite_basemap/{level}/{col}/{row}`,
-        copyright: 'AGRC',
+        copyright: "AGRC",
       },
-      'Color IR': {
+      "Color IR": {
         urlPattern: `https://discover.agrc.utah.gov/login/path/${this.props.quadWord}/tiles/naip_2011_nrg/{level}/{col}/{row}`,
-        copyright: 'AGRC',
+        copyright: "AGRC",
       },
       Hybrid: {
         urlPattern: `https://discover.agrc.utah.gov/login/path/${this.props.quadWord}/tiles/utah/{level}/{col}/{row}`,
-        linked: ['Overlay'],
+        linked: ["Overlay"],
         hasAttributionData: true,
         attributionDataUrl: imageryAttributionJsonUrl,
       },
@@ -80,7 +81,7 @@ class LayerSelector extends Component {
         urlPattern: `https://discover.agrc.utah.gov/login/path/${this.props.quadWord}/tiles/overlay_basemap/{level}/{col}/{row}`,
         // no attribution for overlay layers since it just duplicates the base map attribution
       },
-      'Address Points': {
+      "Address Points": {
         urlPattern: `https://discover.agrc.utah.gov/login/path/${this.props.quadWord}/tiles/address_points_basemap/{level}/{col}/{row}`,
       },
     };
@@ -93,11 +94,20 @@ class LayerSelector extends Component {
     this.props.view.map.basemap = new Basemap();
 
     const defaultTileInfo = this.createDefaultTileInfo(LOD);
-    this.applianceLayers = this.setTileInfosForApplianceLayers(this.applianceLayers, defaultTileInfo, TileInfo);
+    this.applianceLayers = this.setTileInfosForApplianceLayers(
+      this.applianceLayers,
+      defaultTileInfo,
+      TileInfo,
+    );
 
     this.onItemChanged = this.onItemChanged.bind(this);
 
-    const baseLayers = this.createLayerFactories('baselayer', this.props.baseLayers, WebTiledLayer) || [];
+    const baseLayers =
+      this.createLayerFactories(
+        "baselayer",
+        this.props.baseLayers,
+        WebTiledLayer,
+      ) || [];
 
     let hasDefaultSelection = false;
     let defaultSelection = null;
@@ -109,7 +119,7 @@ class LayerSelector extends Component {
         defaultSelection = layer;
       }
 
-      if ((layer.id || layer.token) === 'Hybrid') {
+      if ((layer.id || layer.token) === "Hybrid") {
         hasHybrid = true;
       }
 
@@ -125,10 +135,11 @@ class LayerSelector extends Component {
 
     let overlays = this.props.overlays || [];
     if (hasHybrid) {
-      overlays.splice(0, 0, 'Overlay');
+      overlays.splice(0, 0, "Overlay");
     }
 
-    overlays = this.createLayerFactories('overlay', overlays, WebTiledLayer) || [];
+    overlays =
+      this.createLayerFactories("overlay", overlays, WebTiledLayer) || [];
 
     if (defaultSelection.linked && defaultSelection.linked.length > 0) {
       overlays.map((layer) => {
@@ -152,7 +163,16 @@ class LayerSelector extends Component {
     modules: PropTypes.arrayOf(PropTypes.func).isRequired,
     baseLayers: PropTypes.arrayOf(
       PropTypes.oneOfType([
-        PropTypes.oneOf(['Hybrid', 'Lite', 'Terrain', 'Topo', 'Color IR', 'Address Points', 'Overlay', 'Imagery']),
+        PropTypes.oneOf([
+          "Hybrid",
+          "Lite",
+          "Terrain",
+          "Topo",
+          "Color IR",
+          "Address Points",
+          "Overlay",
+          "Imagery",
+        ]),
         PropTypes.shape({
           Factory: PropTypes.func.isRequired,
           urlTemplate: PropTypes.string,
@@ -162,16 +182,23 @@ class LayerSelector extends Component {
           linked: PropTypes.arrayOf(PropTypes.string),
         }),
         PropTypes.shape({
-          token: PropTypes.oneOf(['Hybrid', 'Lite', 'Terrain', 'Topo', 'Color IR', 'Address Points', 'Overlay'])
-            .isRequired,
+          token: PropTypes.oneOf([
+            "Hybrid",
+            "Lite",
+            "Terrain",
+            "Topo",
+            "Color IR",
+            "Address Points",
+            "Overlay",
+          ]).isRequired,
           selected: PropTypes.bool,
           linked: PropTypes.arrayOf(PropTypes.string),
         }),
-      ])
+      ]),
     ).isRequired,
     overlays: PropTypes.arrayOf(
       PropTypes.oneOfType([
-        PropTypes.oneOf(['Address Points', 'Overlay']),
+        PropTypes.oneOf(["Address Points", "Overlay"]),
         PropTypes.shape({
           Factory: PropTypes.func.isRequired,
           urlTemplate: PropTypes.string,
@@ -180,14 +207,14 @@ class LayerSelector extends Component {
           tileInfo: PropTypes.object,
           linked: PropTypes.arrayOf(PropTypes.string),
         }),
-      ])
+      ]),
     ),
   };
 
   render() {
     const baseLayers = this.state.baseLayers.map((item, index) => (
       <LayerSelectorItem
-        id={item.name || item.id || 'unknown'}
+        id={item.name || item.id || "unknown"}
         layerType="baselayer"
         selected={item.selected}
         onChange={item.onChange}
@@ -197,7 +224,7 @@ class LayerSelector extends Component {
 
     const overlays = this.state.overlays.map((item) => (
       <LayerSelectorItem
-        id={item.name || item.id || 'unknown'}
+        id={item.name || item.id || "unknown"}
         layerType="overlay"
         selected={item.selected}
         onChange={item.onChange}
@@ -215,9 +242,9 @@ class LayerSelector extends Component {
   }
 
   /**
-   * Creates the default TileInfo constructor object for applicance layers.
+   * Creates the default TileInfo constructor object for appliance layers.
    * @private
-   * @returns {object} The least common denominator contructor object for appliance layers.
+   * @returns {object} The least common denominator constructor object for appliance layers.
    */
   createDefaultTileInfo(LOD) {
     const tilesize = 256;
@@ -239,7 +266,7 @@ class LayerSelector extends Component {
           level: level,
           scale: scale,
           resolution: resolution,
-        })
+        }),
       );
     }
 
@@ -259,14 +286,14 @@ class LayerSelector extends Component {
 
   /** Sets the TileInfo for each of Discover layers since they all use different levels.
    * @private
-   * @param {applianceLayer} layers - The applicance layers object `{ 'id': { urlPattern: ''}}`
+   * @param {applianceLayer} layers - The appliance layers object `{ 'id': { urlPattern: ''}}`
    * @returns {applianceLayer} - returns Discover layers object with a new `tileInfo` property.
    */
   setTileInfosForApplianceLayers(layers, defaultTileInfo, TileInfo) {
     const lods = defaultTileInfo.lods;
-    const fiveToNineteen = lods.slice(0, 20); // eslint-disable-line no-magic-numbers
-    const fiveToSeventeen = lods.slice(0, 18); // eslint-disable-line no-magic-numbers
-    const zeroToEighteen = lods.slice(0, 19); // eslint-disable-line no-magic-numbers
+    const fiveToNineteen = lods.slice(0, 20);
+    const fiveToSeventeen = lods.slice(0, 18);
+    const zeroToEighteen = lods.slice(0, 19);
 
     layers.Imagery.tileInfo = new TileInfo(defaultTileInfo);
     layers.Hybrid.tileInfo = new TileInfo(defaultTileInfo);
@@ -274,7 +301,7 @@ class LayerSelector extends Component {
     let tileInfo = Object.assign({}, defaultTileInfo);
     tileInfo.lods = zeroToEighteen;
 
-    layers['Color IR'].tileInfo = new TileInfo(tileInfo);
+    layers["Color IR"].tileInfo = new TileInfo(tileInfo);
 
     tileInfo = Object.assign({}, defaultTileInfo);
     tileInfo.lods = fiveToSeventeen;
@@ -302,21 +329,21 @@ class LayerSelector extends Component {
     const resolvedInfos = [];
     layerFactories.forEach((li) => {
       if (
-        typeof li === 'string' ||
+        typeof li === "string" ||
         li instanceof String ||
         li.token ||
-        typeof li.token === 'string' ||
+        typeof li.token === "string" ||
         li.token instanceof String
       ) {
         const id = li.token || li;
 
         if (!this.props.quadWord) {
           console.warn(
-            'layer-selector::You chose to use a layer token `' +
+            "layer-selector::You chose to use a layer token `" +
               id +
-              '` without setting ' +
-              'your `quadWord` from Discover. The requests for tiles will fail to ' +
-              ' authenticate. Pass `quadWord` into the constructor of this widget.'
+              "` without setting " +
+              "your `quadWord` from Discover. The requests for tiles will fail to " +
+              " authenticate. Pass `quadWord` into the constructor of this widget.",
           );
 
           return false;
@@ -326,13 +353,13 @@ class LayerSelector extends Component {
 
         if (!layer) {
           console.warn(
-            'layer-selector::The layer token `' +
+            "layer-selector::The layer token `" +
               id +
-              '` was not found. Please use one of ' +
-              'the supported tokens (' +
-              Object.keys(this.applianceLayers).join(', ') +
-              ') or pass in the information on how to create your custom layer ' +
-              '(`{Factory, url, id}`).'
+              "` was not found. Please use one of " +
+              "the supported tokens (" +
+              Object.keys(this.applianceLayers).join(", ") +
+              ") or pass in the information on how to create your custom layer " +
+              "(`{Factory, url, id}`).",
           );
 
           return false;
@@ -364,11 +391,11 @@ class LayerSelector extends Component {
           // attributionDataUrl: layer.attributionDataUrl,
         });
       } else {
-        if (!li.hasOwnProperty('onChange')) {
+        if (!Object.prototype.hasOwnProperty.call(li, "onChange")) {
           li.onChange = this.onItemChanged;
         }
 
-        if (!li.hasOwnProperty('layerType')) {
+        if (!Object.prototype.hasOwnProperty.call(li, "layerType")) {
           li.layerType = layerType;
         }
 
@@ -384,15 +411,17 @@ class LayerSelector extends Component {
   }
 
   componentDidMount() {
-    this.updateMap([].concat(this.state.baseLayers).concat(this.state.overlays));
+    this.updateMap(
+      [].concat(this.state.baseLayers).concat(this.state.overlays),
+    );
   }
 
   onItemChanged(event, props) {
-    console.log('onItemChanged', props);
+    console.log("onItemChanged", props);
     let overlays = this.state.overlays;
     let baseLayers = this.state.baseLayers;
 
-    if (props.layerType === 'baselayer') {
+    if (props.layerType === "baselayer") {
       baseLayers = baseLayers.map((item) => {
         item.selected = item.id === props.id ? event.target.checked : false;
 
@@ -418,7 +447,7 @@ class LayerSelector extends Component {
           return item;
         });
       }
-    } else if (props.layerType === 'overlay') {
+    } else if (props.layerType === "overlay") {
       overlays.map((item) => {
         if (item.id === props.id) {
           item.selected = event.target.checked;
@@ -442,12 +471,15 @@ class LayerSelector extends Component {
     layerItems.forEach((layerItem) => {
       let layerList = null;
       switch (layerItem.layerType) {
-        case 'baselayer':
-          if (this.props.view.map.basemap && this.props.view.map.basemap.baseLayers) {
+        case "baselayer":
+          if (
+            this.props.view.map.basemap &&
+            this.props.view.map.basemap.baseLayers
+          ) {
             layerList = this.props.view.map.basemap.baseLayers;
           }
           break;
-        case 'overlay':
+        case "overlay":
           layerList = this.props.view.map.layers;
           break;
         default:
@@ -457,7 +489,9 @@ class LayerSelector extends Component {
       if (layerItem.selected === false) {
         var managedLayer = managedLayers[layerItem.id] || {};
         if (!managedLayer.layer) {
-          managedLayer.layer = layerList.getItemAt(layerList.indexOf(layerItem.layer));
+          managedLayer.layer = layerList.getItemAt(
+            layerList.indexOf(layerItem.layer),
+          );
         }
 
         if (managedLayer.layer) {
@@ -507,15 +541,20 @@ class LayerSelectorContainer extends Component {
         className="layer-selector"
         onMouseOver={() => this.expand(true)}
         onMouseOut={() => this.expand(false)}
-        area-haspopup="true"
+        aria-haspopup="true"
       >
         <input
           type="image"
-          className={'layer-selector__toggle ' + (this.state.expanded ? 'layer-selector--hidden' : '')}
+          className={
+            "layer-selector__toggle " +
+            (this.state.expanded ? "layer-selector--hidden" : "")
+          }
           src={icon}
           alt="layers"
         />
-        <form className={this.state.expanded ? '' : 'layer-selector--hidden'}>{this.props.children}</form>
+        <form className={this.state.expanded ? "" : "layer-selector--hidden"}>
+          {this.props.children}
+        </form>
       </div>
     );
   }

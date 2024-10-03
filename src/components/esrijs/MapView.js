@@ -1,11 +1,14 @@
-import fetchJsonp from 'fetch-jsonp';
-import proj4 from 'proj4';
-import queryString from 'query-string';
-import React, { Component } from 'react';
-import { createRoot } from 'react-dom/client';
-import { LayerSelector, LayerSelectorContainer } from '../../components/LayerSelector/LayerSelector';
-import config from '../../config';
-import { loadCss, loadModules } from '../../esri-loader/esri-loader';
+import fetchJsonp from "fetch-jsonp";
+import proj4 from "proj4";
+import queryString from "query-string";
+import { Component } from "react";
+import { createRoot } from "react-dom/client";
+import {
+  LayerSelector,
+  LayerSelectorContainer,
+} from "../../components/LayerSelector/LayerSelector";
+import config from "../../config";
+import { loadCss, loadModules } from "../../esri-loader/esri-loader";
 
 export const getInitialExtent = async (urlParams) => {
   let featureClassName;
@@ -16,7 +19,7 @@ export const getInitialExtent = async (urlParams) => {
     predicate = `${config.fieldNames.ZIP5} = '${urlParams.zip}'`;
   } else if (paramExists(urlParams.precinctID)) {
     featureClassName =
-      paramExists(urlParams.map) && urlParams.map === 'p'
+      paramExists(urlParams.map) && urlParams.map === "p"
         ? config.featureClassNames.VISTA_BALLOT_AREAS_PROPOSED
         : config.featureClassNames.VISTA_BALLOT_AREAS;
     predicate = `${config.fieldNames.VistaID} = '${urlParams.precinctID}'`;
@@ -27,23 +30,27 @@ export const getInitialExtent = async (urlParams) => {
     featureClassName = config.featureClassNames.COUNTIES;
     predicate = `${config.fieldNames.COUNTYNBR} = '${formatCountyId(urlParams.county)}'`;
   } else {
-    console.warn('No initial extent identified, zooming to the state of utah');
+    console.warn("No initial extent identified, zooming to the state of utah");
 
     return;
   }
 
   const webApiResponse = await fetch(
-    `${config.urls.WEBAPI}/${featureClassName}/shape@envelope?${queryString.stringify({
-      predicate,
-      spatialReference: config.WEB_MERCATOR_WKID,
-      apiKey: process.env.REACT_APP_WEB_API,
-    })}`
+    `${config.urls.WEBAPI}/${featureClassName}/shape@envelope?${queryString.stringify(
+      {
+        predicate,
+        spatialReference: config.WEB_MERCATOR_WKID,
+        apiKey: process.env.REACT_APP_WEB_API,
+      },
+    )}`,
   );
 
   const jsonResponse = await webApiResponse.json();
 
   if (jsonResponse.result.length === 0) {
-    console.error(`No feature found in ${featureClassName} with query: ${predicate}`);
+    console.error(
+      `No feature found in ${featureClassName} with query: ${predicate}`,
+    );
 
     return null;
   }
@@ -66,7 +73,7 @@ export default class ReactMapView extends Component {
   render() {
     return (
       <div
-        style={{ height: '100%', width: '100%' }}
+        style={{ height: "100%", width: "100%" }}
         ref={(mapViewDiv) => {
           this.mapViewDiv = mapViewDiv;
         }}
@@ -78,21 +85,33 @@ export default class ReactMapView extends Component {
     loadCss();
 
     const mapRequires = [
-      'esri/Map',
-      'esri/views/MapView',
-      'esri/geometry/Polygon',
-      'esri/layers/FeatureLayer',
-      'esri/layers/VectorTileLayer',
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/geometry/Polygon",
+      "esri/layers/FeatureLayer",
+      "esri/layers/VectorTileLayer",
     ];
     const selectorRequires = [
-      'esri/layers/support/LOD',
-      'esri/layers/support/TileInfo',
-      'esri/layers/WebTileLayer',
-      'esri/Basemap',
+      "esri/layers/support/LOD",
+      "esri/layers/support/TileInfo",
+      "esri/layers/WebTileLayer",
+      "esri/Basemap",
     ];
 
-    const [Map, MapView, Polygon, FeatureLayer, VectorTileLayer, LOD, TileInfo, WebTileLayer, Basemap] =
-      await loadModules(mapRequires.concat(selectorRequires), config.ESRI_LOADER_OPTIONS);
+    const [
+      Map,
+      MapView,
+      Polygon,
+      FeatureLayer,
+      VectorTileLayer,
+      LOD,
+      TileInfo,
+      WebTileLayer,
+      Basemap,
+    ] = await loadModules(
+      mapRequires.concat(selectorRequires),
+      config.ESRI_LOADER_OPTIONS,
+    );
 
     this.map = new Map();
 
@@ -105,29 +124,29 @@ export default class ReactMapView extends Component {
           version: 8,
           sources: {
             esri: {
-              type: 'vector',
+              type: "vector",
               url: config.urls.PARCELS,
             },
           },
           layers: [
             {
-              id: 'StateWideParcels',
-              type: 'line',
-              source: 'esri',
-              'source-layer': 'StateWideParcels',
+              id: "StateWideParcels",
+              type: "line",
+              source: "esri",
+              "source-layer": "StateWideParcels",
               minzoom: 10.95,
               layout: {
-                'line-cap': 'round',
-                'line-join': 'round',
+                "line-cap": "round",
+                "line-join": "round",
               },
               paint: {
-                'line-color': '#FFFFFF',
-                'line-width': 2,
+                "line-color": "#FFFFFF",
+                "line-width": 2,
               },
             },
           ],
         },
-      })
+      }),
     );
 
     this.map.add(
@@ -141,17 +160,17 @@ export default class ReactMapView extends Component {
             },
             // the property below can be removed at Esri JS 4.12+
             symbol: {
-              type: 'text',
-              color: 'white',
+              type: "text",
+              color: "white",
               haloSize: 1,
-              haloColor: 'black',
+              haloColor: "black",
             },
           },
         ],
         renderer: {
-          type: 'simple',
+          type: "simple",
         },
-      })
+      }),
     );
 
     this.map.add(
@@ -163,49 +182,49 @@ export default class ReactMapView extends Component {
             labelExpressionInfo: {
               expression: `$feature.${config.fieldNames.FULLNAME}`,
             },
-            labelPlacement: 'center-along',
+            labelPlacement: "center-along",
             // the property below can be removed at Esri JS 4.12+
             symbol: {
-              type: 'text',
-              color: 'white',
+              type: "text",
+              color: "white",
               haloSize: 1,
-              haloColor: 'black',
+              haloColor: "black",
             },
           },
         ],
         renderer: {
-          type: 'simple',
+          type: "simple",
         },
-      })
+      }),
     );
 
     const sanpeteLayer = new FeatureLayer({
       url: config.urls.SANPETE_ADDRESS_GRID,
       minScale: config.GRID_MIN_SCALE,
       renderer: {
-        type: 'simple',
+        type: "simple",
         symbol: {
           color: config.GRID_COLOR,
           width: 2,
-          type: 'simple-line',
-          style: 'solid',
+          type: "simple-line",
+          style: "solid",
         },
       },
       labelingInfo: [
         {
           labelExpressionInfo: {
             expression: '$feature["S_NAME"]',
-            value: '{S_NAME}',
+            value: "{S_NAME}",
           },
-          labelPlacement: 'center-along',
+          labelPlacement: "center-along",
           symbol: {
-            color: 'white',
-            type: 'text',
+            color: "white",
+            type: "text",
             haloSize: 1,
             haloColor: config.GRID_COLOR,
             font: {
               size: 9.5,
-              weight: 'bold',
+              weight: "bold",
             },
           },
         },
@@ -213,8 +232,8 @@ export default class ReactMapView extends Component {
     });
     this.map.add(sanpeteLayer);
 
-    if (urlParams.precinct === 'yes') {
-      const layerIndex = urlParams.map && urlParams.map === 'p' ? 1 : 0;
+    if (urlParams.precinct === "yes") {
+      const layerIndex = urlParams.map && urlParams.map === "p" ? 1 : 0;
       const layerProps = {
         url: `${config.urls.MAP_SERVICE}/${layerIndex}`,
       };
@@ -235,22 +254,22 @@ export default class ReactMapView extends Component {
         },
       },
       ui: {
-        components: ['zoom'],
+        components: ["zoom"],
       },
     });
 
     this.props.setView(this.view);
 
     this.view.when(this.onMapLoaded.bind(this, urlParams));
-    this.view.popup.set('actions', []);
+    this.view.popup.set("actions", []);
 
-    const selectorNode = document.createElement('div');
-    this.view.ui.add(selectorNode, 'top-right');
+    const selectorNode = document.createElement("div");
+    this.view.ui.add(selectorNode, "top-right");
 
     const layerSelectorOptions = {
       view: this.view,
       quadWord: this.props.discoverKey,
-      baseLayers: ['Imagery', 'Lite', 'Terrain'],
+      baseLayers: ["Imagery", "Lite", "Terrain"],
       modules: [LOD, TileInfo, WebTileLayer, Basemap],
     };
 
@@ -258,17 +277,19 @@ export default class ReactMapView extends Component {
     root.render(
       <LayerSelectorContainer>
         <LayerSelector {...layerSelectorOptions}></LayerSelector>
-      </LayerSelectorContainer>
+      </LayerSelectorContainer>,
     );
 
-    this.view.on('click', async (event) => {
+    this.view.on("click", async (event) => {
       this.view.graphics.removeAll();
 
       // don't fire if we hit a point
       const hitTest = await this.view.hitTest(event);
       if (
         hitTest.results.length === 0 ||
-        hitTest.results.every((result) => result.graphic.layer !== this.graphicsLayer)
+        hitTest.results.every(
+          (result) => result.graphic.layer !== this.graphicsLayer,
+        )
       ) {
         this.props.onClick(event);
       }
@@ -282,18 +303,23 @@ export default class ReactMapView extends Component {
   }
 
   async onMapLoaded(urlParams) {
-    console.log('MapView:onMapLoaded', arguments);
+    console.log("MapView:onMapLoaded", arguments);
 
     const [GraphicsLayer, Graphic] = await loadModules(
-      ['esri/layers/GraphicsLayer', 'esri/Graphic'],
-      config.ESRI_LOADER_OPTIONS
+      ["esri/layers/GraphicsLayer", "esri/Graphic"],
+      config.ESRI_LOADER_OPTIONS,
     );
 
     this.graphicsLayer = new GraphicsLayer();
     this.map.add(this.graphicsLayer);
 
     let currentPoint;
-    if (urlParams.currentX && urlParams.currentX.length > 0 && urlParams.currentY && urlParams.currentY.length > 0) {
+    if (
+      urlParams.currentX &&
+      urlParams.currentX.length > 0 &&
+      urlParams.currentY &&
+      urlParams.currentY.length > 0
+    ) {
       currentPoint = {
         x: parseFloat(urlParams.currentX, 10),
         y: parseFloat(urlParams.currentY, 10),
@@ -303,26 +329,33 @@ export default class ReactMapView extends Component {
     if (urlParams.query && urlParams.query.length > 0) {
       this.displayVistaQuery(urlParams.query, urlParams.db, currentPoint);
     } else if (currentPoint) {
-      const projected = proj4(config.UTM_WKT, config.WEB_MERCATOR_WKT, currentPoint);
+      const projected = proj4(
+        config.UTM_WKT,
+        config.WEB_MERCATOR_WKT,
+        currentPoint,
+      );
 
       this.graphicsLayer.add(
         new Graphic({
           geometry: {
-            type: 'point',
+            type: "point",
             ...projected,
             spatialReference: config.WEB_MERCATOR_WKID,
           },
           symbol: config.symbols.CURRENT,
-        })
+        }),
       );
-      console.log('currentPoint graphic added');
+      console.log("currentPoint graphic added");
     }
   }
 
   async displayVistaQuery(queryNumber, db, currentPoint) {
-    console.log('MapView:displayVistaQuery', arguments);
+    console.log("MapView:displayVistaQuery", arguments);
 
-    const [Graphic] = await loadModules(['esri/Graphic'], config.ESRI_LOADER_OPTIONS);
+    const [Graphic] = await loadModules(
+      ["esri/Graphic"],
+      config.ESRI_LOADER_OPTIONS,
+    );
 
     const hitTestForGraphic = async (event) => {
       const hitTest = await this.view.hitTest(event);
@@ -344,15 +377,15 @@ export default class ReactMapView extends Component {
 
     // user clicked on an existing graphic
     let lastSelectedGraphic;
-    this.view.on('click', async (event) => {
+    this.view.on("click", async (event) => {
       const graphic = await hitTestForGraphic(event);
 
       if (lastSelectedGraphic) {
-        lastSelectedGraphic.set('symbol', config.symbols.RESIDENCE);
+        lastSelectedGraphic.set("symbol", config.symbols.RESIDENCE);
       }
 
       if (graphic && graphic.layer === this.graphicsLayer) {
-        graphic.set('symbol', config.symbols.CURRENT);
+        graphic.set("symbol", config.symbols.CURRENT);
 
         lastSelectedGraphic = graphic;
 
@@ -370,10 +403,10 @@ export default class ReactMapView extends Component {
     // user moved over an existing graphic
     let highlightedGraphic;
     let highlightedPopupOpen;
-    this.view.on('pointer-move', async (event) => {
+    this.view.on("pointer-move", async (event) => {
       const graphic = await hitTestForGraphic(event);
       if (highlightedGraphic && highlightedGraphic !== lastSelectedGraphic) {
-        highlightedGraphic.set('symbol', config.symbols.RESIDENCE);
+        highlightedGraphic.set("symbol", config.symbols.RESIDENCE);
         highlightedGraphic = null;
       }
       if (graphic) {
@@ -383,7 +416,7 @@ export default class ReactMapView extends Component {
         });
 
         if (graphic !== lastSelectedGraphic) {
-          graphic.set('symbol', config.symbols.HIGHLIGHT);
+          graphic.set("symbol", config.symbols.HIGHLIGHT);
           highlightedGraphic = graphic;
         }
         highlightedPopupOpen = true;
@@ -394,14 +427,17 @@ export default class ReactMapView extends Component {
       }
     });
 
-    const response = await fetchJsonp(`${config.urls.VISTA_SERVICE}${queryNumber}/?db=${db}`, {
-      jsonpCallback: 'jsonp',
-    });
+    const response = await fetchJsonp(
+      `${config.urls.VISTA_SERVICE}${queryNumber}/?db=${db}`,
+      {
+        jsonpCallback: "jsonp",
+      },
+    );
     const responseJson = await response.json();
 
     if (responseJson.ResponseStatus !== 200) {
       throw new Error(
-        `There was an error getting residence data from the Vista database! ${responseJson.ResponseMessage}`
+        `There was an error getting residence data from the Vista database! ${responseJson.ResponseMessage}`,
       );
     }
 
@@ -413,7 +449,7 @@ export default class ReactMapView extends Component {
 
       const graphic = new Graphic({
         geometry: {
-          type: 'point',
+          type: "point",
           ...point,
           spatialReference: { wkid: config.WEB_MERCATOR_WKID },
         },
@@ -425,7 +461,7 @@ export default class ReactMapView extends Component {
       });
 
       if (res.X === currentPoint.x && res.Y === currentPoint.y) {
-        graphic.set('symbol', config.symbols.CURRENT);
+        graphic.set("symbol", config.symbols.CURRENT);
         lastSelectedGraphic = graphic;
       }
 
@@ -436,7 +472,7 @@ export default class ReactMapView extends Component {
   }
 
   async zoomTo(zoomObj) {
-    console.log('MapView:zoomTo', arguments);
+    console.log("MapView:zoomTo", arguments);
 
     this.view.when(() => {
       this.view.goTo(zoomObj);

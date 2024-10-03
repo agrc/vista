@@ -11,11 +11,19 @@
   limitations under the License.
 */
 // re-export the functions that are part of the public API
-import { loadModules } from './modules';
-import { getScript, isLoaded, loadScript, setDefaultOptions } from './script';
-import { loadCss } from './utils/css';
-import utils from './utils/index';
-export { getScript, isLoaded, loadModules, loadScript, loadCss, setDefaultOptions, utils };
+import { loadModules } from "./modules";
+import { getScript, isLoaded, loadScript, setDefaultOptions } from "./script";
+import { loadCss } from "./utils/css";
+import utils from "./utils/index";
+export {
+  getScript,
+  isLoaded,
+  loadModules,
+  loadScript,
+  loadCss,
+  setDefaultOptions,
+  utils,
+};
 // NOTE: rollup ignores the default export
 // and builds the UMD namespace out of the above named exports
 // so this is only needed so that consumers of the ESM build

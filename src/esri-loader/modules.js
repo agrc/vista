@@ -1,13 +1,13 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { getScript, isLoaded, loadScript } from './script';
-import utils from './utils/index';
+import { getScript, isLoaded, loadScript } from "./script";
+import utils from "./utils/index";
 // wrap Dojo's require() in a promise
 function requireModules(modules) {
   return new utils.Promise(function (resolve, reject) {
     // If something goes wrong loading the esri/dojo scripts, reject with the error.
-    var errorHandler = window['require'].on('error', reject);
-    window['require'](modules, function () {
+    var errorHandler = window["require"].on("error", reject);
+    window["require"](modules, function () {
       var args = [];
       for (var _i = 0; _i < arguments.length; _i++) {
         args[_i] = arguments[_i];
@@ -28,7 +28,7 @@ export function loadModules(modules, loadScriptOptions) {
   if (!isLoaded()) {
     // script is not yet loaded, is it in the process of loading?
     var script = getScript();
-    var src = script && script.getAttribute('src');
+    var src = script && script.getAttribute("src");
     if (!loadScriptOptions.url && src) {
       // script is still loading and user did not specify a URL
       // in this case we want to default to the URL that's being loaded

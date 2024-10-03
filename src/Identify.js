@@ -1,12 +1,14 @@
-import proj4 from 'proj4';
-import queryString from 'query-string';
-import React from 'react';
-import config from './config';
-import { loadModules } from './esri-loader/esri-loader';
-import './Identify.css';
+import proj4 from "proj4";
+import queryString from "query-string";
+import React from "react";
+import config from "./config";
+import { loadModules } from "./esri-loader/esri-loader";
+import "./Identify.css";
 
 let Graphic;
-loadModules(['esri/Graphic'], config.ESRI_LOADER_OPTIONS).then(([GraphicModule]) => (Graphic = GraphicModule));
+loadModules(["esri/Graphic"], config.ESRI_LOADER_OPTIONS).then(
+  ([GraphicModule]) => (Graphic = GraphicModule),
+);
 
 const urlParams = queryString.parse(document.location.search);
 
@@ -16,13 +18,13 @@ export default class PopupContent extends React.PureComponent {
   contentContainerDiv = null;
 
   setView(value) {
-    console.log('Identify:setView', value);
+    console.log("Identify:setView", value);
 
     this.mapView = value;
   }
 
   onMapClick(event) {
-    console.log('Identify:onMapClick', event);
+    console.log("Identify:onMapClick", event);
 
     this.mapView.graphics.removeAll();
     this.props.onIdentifyPropsChange(false);
@@ -43,7 +45,7 @@ export default class PopupContent extends React.PureComponent {
 
     this.mapView.popup.open({
       actions: [],
-      title: 'Voter Location Information',
+      title: "Voter Location Information",
       content: this.tableNode,
       location: event.mapPoint,
     });
@@ -58,26 +60,51 @@ export default class PopupContent extends React.PureComponent {
       yCoord: Math.round(utmPoint.y * 100) / 100,
     });
 
-    if (urlParams.precinct && urlParams.precinct === 'yes') {
+    if (urlParams.precinct && urlParams.precinct === "yes") {
       const vistaFCName =
-        urlParams.map === 'p'
+        urlParams.map === "p"
           ? config.featureClassNames.VISTA_BALLOT_AREAS_PROPOSED
           : config.featureClassNames.VISTA_BALLOT_AREAS;
-      this.getSGIDValue(vistaFCName, config.fieldNames.VistaID, event.mapPoint, 'precinct');
-      this.getSGIDValue(vistaFCName, config.fieldNames.CountyID, event.mapPoint, 'countyID');
+      this.getSGIDValue(
+        vistaFCName,
+        config.fieldNames.VistaID,
+        event.mapPoint,
+        "precinct",
+      );
+      this.getSGIDValue(
+        vistaFCName,
+        config.fieldNames.CountyID,
+        event.mapPoint,
+        "countyID",
+      );
     }
 
-    if (urlParams.districts && urlParams.districts === 'yes') {
+    if (urlParams.districts && urlParams.districts === "yes") {
       [
-        [config.featureClassNames.UTAH_HOUSE, config.fieldNames.DIST, event.mapPoint, 'house'],
-        [config.featureClassNames.UTAH_SENATE, config.fieldNames.DIST, event.mapPoint, 'senate'],
-        [config.featureClassNames.US_CONGRESS, config.fieldNames.DISTRICT, event.mapPoint, 'fedHouse'],
+        [
+          config.featureClassNames.UTAH_HOUSE,
+          config.fieldNames.DIST,
+          event.mapPoint,
+          "house",
+        ],
+        [
+          config.featureClassNames.UTAH_SENATE,
+          config.fieldNames.DIST,
+          event.mapPoint,
+          "senate",
+        ],
+        [
+          config.featureClassNames.US_CONGRESS,
+          config.fieldNames.DISTRICT,
+          event.mapPoint,
+          "fedHouse",
+        ],
       ].forEach((queryInfo) => this.getSGIDValue(...queryInfo));
     }
   }
 
   async getSGIDValue(featureClass, field, point, key) {
-    console.log('Identify:getSGIDValue');
+    console.log("Identify:getSGIDValue");
 
     const response = await fetch(
       `${config.urls.WEBAPI}/${featureClass}/${field}?${queryString.stringify({
@@ -88,42 +115,47 @@ export default class PopupContent extends React.PureComponent {
 
     const jsonResponse = await response.json();
 
-    this.props.onIdentifyPropsChange({ [key]: jsonResponse.result[0].attributes[field].toString() });
+    this.props.onIdentifyPropsChange({
+      [key]: jsonResponse.result[0].attributes[field].toString(),
+    });
   }
 
   render() {
     const rows = [
       {
-        label: 'X',
-        prop: 'xCoord',
+        label: "X",
+        prop: "xCoord",
       },
       {
-        label: 'Y',
-        prop: 'yCoord',
+        label: "Y",
+        prop: "yCoord",
       },
       {
-        label: 'Precinct ID',
-        prop: 'precinct',
+        label: "Precinct ID",
+        prop: "precinct",
       },
       {
-        label: 'State House',
-        prop: 'house',
+        label: "State House",
+        prop: "house",
       },
       {
-        label: 'State Senate',
-        prop: 'senate',
+        label: "State Senate",
+        prop: "senate",
       },
       {
-        label: 'U.S. House',
-        prop: 'fedHouse',
+        label: "U.S. House",
+        prop: "fedHouse",
       },
       {
-        label: 'County ID',
-        prop: 'countyID',
+        label: "County ID",
+        prop: "countyID",
       },
     ];
     return (
-      <table className="popup-content" ref={(table) => (this.tableNode = table)}>
+      <table
+        className="popup-content"
+        ref={(table) => (this.tableNode = table)}
+      >
         <tbody>
           {rows
             .filter((row) => this.props[row.prop].toString().length > 0)

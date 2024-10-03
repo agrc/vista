@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import './MapLens.css';
+import { PureComponent } from "react";
+import "./MapLens.css";
 
 export default class MapLens extends PureComponent {
   render() {
