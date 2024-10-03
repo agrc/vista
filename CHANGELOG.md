@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.9-0](https://github.com/agrc/vista/compare/v2.2.8...v2.2.9-0) (2024-10-03)
+
+
+### Dependencies
+
+* FY25Q2 dependency updates 🌲 ([4c80cae](https://github.com/agrc/vista/commit/4c80caea82df061c5bf5a7bf067cf3ab8781650c))
+
 ## [2.2.8](https://github.com/agrc/vista/compare/v2.2.7...v2.2.8) (2024-08-08)
 
 
