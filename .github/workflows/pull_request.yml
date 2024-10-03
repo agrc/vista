@@ -2,15 +2,6 @@ name: Pull Request Events
 
 on:
   pull_request:
-    paths:
-      - '.env*'
-      - '.firebaserc'
-      - '.github/workflows/nodejs.yml'
-      - 'firebase.json'
-      - 'package-lock.json'
-      - 'package.json'
-      - 'public/**'
-      - 'src/**'
 
 permissions:
   contents: write
@@ -49,7 +40,7 @@ jobs:
     name: Firebase preview
     runs-on: ubuntu-latest
     needs: test
-    if: ${{ github.event.sender.type == 'User' }}
+    if: ${{ github.event.sender.type == 'User' && github.head_ref != 'dev' }}
     environment:
       name: dev
 
