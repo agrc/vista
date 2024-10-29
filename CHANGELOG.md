@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.10](https://github.com/agrc/vista/compare/v2.2.9...v2.2.10) (2024-10-29)
+
+
+### Dependencies
+
+* dependabot dependency updates 🌲 ([bcace32](https://github.com/agrc/vista/commit/bcace3268865b82e54cecb81935ebc525edeb0ea))
+
 ## [2.2.9](https://github.com/agrc/vista/compare/v2.2.8...v2.2.9) (2024-10-03)
 
 
