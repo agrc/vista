@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.2.11](https://github.com/agrc/vista/compare/v2.2.10...v2.2.11) (2025-01-10)
+
+
+### Dependencies
+
+* bump @eslint/plugin-kit ([5992ec5](https://github.com/agrc/vista/commit/5992ec5eb9946a5707f8edb3ced69296464f6e17))
+* bump the npm_and_yarn group with 4 updates ([02881cd](https://github.com/agrc/vista/commit/02881cd7199b3708ba55eb4ff9cc24c4821dd254))
+* bump the safe-dependencies group with 3 updates ([e93d6c0](https://github.com/agrc/vista/commit/e93d6c0cbf4f9c950d5a207333bca347c8b3a29d))
+
 ## [2.2.10](https://github.com/agrc/vista/compare/v2.2.9...v2.2.10) (2024-10-29)
 
 
