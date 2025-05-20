@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.2.12](https://github.com/agrc/vista/compare/v2.2.11...v2.2.12) (2025-05-20)
+
+
+### Dependencies
+
+* bump http-proxy-middleware in the npm_and_yarn group ([fe3119a](https://github.com/agrc/vista/commit/fe3119a43287b78ad42489e52d788a72fe1bd6c5))
+* bump the npm_and_yarn group with 2 updates ([c3eefb1](https://github.com/agrc/vista/commit/c3eefb1bb0c9ccb2eac679a6a1cbc361531ce8d4))
+* bump the safe-dependencies group across 1 directory with 9 updates ([a11cdc6](https://github.com/agrc/vista/commit/a11cdc60e0fca0931f646de07977239fecba60eb))
+
 ## [2.2.11](https://github.com/agrc/vista/compare/v2.2.10...v2.2.11) (2025-01-10)
 
 
