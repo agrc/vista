@@ -26,3 +26,6 @@ yarn-debug.log*
 yarn-error.log*
 
 .firebase
+/maps/Vista/Default.gdb*
+/maps/Vista/ImportLog*
+/maps/Vista/Index*
