@@ -40,7 +40,7 @@ export const getInitialExtent = async (urlParams) => {
       {
         predicate,
         spatialReference: config.WEB_MERCATOR_WKID,
-        apiKey: process.env.REACT_APP_WEB_API,
+        apiKey: import.meta.env.VITE_APP_WEB_API,
       },
     )}`,
   );

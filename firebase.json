@@ -1,60 +1,32 @@
 {
   "hosting": {
-    "public": "build",
+    "public": "dist",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "headers": [
       {
         "source": "*.html",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "max-age=300"
-          }
-        ]
+        "headers": [{ "key": "Cache-Control", "value": "max-age=300" }]
       },
       {
         "source": "**/*.@(jpg|jpeg|gif|png)",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "max-age=86400"
-          }
-        ]
+        "headers": [{ "key": "Cache-Control", "value": "max-age=86400" }]
+      },
+      {
+        "source": "**",
+        "headers": [{ "key": "X-Content-Type-Options", "value": "nosniff" }]
+      },
+      {
+        "source": "**",
+        "headers": [{ "key": "X-Frame-Options", "value": "SAMEORIGIN" }]
+      },
+      {
+        "source": "**",
+        "headers": [{ "key": "X-XSS-Protection", "value": "1; mode=block" }]
       },
       {
         "source": "**",
         "headers": [
-          {
-            "key": "X-Content-Type-Options",
-            "value": "nosniff"
-          }
-        ]
-      },
-      {
-        "source": "**",
-        "headers": [
-          {
-            "key": "X-Frame-Options",
-            "value": "SAMEORIGIN"
-          }
-        ]
-      },
-      {
-        "source": "**",
-        "headers": [
-          {
-            "key": "X-XSS-Protection",
-            "value": "1; mode=block"
-          }
-        ]
-      },
-      {
-        "source": "**",
-        "headers": [
-          {
-            "key": "Referrer-Policy",
-            "value": "no-referrer-when-downgrade"
-          }
+          { "key": "Referrer-Policy", "value": "no-referrer-when-downgrade" }
         ]
       },
       {
@@ -67,11 +39,6 @@
         ]
       }
     ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
+    "rewrites": [{ "source": "**", "destination": "/index.html" }]
   }
 }
