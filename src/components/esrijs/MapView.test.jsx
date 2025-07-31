@@ -18,11 +18,9 @@ describe("components/esrijs/MapView", () => {
     it("returns zip first, then precinct, then county", async () => {
       const allParams = { zip: 84124, precinctID: "OPHIR", county: 29 };
       const fakePolygon = { polygon: true };
-      global.fetch = vi
-        .fn()
-        .mockResolvedValue({
-          json: () => Promise.resolve({ result: [{ geometry: fakePolygon }] }),
-        });
+      global.fetch = vi.fn().mockResolvedValue({
+        json: () => Promise.resolve({ result: [{ geometry: fakePolygon }] }),
+      });
 
       const extent = await getInitialExtent({
         zip: "84124",
