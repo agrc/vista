@@ -14,7 +14,7 @@ const config = {
   ESRI_LOADER_OPTIONS: { version: "4.10" },
   urls: {
     WEBAPI: "https://api.mapserv.utah.gov/api/v1/search",
-    MAP_SERVICE: `${process.env.REACT_APP_GIS_SERVER}/arcgis/rest/services/Vista/MapServer`,
+    MAP_SERVICE: `${import.meta.env.VITE_APP_GIS_SERVER}/arcgis/rest/services/Vista/MapServer`,
     VISTA_SERVICE:
       "https://vistaservice.utah.gov/Residence/GetResidencesInfoFromQueries/",
     ADDRESS_POINTS:
@@ -58,18 +58,12 @@ const config = {
       size: 10,
       color: [255, 255, 255, OPACITY],
     },
-    HIGHLIGHT: {
-      type: "simple-marker",
-      size: 10,
-      color: "red",
-    },
+    HIGHLIGHT: { type: "simple-marker", size: 10, color: "red" },
     CURRENT: {
       type: "simple-marker",
       size: 12,
       color: [0, 0, 255, OPACITY],
-      outline: {
-        color: [255, 255, 255, OPACITY],
-      },
+      outline: { color: [255, 255, 255, OPACITY] },
     },
   },
 };

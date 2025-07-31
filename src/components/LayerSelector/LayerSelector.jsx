@@ -38,6 +38,8 @@ class LayerSelector extends Component {
   constructor(props) {
     super(props);
 
+    console.log("layer-selector::constructor", props);
+
     if (!this.props.baseLayers || this.props.baseLayers.length < 1) {
       console.warn(
         "layer-selector::`baseLayers` is null or empty. Make sure you have spelled it correctly " +
@@ -151,10 +153,7 @@ class LayerSelector extends Component {
       });
     }
 
-    this.state = {
-      baseLayers,
-      overlays,
-    };
+    this.state = { baseLayers, overlays };
   }
 
   static propTypes = {
@@ -262,24 +261,15 @@ class LayerSelector extends Component {
       const scale = resolution * dpi * inchesPerMeter;
 
       lods.push(
-        new LOD({
-          level: level,
-          scale: scale,
-          resolution: resolution,
-        }),
+        new LOD({ level: level, scale: scale, resolution: resolution }),
       );
     }
 
     return {
       dpi: dpi,
       size: tilesize,
-      origin: {
-        x: -20037508.342787,
-        y: 20037508.342787,
-      },
-      spatialReference: {
-        wkid: 3857,
-      },
+      origin: { x: -20037508.342787, y: 20037508.342787 },
+      spatialReference: { wkid: 3857 },
       lods: lods,
     };
   }
@@ -457,10 +447,7 @@ class LayerSelector extends Component {
       });
     }
 
-    this.setState({
-      overlays,
-      baseLayers,
-    });
+    this.setState({ overlays, baseLayers });
 
     this.updateMap([].concat(baseLayers).concat(overlays));
   }
@@ -502,9 +489,7 @@ class LayerSelector extends Component {
       }
 
       if (Object.keys(managedLayers).indexOf(layerItem.id) < 0) {
-        managedLayers[layerItem.id] = {
-          layerType: layerItem.layerType,
-        };
+        managedLayers[layerItem.id] = { layerType: layerItem.layerType };
       }
 
       this.managedLayers = managedLayers;
@@ -525,14 +510,10 @@ class LayerSelector extends Component {
 }
 
 class LayerSelectorContainer extends Component {
-  state = {
-    expanded: false,
-  };
+  state = { expanded: false };
 
   expand(expand) {
-    this.setState({
-      expanded: expand,
-    });
+    this.setState({ expanded: expand });
   }
 
   render() {

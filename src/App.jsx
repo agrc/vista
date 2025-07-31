@@ -1,10 +1,10 @@
 import { Component } from "react";
 import "./App.css";
 import MapView from "./components/esrijs/MapView";
-import MapLens from "./components/MapLens";
+import MapLens from "./components/MapLens/MapLens";
 import Identify from "./Identify";
 
-console.info("app version: ", process.env.REACT_APP_VERSION);
+console.info("app version: ", __APP_VERSION__);
 
 const emptyState = {
   xCoord: "",
@@ -19,10 +19,7 @@ const emptyState = {
 };
 
 export default class App extends Component {
-  state = {
-    ...emptyState,
-    selectedGraphic: null,
-  };
+  state = { ...emptyState, selectedGraphic: null };
 
   handleIdentifyPropsChange(props) {
     console.log("App:handleIdentifyPropsChange", arguments);
@@ -35,7 +32,7 @@ export default class App extends Component {
   }
 
   render() {
-    const quadWord = process.env.REACT_APP_DISCOVER;
+    const quadWord = import.meta.env.VITE_APP_DISCOVER;
 
     const mapOptions = {
       discoverKey: quadWord,

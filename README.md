@@ -72,34 +72,6 @@ http://localhost:3000?precinctID=WJD015:00&precinct=yes&districts=no&currentX=42
 Large numbers of features:
 http://localhost:3000?zip=84050&precinct=yes&districts=no&currentX=-1&currentY=-1&db=T&map=c&county=15
 
-Execute `pnpm test` to run tests
-
-### Build
-
-Execute `pnpm run build` to create an optimized production build
-
-_The files will be placed in `/build`_
-
-Execute `serve -s build` to view the website
-
-### Deploy
-
-One-time tasks:
-
-- [ ] Update the analytics code in `public/index.html`
-
-Tasks to be completed for each release:
-
-- [ ] Semantically update `.env` property `REACT_APP_VERSION`, `package.json`, `package-lock.json` versions
-- [ ] Update `public/changelog.html`
-- [ ] Verify all tests are passing (`pnpm test && pnpm run lint`)
-- [ ] Run a build and test (`pnpm run build:prod`)
-- [ ] Publish new version of map service (optional)
-- [ ] Create release commit (`git commit -m 'chore: Release vx.x.x`)
-- [ ] Create tag (`git tag vx.x.x`)
-- [ ] Push commits and tag to github (`git push origin && git push origin --tags`)
-- [ ] The website is deployed to production automatically when changes are merged into the `main` branch.
-
 ### Notes
 
 The current Vista servers are running Windows 7. When I tried upgrading the Esri JS API to 4.12, it caused a bug that prevented any point graphics from being displayed. So until the Vista server OSs are upgraded, the project needs to remain at 4.10.
