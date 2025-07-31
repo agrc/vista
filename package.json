@@ -7,7 +7,7 @@
     "build:prod": "env-cmd -f .env.production vite build",
     "build:stage": "env-cmd -f .env.stage vite build",
     "dev": "vite",
-    "format": "prettier --write . --ignore-path ./.gitignore",
+    "format": "prettier --write .",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "vite",
