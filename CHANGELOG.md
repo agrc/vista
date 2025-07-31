@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.2.13-0](https://github.com/agrc/vista/compare/v2.2.12...v2.2.13-0) (2025-07-31)
+
+
+### Dependencies
+
+* bump the npm_and_yarn group with 2 updates ([fe6b173](https://github.com/agrc/vista/commit/fe6b1730f3c7f2828ee48bb8107c4ae18cef5b38))
+* bump the safe-dependencies group with 10 updates ([a159452](https://github.com/agrc/vista/commit/a1594524bdacf4ef65f42463c8283f84f41e5bc9))
+* react v18 -&gt; v19 ([4ee390e](https://github.com/agrc/vista/commit/4ee390e343fca8e9cb3b15e58703acf5e0a3c5d1))
+
 ## [2.2.12](https://github.com/agrc/vista/compare/v2.2.11...v2.2.12) (2025-05-20)
 
 
