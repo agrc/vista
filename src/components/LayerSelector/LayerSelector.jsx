@@ -520,7 +520,9 @@ class LayerSelectorContainer extends Component {
     return (
       <div
         className="layer-selector"
+        // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
         onMouseOver={() => this.expand(true)}
+        // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
         onMouseOut={() => this.expand(false)}
         aria-haspopup="true"
       >
