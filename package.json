@@ -1,6 +1,6 @@
 {
   "name": "vista",
-  "version": "2.2.13-0",
+  "version": "2.2.13",
   "private": true,
   "scripts": {
     "build": "vite build",
