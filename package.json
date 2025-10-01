@@ -27,17 +27,17 @@
     "react-fast-compare": "^3.2.2"
   },
   "devDependencies": {
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
     "@ugrc/eslint-config": "^1.2.3",
     "@vitejs/plugin-react": "^4.3.4",
     "env-cmd": "^10.1.0",
     "eslint": "^9.31.0",
-    "jsdom": "^25.0.1",
+    "jsdom": "^26.1.0",
     "prettier": "^3.6.2",
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-packagejson": "^2.5.19",
-    "vite": "^6.0.7",
-    "vitest": "^2.1.8"
+    "vite": "^7.0.6",
+    "vitest": "^3.2.4"
   }
 }
