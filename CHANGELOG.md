@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.2.14](https://github.com/agrc/vista/compare/v2.2.13...v2.2.14) (2025-11-05)
+
+
+### Dependencies
+
+* bump the safe-dependencies group across 1 directory with 8 updates ([7a5767e](https://github.com/agrc/vista/commit/7a5767e6487005ebfbce56899f986f72720805a0))
+* **dev:** bump the major-dependencies group across 1 directory with 5 updates ([c18f4d6](https://github.com/agrc/vista/commit/c18f4d675111eafc261979151ad8a4e7c561f59a))
+* **dev:** bump vite in the npm_and_yarn group across 1 directory ([f0c1b58](https://github.com/agrc/vista/commit/f0c1b58cb9e65cbe135c99f72a6d2df8acbf15f9))
+
 ## [2.2.13](https://github.com/agrc/vista/compare/v2.2.12...v2.2.13) (2025-08-01)
 
 
