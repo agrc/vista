@@ -18,6 +18,11 @@ jobs:
       url: https://vista-map.dev.utah.gov
 
     steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v6
+        with:
+          show-progress: false
+
       - name: 🚀 Deploy
         uses: agrc/firebase-website-deploy-composite-action@v2
         with:
@@ -36,6 +41,11 @@ jobs:
       url: https://vista-map.ugrc.utah.gov
 
     steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v6
+        with:
+          show-progress: false
+
       - name: 🚀 Deploy
         uses: agrc/firebase-website-deploy-composite-action@v2
         with:
