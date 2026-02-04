@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.15](https://github.com/agrc/vista/compare/v2.2.14...v2.2.15) (2026-02-04)
+
+
+### Dependencies
+
+* bump the safe-dependencies group with 11 updates ([194ee42](https://github.com/agrc/vista/commit/194ee42b6d308ea72fd96bd7db457cc33c02c6bf))
+* **dev:** bump the major-dependencies group with 2 updates ([b1e3f2a](https://github.com/agrc/vista/commit/b1e3f2a3a1c4589192a68bd42abc412100f0f1bb))
+
 ## [2.2.14](https://github.com/agrc/vista/compare/v2.2.13...v2.2.14) (2025-11-05)
 
 
