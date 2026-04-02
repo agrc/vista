@@ -33,7 +33,7 @@ const config = {
     COUNTIES: "boundaries.county_boundaries",
     UTAH_HOUSE: "political.house_districts_2022_to_2032",
     UTAH_SENATE: "political.senate_districts_2022_to_2032",
-    US_CONGRESS: "political.us_congress_districts_2022_to_2032",
+    US_CONGRESS: "political.us_congress_districts_2026_to_2032",
   },
   fieldNames: {
     ZIP5: "ZIP5",
