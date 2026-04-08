@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.16](https://github.com/agrc/vista/compare/v2.2.15...v2.2.16) (2026-04-08)
+
+
+### Bug Fixes
+
+* reference to us congressional districts table ([785841d](https://github.com/agrc/vista/commit/785841def8a27162162e7d50ff79b551920bf6f2))
+
 ## [2.2.15](https://github.com/agrc/vista/compare/v2.2.14...v2.2.15) (2026-02-04)
 
 
