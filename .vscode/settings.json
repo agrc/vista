@@ -1,19 +1,36 @@
 {
   "cSpell.words": [
+    "aliasname",
     "baselayer",
+    "bindparam",
+    "bindparams",
     "countyid",
     "COUNTYNBR",
+    "effectivedate",
     "firebaserc",
     "FULLNAME",
     "minzoom",
+    "opensgid",
     "packagejson",
     "prebuild",
+    "precinctid",
+    "pydatetime",
     "QMMTB",
+    "rcvddate",
     "SANPETE",
     "setversion",
+    "sjoin",
+    "subprecinctid",
     "tilesize",
+    "vistadb",
     "vistaid",
     "WEBAPI"
   ],
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "python-envs.defaultEnvManager": "ms-python.python:conda",
+  "python.testing.pytestArgs": [
+    "scripts"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
 }

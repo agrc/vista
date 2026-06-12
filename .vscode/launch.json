@@ -1,0 +1,16 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python Debugger: UpdatePrecinctID.py with Arguments",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/UpdatePrecinctID.py",
+      "console": "integratedTerminal",
+      "args": ["dev", "${workspaceFolder}\\scripts\\connections", "${workspaceFolder}\\scripts\\test.json", "5", "103659758,241232647,183503633,1210072,448721614"]
+    }
+  ]
+}
