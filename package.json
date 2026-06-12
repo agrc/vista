@@ -33,6 +33,7 @@
     "@vitejs/plugin-react": "^5.1.2",
     "env-cmd": "^11.0.0",
     "eslint": "^9.39.2",
+    "firebase-tools": "^13.18.0",
     "jsdom": "^27.2.0",
     "prettier": "^3.8.1",
     "prettier-plugin-organize-imports": "^4.3.0",
