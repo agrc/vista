@@ -7,6 +7,8 @@ minimumReleaseAgeStrict: true
 # EXCLUSIONS: Critical to prevent 7-day delays on stable tools
 minimumReleaseAgeExclude:
   - '@ugrc/*'
+  - uuid@11.1.1
+  - esbuild@0.28.1
 
 onlyBuiltDependencies:
   - core-js
@@ -14,7 +16,7 @@ onlyBuiltDependencies:
   - esbuild
 
 allowBuilds:
-  core-js: set this to true or false
-  esbuild: set this to true or false
-  protobufjs: set this to true or false
-  re2: set this to true or false
+  core-js: true
+  esbuild: true
+  protobufjs: true
+  re2: true
