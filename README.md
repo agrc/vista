@@ -67,10 +67,10 @@ When a user has selected an existing white vista point, if they click somewhere 
 Execute `pnpm start` to start a web server and view the website
 
 Test Urls:
-http://localhost:3000?precinctID=LA23:I-N-&precinct=yes&districts=no&currentX=423283.80&currentY=4549881.24&db=T&map=c&county=6
-http://localhost:3000?precinctID=WJD015:00&precinct=yes&districts=no&currentX=420861.16&currentY=4497950.82&query=331035967&db=L&map=c&county=18
+http://localhost:5173?precinctID=LA23:I-N-&precinct=yes&districts=no&currentX=423283.80&currentY=4549881.24&db=T&map=c&county=6
+http://localhost:5173?precinctID=WJD015:00&precinct=yes&districts=no&currentX=420861.16&currentY=4497950.82&query=331035967&db=L&map=c&county=18
 Large numbers of features:
-http://localhost:3000?zip=84050&precinct=yes&districts=no&currentX=-1&currentY=-1&db=T&map=c&county=15
+http://localhost:5173?zip=84050&precinct=yes&districts=no&currentX=-1&currentY=-1&db=T&map=c&county=15
 
 ### Notes
 
