@@ -1,0 +1,14 @@
+{
+  "vistadb": {
+    "instances": {
+      "dev": {
+        "url": "oracle+oracledb://oracle_username:oracle_password@oracle-host:1521/?service_name=ORACLE_SERVICE_NAME"
+      }
+    }
+  },
+  "opensgid": {
+    "url": "postgresql+psycopg://postgis_username:postgis_password@postgis-host:5432/postgis_database",
+    "table": "political.vista_ballot_areas",
+    "geometry_column": "shape"
+  }
+}

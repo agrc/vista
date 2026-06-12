@@ -30,3 +30,7 @@ pnpm-debug.log*
 /maps/Vista/Default.gdb*
 /maps/Vista/ImportLog*
 /maps/Vista/Index*
+
+/scripts/connections/*
+!/scripts/connections/update_precinct_id.config.example.json
+*.sde

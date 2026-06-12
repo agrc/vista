@@ -1,0 +1,13 @@
+name: vista-precinct
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pandas
+  - sqlalchemy
+  - oracledb
+  - psycopg
+  - geopandas
+  - shapely
+  - pyproj
+  - pytest
