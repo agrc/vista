@@ -150,7 +150,11 @@ def fetch_residences(vistadb_url, county_num, residence_ids):
             Y AS y
         FROM GV_VISTA.RESIDENCES
         WHERE COUNTY_ID = :county_num
-          AND RESIDENCE_ID IN :residence_ids
+            AND X IS NOT NULL
+            AND Y IS NOT NULL
+            AND X > 1
+            AND Y > 1
+            AND RESIDENCE_ID IN :residence_ids
         """
     ).bindparams(bindparam("residence_ids", expanding=True))
 
