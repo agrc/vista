@@ -178,7 +178,7 @@ def fetch_residences(vistadb_url, county_num, residence_ids):
     )
 
 
-def fetch_ballot_areas(opensgid_settings):
+def fetch_ballot_areas(opensgid_settings, county_num):
     table_sql = quote_qualified_table_name(opensgid_settings["table"])
     geometry_column_sql = quote_identifier(opensgid_settings["geometry_column"])
     ballot_query = """
@@ -190,8 +190,9 @@ def fetch_ballot_areas(opensgid_settings):
             rcvddate,
             aliasname,
             comments,
-            ST_Transform({geometry_column}, 26912) AS geometry
+            ST_AsBinary(ST_Transform({geometry_column}, 26912)) AS geometry
         FROM {table_name}
+        WHERE countyid = %(county_num)s
     """.format(
         geometry_column=geometry_column_sql,
         table_name=table_sql,
@@ -206,6 +207,7 @@ def fetch_ballot_areas(opensgid_settings):
             postgis_connection,
             geom_col="geometry",
             crs=TARGET_CRS,
+            params={"county_num": int(county_num)},
         )
 
     return ballot_areas
@@ -284,7 +286,7 @@ def main(argv=None):
     opensgid_settings = get_opensgid_settings(config)
 
     residences = fetch_residences(vistadb_url, county_num, residence_ids)
-    ballot_areas = fetch_ballot_areas(opensgid_settings)
+    ballot_areas = fetch_ballot_areas(opensgid_settings, county_num)
     joined_rows = spatially_join_residences(residences, ballot_areas)
     write_output(export_file, joined_rows)
 
