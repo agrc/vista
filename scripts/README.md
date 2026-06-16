@@ -73,6 +73,12 @@ Arguments:
 
 If not enough arguments are provided, the script prompts for the missing values interactively.
 
+Here's an example of activating the conda environment and running the script in the same command:
+
+```bash
+conda run -n vista-precinct python UpdatePrecinctID.py dev .\connections .\test.json 5 103659758,241232647,183503633,1210072,448721614
+```
+
 ### Configuration
 
 The script no longer reads `.sde` files. Instead, it loads a JSON config file named `update_precinct_id.config.json` from the supplied `connection_directory`.
