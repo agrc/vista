@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.17](https://github.com/agrc/vista/compare/v2.2.16...v2.2.17) (2026-06-16)
+
+
+### Dependencies
+
+* bump NPM dependencies 🌲 ([4c1a843](https://github.com/agrc/vista/commit/4c1a843a80b4e7e3af659e4e703b94e764da51e0))
+* bump the safe-dependencies group across 1 directory with 2 updates ([a885bfd](https://github.com/agrc/vista/commit/a885bfddef0fd3b0222d582f853dfa6a90120d2a))
+
 ## [2.2.16](https://github.com/agrc/vista/compare/v2.2.15...v2.2.16) (2026-04-08)
 
 
