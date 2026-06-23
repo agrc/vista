@@ -53,7 +53,7 @@ def parse_cli_args(argv):
         export_file = prompt_for_argument("Export File: ")
         county_num = prompt_for_argument("County Number: ")
         residence_ids = prompt_for_argument(
-            "Residence ID(s) (e.g. 4325151) or (e.g. 23489008,890235790,012340180): "
+            "Residence ID(s) (e.g. '4325151') or (e.g. '23489008','890235790','012340180'): "
         )
         return db_instance, connection_directory, export_file, county_num, residence_ids
 
@@ -61,7 +61,8 @@ def parse_cli_args(argv):
 def parse_residence_ids(raw_value):
     residence_ids = []
     for value in raw_value.split(","):
-        stripped_value = value.strip()
+        stripped_value = value.strip().strip("'")
+
         if not stripped_value:
             continue
         if not stripped_value.isdigit():

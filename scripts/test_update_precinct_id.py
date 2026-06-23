@@ -15,7 +15,7 @@ SPEC.loader.exec_module(MODULE)
 
 
 def test_parse_residence_ids_preserves_numeric_input_order():
-    assert MODULE.parse_residence_ids("103659758,241232647,183503633") == [
+    assert MODULE.parse_residence_ids("'103659758','241232647','183503633'") == [
         103659758,
         241232647,
         183503633,
@@ -24,7 +24,7 @@ def test_parse_residence_ids_preserves_numeric_input_order():
 
 def test_parse_residence_ids_rejects_non_numeric_values():
     with pytest.raises(ValueError, match="comma-separated integers"):
-        MODULE.parse_residence_ids("103659758,abc")
+        MODULE.parse_residence_ids("'103659758','abc'")
 
 
 def test_format_output_record_matches_legacy_fixture_shape():
