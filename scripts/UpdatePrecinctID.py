@@ -45,7 +45,7 @@ def parse_cli_args(argv):
         return argv[1], argv[2], argv[3], argv[4], argv[5]
     except IndexError:
         db_instance = prompt_for_argument(
-            "Database Instance (e.g. test, live, dev, etc..): "
+            "Database Instance (e.g. test or production): "
         )
         connection_directory = prompt_for_argument(
             "Directory of the connection configuration file: "
