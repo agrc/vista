@@ -34,3 +34,5 @@ pnpm-debug.log*
 /scripts/connections/*
 !/scripts/connections/update_precinct_id.config.example.json
 *.sde
+
+/scripts/*.json
