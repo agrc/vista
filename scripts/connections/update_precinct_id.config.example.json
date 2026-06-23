@@ -1,7 +1,10 @@
 {
   "vistadb": {
     "instances": {
-      "dev": {
+      "test": {
+        "url": "oracle+oracledb://oracle_username:oracle_password@oracle-host:1521/?service_name=ORACLE_SERVICE_NAME"
+      },
+      "production": {
         "url": "oracle+oracledb://oracle_username:oracle_password@oracle-host:1521/?service_name=ORACLE_SERVICE_NAME"
       }
     }
