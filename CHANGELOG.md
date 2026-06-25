@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.2.18](https://github.com/agrc/vista/compare/v2.2.17...v2.2.18) (2026-06-25)
+
+
+### Bug Fixes
+
+* migrate vista precincts script to opensource package ([a807ae4](https://github.com/agrc/vista/commit/a807ae4bfbda980ee3af86cb7c13ab87f7a2c101)), closes [#177](https://github.com/agrc/vista/issues/177)
+* **script:** accept residence ids as strings ([bd9effa](https://github.com/agrc/vista/commit/bd9effafb09439c7c18fd0b5d7ec0db282295b31))
+* **script:** ignore bad X,Y coordinate values from vista db ([be928fc](https://github.com/agrc/vista/commit/be928fc35a05637ed84984bd7d1cf5f443129017))
+* update instance names to match the servers ([64ba567](https://github.com/agrc/vista/commit/64ba567ede95bdb1338b0ab8ca815343084740f5))
+
 ## [2.2.17](https://github.com/agrc/vista/compare/v2.2.16...v2.2.17) (2026-06-16)
 
 
