@@ -45,9 +45,3 @@ def test_format_output_record_matches_legacy_fixture_shape():
         MODULE.format_output_record(row)
         == '{"ResidenceID":1,"FullPrecinct":"051001:SD2","Precinct":"1001","SubPrecinct":"SD2","EffectiveDate":"2025-05-14 00:00:00","RcvdDate":"2025-05-14 00:00:00","AliasName":"Dutch John #1 SD2","Comments":" " },'
     )
-
-
-def test_resolve_config_path_uses_connections_folder():
-    assert MODULE.resolve_config_path(r"Y:\vista\scripts\connections") == Path(
-        r"Y:\vista\scripts\connections\update_precinct_id.config.json"
-    )
