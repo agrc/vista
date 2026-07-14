@@ -149,3 +149,52 @@ The script writes records with these fields:
 - `Comments`
 
 The order of output records is not guaranteed.
+
+## check_residence_county_id.py
+
+`check_residence_county_id.py` audits every Vista residence with valid `X` and
+`Y` coordinates. It finds the county boundary containing each residence point
+and compares that boundary's `countynbr` value with the residence's current
+`COUNTY_ID` value.
+
+The script uses the same Conda environment and
+`update_precinct_id.config.json` connection file described above. It reads the
+VistaDB URL for the requested instance and the OpenSGID URL and geometry column.
+It always queries `boundaries.county_boundaries`; the precinct script's
+OpenSGID `table` setting is not used or changed.
+
+### County Audit Command-Line Interface
+
+```bash
+python check_residence_county_id.py <db_instance> <connection_directory> <export_file>
+```
+
+Example:
+
+```bash
+conda run -n vista-precinct python check_residence_county_id.py dev .\connections .\residence-county-audit.csv
+```
+
+Arguments:
+
+- `db_instance`: Oracle instance key to read from the configuration file, for example `dev`.
+- `connection_directory`: directory containing `update_precinct_id.config.json`.
+- `export_file`: CSV file to create. Existing files at this path are replaced.
+
+### County Audit Output
+
+The CSV contains one row for each residence whose current county ID differs
+from the county boundary value. Its first columns are:
+
+- `residence_id`: source `RESIDENCE_ID`.
+- `current_county_id`: source `COUNTY_ID`.
+- `corrected_county_id`: matching `boundaries.county_boundaries.countynbr` value.
+
+Every remaining column from `GV_VISTA.RESIDENCES` follows those audit columns,
+except the source `RESIDENCE_ID` and `COUNTY_ID` fields, which are represented
+by the first two columns. Residences with no matching county boundary are not
+included in the CSV.
+
+After writing the CSV, the script prints the output path and counts for county
+boundaries loaded, residences evaluated, county matches, no-match records, and
+records whose current and corrected county IDs differ.
